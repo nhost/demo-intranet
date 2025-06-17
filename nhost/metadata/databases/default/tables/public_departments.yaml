@@ -1,0 +1,43 @@
+table:
+  name: departments
+  schema: public
+array_relationships:
+  - name: employees
+    using:
+      foreign_key_constraint_on:
+        column: department_id
+        table:
+          name: user_departments
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - budget
+        - description
+        - name
+        - created_at
+        - updated_at
+        - id
+      filter:
+        _or:
+          - id:
+              _in: X-Hasura-department-member
+          - id:
+              _in: X-Hasura-department-manager
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - budget
+        - description
+        - name
+        - created_at
+        - updated_at
+        - id
+      filter:
+        id:
+          _in: X-Hasura-department-manager
+      check: null
+    comment: ""

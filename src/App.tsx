@@ -1,5 +1,6 @@
 import "./index.css";
 import { Dashboard } from "@/components/Dashboard";
+import { Departments } from "@/components/Departments";
 import { Navigation } from "@/components/Navigation";
 import { ProtectedLayout } from "@/components/ProtectedLayout";
 import { SignIn } from "@/components/SignIn";
@@ -68,6 +69,7 @@ export function App() {
 									<Route path="/signup" element={<SignUp />} />
 									<Route element={<ProtectedLayout />}>
 										<Route path="/dashboard" element={<Dashboard />} />
+										<Route path="/departments" element={<Departments />} />
 										<Route path="/user" element={<UserProfile />} />
 									</Route>
 									<Route

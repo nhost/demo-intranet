@@ -90,12 +90,12 @@ swe/
 #### `src/App.tsx`
 - **Purpose**: Main application component with routing and providers
 - **Features**: Router setup, theme provider, auth provider, query client
-- **Routes**: Home (`/`), Sign In (`/signin`), Sign Up (`/signup`), Dashboard (`/dashboard`), User Profile (`/user`)
+- **Routes**: Home (`/`), Sign In (`/signin`), Sign Up (`/signup`), Dashboard (`/dashboard`), Departments (`/departments`), User Profile (`/user`)
 - **Dependencies**: React Router, React Query, Auth Context, Theme Context
 
 #### `src/components/Navigation.tsx`
 - **Purpose**: Main navigation bar with authentication controls
-- **Features**: User authentication status, navigation links, theme toggle
+- **Features**: User authentication status, navigation links (Dashboard, Departments, Profile), theme toggle
 - **Used by**: App.tsx as the main header component
 
 #### `src/components/ProtectedLayout.tsx`
@@ -164,6 +164,34 @@ swe/
   - Real-time error handling and user feedback
 - **Dependencies**: React Hook Form, Zod, @simplewebauthn/browser, GraphQL mutations
 - **Used by**: UserProfile component for security management
+
+### Department Management Components
+
+#### `src/components/Departments.tsx`
+- **Purpose**: Main departments page showing user's accessible departments
+- **Features**:
+  - Display departments based on JWT claims (member/manager permissions)
+  - Department cards with basic info (name, description, budget, member count)
+  - Role-based access control (members can view, managers can edit)
+  - Department detail modal with full member list
+  - Edit dialog for managers to update department information
+  - Permission-based UI (edit buttons only shown to managers)
+- **Dependencies**: useUserDepartments hook, JWT claims parsing, shadcn/ui components
+- **Route**: `/departments` (protected)
+- **Permissions**: Based on `x-hasura-department-member` and `x-hasura-department-manager` claims
+
+#### `src/components/DepartmentEditDialog.tsx`
+- **Purpose**: Modal dialog for editing department information (managers only)
+- **Features**:
+  - Form validation with real-time feedback
+  - Budget input with currency formatting and validation
+  - Description character limit (500 chars)
+  - Change detection to prevent unnecessary saves
+  - Confirmation prompt when closing with unsaved changes
+  - Error handling and loading states
+- **Dependencies**: useDepartmentDetails, useUpdateDepartment hooks, React Hook Form patterns
+- **Used by**: Departments component for manager-only editing
+- **Permissions**: Only accessible to users with manager role for the department
 
 ### UI Components
 
@@ -244,7 +272,7 @@ swe/
 ### `src/lib/graphql/`
 - **Purpose**: GraphQL operations and generated code
 - **Files**:
-  - `operations.graphql`: GraphQL queries and mutations for user profiles and security keys
+  - `operations.graphql`: GraphQL queries and mutations for user profiles, security keys, and departments
   - `query-hooks.ts`: Custom React Query hooks for GraphQL
   - `__generated__/`: Auto-generated TypeScript types
 - **Operations**:
@@ -253,6 +281,13 @@ swe/
   - `UpdateUserAvatarUrl`: Update user's profile picture URL
   - `GetUserSecurityKeys`: Fetch user's WebAuthn security keys
   - `DeleteSecurityKey`: Remove a security key by ID
+  - `GetUserDepartments`: Fetch all departments with their employees and details
+  - `GetDepartmentDetails`: Fetch detailed information for a specific department
+  - `UpdateDepartment`: Update department information (name, description, budget)
+- **Custom Hooks**:
+  - `useUserDepartments()`: Query hook for fetching all departments
+  - `useDepartmentDetails(departmentId)`: Query hook for fetching specific department details
+  - `useUpdateDepartment()`: Mutation hook for updating department information
 
 ## Styling and Theming
 
@@ -345,6 +380,19 @@ The application includes WebAuthn (passkey) authentication as an alternative to 
 - **Session**: 15min access tokens, 30-day refresh tokens
 - **Sign Up**: Enabled with email verification
 
+## Permission System
+
+### JWT Claims Structure
+The application uses JWT claims for role-based access control:
+- `x-hasura-department-member`: JSON string containing department IDs where user is a member
+- `x-hasura-department-manager`: JSON string containing department IDs where user is a manager
+- Format: `"{\"id1\",\"id2\",\"id3\"}"` - parsed to extract individual department IDs
+
+### Department Permissions
+- **Members**: Can view department information and member lists
+- **Managers**: Can view and edit department information (name, description, budget)
+- **Access Control**: Users can only see departments where they have member or manager roles
+
 ## Notes for Developers
 
 1. **Always update this index** when creating new components or major structural changes
@@ -353,6 +401,8 @@ The application includes WebAuthn (passkey) authentication as an alternative to 
 4. **Update .rules file** if architectural patterns change
 5. **Test GraphQL operations** with appropriate roles before integration
 6. **Use the local Nhost documentation** in `nhost/docs/` for SDK usage (beta version)
+7. **Respect permission boundaries** when implementing new features that involve departments
+8. **Parse JWT claims correctly** using the established patterns in Departments.tsx
 
 ---
 
