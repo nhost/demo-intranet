@@ -1,0 +1,15 @@
+---
+name: "check and build"
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    uses: ./.github/workflows/wf_check.yaml
+    with:
+      NAME: langlearn
+      GIT_REF: ${{ github.event.pull_request.head.sha }}
+      PROJECT_PATH: .

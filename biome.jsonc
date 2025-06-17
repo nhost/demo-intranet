@@ -1,0 +1,63 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"ignore": [
+			".direnv",
+			"./build.ts",
+			"./nhost/emails/**",
+			"codegen.ts",
+			"dist"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"ignore": ["src/lib/graphql/__generated__"],
+		"rules": {
+			"all": true,
+			"complexity": {
+				"useSimplifiedLogicExpression": {
+					"level": "off"
+				}
+			},
+			"style": {
+				"noNamespaceImport": {
+					"level": "off"
+				},
+				"useNamingConvention": {
+					"level": "warn",
+					"options": {
+						"strictCase": false
+					}
+				}
+			},
+			"performance": {
+				"useTopLevelRegex": {
+					"level": "warn"
+				}
+			},
+			"suspicious": {
+				"noReactSpecificProps": {
+					"level": "off"
+				}
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	}
+}

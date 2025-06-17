@@ -1,0 +1,50 @@
+{
+	"name": "demo-intranet",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"main": "src/index.tsx",
+	"module": "src/index.tsx",
+	"scripts": {
+		"dev": "bun --hot src/index.tsx",
+		"start": "NODE_ENV=production bun src/index.tsx",
+		"build": "bun run build.ts && bun run build:codegen",
+		"build:codegen": "./codegen.sh",
+		"check": "bun run check:types && bun run check:biome",
+		"check:biome": "biome check",
+		"check:types": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@graphql-codegen/cli": "^5.0.7",
+		"@graphql-codegen/schema-ast": "^4.1.0",
+		"@graphql-codegen/typescript": "^4.1.6",
+		"@graphql-codegen/typescript-operations": "^4.6.1",
+		"@graphql-codegen/typescript-react-query": "^6.1.1",
+		"@hookform/resolvers": "^4.1.0",
+		"@nhost/nhost-js": "^5.0.0-beta.5",
+		"@radix-ui/react-label": "^2.1.2",
+		"@radix-ui/react-select": "^2.1.6",
+		"@radix-ui/react-slot": "^1.1.2",
+		"@simplewebauthn/browser": "^13.1.0",
+		"@tanstack/react-query": "^5.80.6",
+		"@tanstack/react-query-devtools": "^5.80.6",
+		"bun-plugin-tailwind": "^0.0.14",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"graphql": "^16.11.0",
+		"lucide-react": "^0.475.0",
+		"react": "^19",
+		"react-dom": "^19",
+		"react-hook-form": "^7.54.2",
+		"react-router-dom": "^7.6.2",
+		"tailwind-merge": "^3.0.1",
+		"tailwindcss": "^4.0.6",
+		"tailwindcss-animate": "^1.0.7",
+		"zod": "^3.24.2"
+	},
+	"devDependencies": {
+		"@types/react": "^19",
+		"@types/react-dom": "^19",
+		"@types/bun": "latest"
+	}
+}

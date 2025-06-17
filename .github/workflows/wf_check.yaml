@@ -1,0 +1,70 @@
+---
+on:
+  workflow_call:
+    inputs:
+      NAME:
+        type: string
+        required: true
+      GIT_REF:
+        type: string
+        required: false
+      PROJECT_PATH:
+        type: string
+        required: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.PROJECT_PATH }}
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: "Check out repository"
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: ${{ inputs.GIT_REF }}
+
+    - uses: cachix/install-nix-action@v31
+      with:
+        install_url: "https://releases.nixos.org/nix/nix-2.26.3/install"
+        install_options: "--no-daemon"
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+          sandbox = false
+          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+          substituters = https://cache.nixos.org/?priority=40
+          trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+
+    - name: "Install dependencies"
+      run: |
+        sudo chown -R $USER:$USER .
+        nix develop .\#${{ inputs.NAME }} -c bun install --frozen-lockfile
+
+    - name: "Start containters for integration tests"
+      run: |
+        cp .secrets.example .secrets
+        nix develop .\#${{ inputs.NAME }} -c make dev-env-up
+
+    - name: "Build artifact"
+      run: |
+        nix develop .\#${{ inputs.NAME }} -c make build
+
+    - name: "Run checks"
+      run: nix develop .\#${{ inputs.NAME }} -c make check
+
+    - name: "Check for unexpected file changes"
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "Error: Files were modified during the build/check process:"
+          git status --porcelain
+          git diff
+          exit 1
+        fi
+        echo "No unexpected file changes detected."

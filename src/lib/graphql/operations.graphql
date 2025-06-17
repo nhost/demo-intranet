@@ -1,0 +1,57 @@
+# User profile operations
+mutation UpdateUserDisplayName($userId: uuid!, $displayName: String!) {
+	updateUser(pk_columns: { id: $userId }, _set: { displayName: $displayName }) {
+		id
+		displayName
+		email
+		avatarUrl
+		updatedAt
+	}
+}
+
+mutation UpdateUserAvatarUrl($userId: uuid!, $avatarUrl: String!) {
+	updateUser(pk_columns: { id: $userId }, _set: { avatarUrl: $avatarUrl }) {
+		id
+		displayName
+		email
+		avatarUrl
+		updatedAt
+	}
+}
+
+query GetCurrentUser($userId: uuid!) {
+	user(id: $userId) {
+		id
+		displayName
+		email
+		avatarUrl
+		createdAt
+		securityKeys {
+			id
+			nickname
+			credentialId
+			transports
+			counter
+		}
+	}
+}
+
+query GetUserSecurityKeys($userId: uuid!) {
+	authUserSecurityKeys(
+		where: { userId: { _eq: $userId } }
+		order_by: { nickname: asc }
+	) {
+		id
+		nickname
+		credentialId
+		transports
+		counter
+	}
+}
+
+mutation DeleteSecurityKey($keyId: uuid!) {
+	deleteAuthUserSecurityKey(id: $keyId) {
+		id
+		nickname
+	}
+}
