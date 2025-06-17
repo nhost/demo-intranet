@@ -55,3 +55,138 @@ mutation DeleteSecurityKey($keyId: uuid!) {
 		nickname
 	}
 }
+
+# Department operations
+query GetUserDepartments {
+	departments {
+		id
+		name
+		description
+		budget
+		created_at
+		updated_at
+		employees(where: { is_active: { _eq: true } }) {
+			id
+			role
+			joined_at
+			user {
+				id
+				displayName
+				email
+				avatarUrl
+			}
+		}
+	}
+}
+
+query GetDepartmentDetails($departmentId: uuid!) {
+	departments_by_pk(id: $departmentId) {
+		id
+		name
+		description
+		budget
+		created_at
+		updated_at
+		employees(
+			where: { is_active: { _eq: true } }
+			order_by: { role: desc, joined_at: asc }
+		) {
+			id
+			role
+			joined_at
+			user {
+				id
+				displayName
+				email
+				avatarUrl
+			}
+		}
+	}
+}
+
+mutation UpdateDepartment(
+	$departmentId: uuid!
+	$name: String
+	$description: String
+	$budget: numeric
+) {
+	update_departments_by_pk(
+		pk_columns: { id: $departmentId }
+		_set: { name: $name, description: $description, budget: $budget }
+	) {
+		id
+		name
+		description
+		budget
+		updated_at
+	}
+}
+
+# Member management operations
+query SearchUsers($searchName: String!, $searchEmail: citext!) {
+	users(
+		where: {
+			_or: [
+				{ displayName: { _ilike: $searchName } }
+				{ email: { _ilike: $searchEmail } }
+			]
+		}
+		limit: 10
+	) {
+		id
+		displayName
+		email
+		avatarUrl
+	}
+}
+
+mutation AddDepartmentMember(
+	$userId: uuid!
+	$departmentId: uuid!
+	$role: department_roles_enum!
+) {
+	insert_user_departments_one(
+		object: {
+			user_id: $userId
+			department_id: $departmentId
+			role: $role
+			is_active: true
+		}
+	) {
+		id
+		role
+		joined_at
+		user {
+			id
+			displayName
+			email
+			avatarUrl
+		}
+	}
+}
+
+mutation RemoveDepartmentMember($membershipId: uuid!) {
+	update_user_departments_by_pk(
+		pk_columns: { id: $membershipId }
+		_set: { is_active: false }
+	) {
+		id
+		is_active
+	}
+}
+
+mutation UpdateMemberRole($membershipId: uuid!, $role: department_roles_enum!) {
+	update_user_departments_by_pk(
+		pk_columns: { id: $membershipId }
+		_set: { role: $role }
+	) {
+		id
+		role
+		user {
+			id
+			displayName
+			email
+			avatarUrl
+		}
+	}
+}

@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth-context";
 import { useGetCurrentUserQuery } from "@/lib/graphql/__generated__/graphql";
 import { useQueryClient } from "@tanstack/react-query";
-import { Calendar, LogOut, User } from "lucide-react";
+import { Calendar, Key, LogOut, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function UserProfile() {
@@ -176,6 +176,31 @@ export function UserProfile() {
 										)}{" "}
 										days
 									</p>
+								</div>
+							</div>
+
+							{/* Access Token Section */}
+							<div className="space-y-2">
+								<div className="flex items-center justify-between">
+									<Label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+										<Key className="h-4 w-4" />
+										Access Token Information
+									</Label>
+								</div>
+								<div className="bg-gradient-to-r from-primary/5 to-secondary/5 p-4 rounded-lg border border-primary/20">
+									{session?.accessToken ? (
+										<pre className="text-xs overflow-x-auto whitespace-pre-wrap break-all bg-muted/20 p-3 rounded border">
+											{JSON.stringify(
+												JSON.parse(atob(session.accessToken.split(".")[1])),
+												null,
+												2,
+											)}
+										</pre>
+									) : (
+										<p className="text-sm text-muted-foreground">
+											No access token available
+										</p>
+									)}
 								</div>
 							</div>
 
