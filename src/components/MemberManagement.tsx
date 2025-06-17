@@ -19,6 +19,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Department_Roles_Enum } from "@/lib/graphql/__generated__/graphql";
 import {
 	useAddDepartmentMember,
 	useRemoveDepartmentMember,
@@ -64,9 +65,9 @@ interface UserSearchResult {
 }
 
 const DEPARTMENT_ROLES = [
-	{ value: "member", label: "Member" },
-	{ value: "manager", label: "Manager" },
-];
+	{ value: Department_Roles_Enum.Member, label: "Member" },
+	{ value: Department_Roles_Enum.Manager, label: "Manager" },
+] as const;
 
 export function MemberManagement({
 	departmentId,
@@ -81,10 +82,12 @@ export function MemberManagement({
 	const [selectedUser, setSelectedUser] = useState<UserSearchResult | null>(
 		null,
 	);
-	const [selectedRole, setSelectedRole] = useState<string>("member");
+	const [selectedRole, setSelectedRole] = useState<Department_Roles_Enum>(
+		Department_Roles_Enum.Member,
+	);
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 	const [editingMember, setEditingMember] = useState<string | null>(null);
-	const [newRole, setNewRole] = useState<string>("");
+	const [newRole, setNewRole] = useState<Department_Roles_Enum | "">("");
 
 	// Hooks
 	const { data: searchResults, isLoading: isSearching } = useSearchUsers(
@@ -111,7 +114,7 @@ export function MemberManagement({
 			await addMember.mutateAsync({
 				userId: selectedUser.id,
 				departmentId,
-				role: selectedRole as any,
+				role: selectedRole,
 			});
 
 			// Invalidate and refetch department data
@@ -123,7 +126,7 @@ export function MemberManagement({
 			// Reset form
 			setSelectedUser(null);
 			setSearchTerm("");
-			setSelectedRole("member");
+			setSelectedRole(Department_Roles_Enum.Member);
 		} catch (_error) {
 			setErrors({
 				general: "Failed to add member. Please try again.",
@@ -156,12 +159,15 @@ export function MemberManagement({
 		}
 	};
 
-	const handleRoleChange = async (membershipId: string, role: string) => {
+	const handleRoleChange = async (
+		membershipId: string,
+		role: Department_Roles_Enum,
+	) => {
 		try {
 			setErrors({});
 			await updateRole.mutateAsync({
 				membershipId,
-				role: role as any,
+				role,
 			});
 
 			// Invalidate and refetch department data
@@ -181,7 +187,7 @@ export function MemberManagement({
 
 	const startRoleEdit = (membershipId: string, currentRole: string) => {
 		setEditingMember(membershipId);
-		setNewRole(currentRole);
+		setNewRole(currentRole as Department_Roles_Enum);
 	};
 
 	const cancelRoleEdit = () => {
@@ -202,6 +208,7 @@ export function MemberManagement({
 				{/* Tab Navigation */}
 				<div className="flex border-b">
 					<button
+						type="button"
 						className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
 							activeTab === "add"
 								? "border-primary text-primary"
@@ -213,6 +220,7 @@ export function MemberManagement({
 						Add Members
 					</button>
 					<button
+						type="button"
 						className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
 							activeTab === "manage"
 								? "border-primary text-primary"
@@ -324,7 +332,12 @@ export function MemberManagement({
 									<Label htmlFor="role" className="text-sm font-medium">
 										Role
 									</Label>
-									<Select value={selectedRole} onValueChange={setSelectedRole}>
+									<Select
+										value={selectedRole}
+										onValueChange={(value) =>
+											setSelectedRole(value as Department_Roles_Enum)
+										}
+									>
 										<SelectTrigger>
 											<SelectValue />
 										</SelectTrigger>
@@ -398,7 +411,9 @@ export function MemberManagement({
 															<div className="flex items-center gap-2">
 																<Select
 																	value={newRole}
-																	onValueChange={setNewRole}
+																	onValueChange={(value) =>
+																		setNewRole(value as Department_Roles_Enum)
+																	}
 																>
 																	<SelectTrigger className="w-32">
 																		<SelectValue />
@@ -418,7 +433,10 @@ export function MemberManagement({
 																	size="sm"
 																	variant="outline"
 																	onClick={() =>
-																		handleRoleChange(member.id, newRole)
+																		handleRoleChange(
+																			member.id,
+																			newRole as Department_Roles_Enum,
+																		)
 																	}
 																	disabled={updateRole.isPending}
 																>
@@ -440,7 +458,8 @@ export function MemberManagement({
 															<div className="flex items-center gap-2">
 																<Badge
 																	variant={
-																		member.role === "manager"
+																		member.role ===
+																		Department_Roles_Enum.Manager
 																			? "default"
 																			: "secondary"
 																	}

@@ -16,6 +16,7 @@ import {
 } from "@/lib/graphql/query-hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, Loader2, Save, X } from "lucide-react";
+import type React from "react";
 import { useEffect, useState } from "react";
 
 interface DepartmentEditDialogProps {
@@ -35,6 +36,13 @@ interface FormErrors {
 	description?: string;
 	budget?: string;
 	submit?: string;
+}
+
+interface UpdateDepartmentData {
+	departmentId: string;
+	name: string;
+	description: string | null;
+	budget: number | null;
 }
 
 function validateForm(data: FormData): FormErrors {
@@ -140,7 +148,7 @@ export function DepartmentEditDialog({
 			setErrors({});
 
 			// Prepare update data
-			const updateData: any = {
+			const updateData: UpdateDepartmentData = {
 				departmentId,
 				name: formData.name.trim(),
 				description: formData.description.trim() || null,
