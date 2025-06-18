@@ -1,11 +1,11 @@
 #!/usr/bin/env bun
 
 // biome-ignore lint/correctness/noNodejsModules: CLI script needs Node.js modules
+import { createHash } from "node:crypto";
+// biome-ignore lint/correctness/noNodejsModules: CLI script needs Node.js modules
 import { readdir } from "node:fs/promises";
 // biome-ignore lint/correctness/noNodejsModules: CLI script needs Node.js modules
 import { join } from "node:path";
-// biome-ignore lint/correctness/noNodejsModules: CLI script needs Node.js modules
-import { createHash } from "node:crypto";
 import { createClient } from "@nhost/nhost-js";
 
 const nhost = createClient({
@@ -15,6 +15,9 @@ const nhost = createClient({
 
 const adminSecret =
 	process.env.HASURA_GRAPHQL_ADMIN_SECRET || "nhost-admin-secret";
+
+// Regex pattern for extracting department from filename
+const DEPT_PATTERN = /dept-(\w+)-/;
 
 function generateConsistentUUID(filename: string): string {
 	const hash = createHash("sha256").update(filename).digest("hex");
@@ -64,16 +67,13 @@ async function uploadFile(
 			},
 		);
 
-		// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 		console.log(`✅ Uploaded: ${fileName} -> ${fileId}`);
 		return true;
 	} catch (error) {
 		if (error instanceof Error && error.message.includes("duplicate key")) {
-			// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 			console.log(`✅ Already exists: ${fileName} -> ${fileId}`);
 			return true;
 		}
-		// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 		console.error(`❌ Upload failed for ${fileName}: ${error}`);
 		return false;
 	}
@@ -83,9 +83,8 @@ async function assignFileToDepartments(fileName: string): Promise<boolean> {
 	const fileId = generateConsistentUUID(fileName);
 
 	// Extract department from filename (dept-eng-001.pdf -> eng)
-	const deptMatch = fileName.match(/dept-(\w+)-/);
+	const deptMatch = fileName.match(DEPT_PATTERN);
 	if (!deptMatch) {
-		// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 		console.log(
 			`⚠️ Skipping assignment for ${fileName}: cannot extract department`,
 		);
@@ -97,7 +96,6 @@ async function assignFileToDepartments(fileName: string): Promise<boolean> {
 	const financeId = DEPARTMENTS.fin;
 
 	if (!departmentId) {
-		// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 		console.log(
 			`⚠️ Skipping assignment for ${fileName}: unknown department ${deptCode}`,
 		);
@@ -135,7 +133,6 @@ async function assignFileToDepartments(fileName: string): Promise<boolean> {
 
 		const users = userResponse.body.data?.user_departments;
 		if (!users || users.length === 0) {
-			// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 			console.log(`⚠️ No users found in department ${deptCode}`);
 			return false;
 		}
@@ -212,18 +209,15 @@ async function assignFileToDepartments(fileName: string): Promise<boolean> {
 			);
 		}
 
-		// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 		console.log(
 			`✅ Assigned: ${fileName} -> ${deptCode.toUpperCase()}${departmentId !== financeId ? " + FINANCE" : ""}`,
 		);
 		return true;
 	} catch (error) {
 		if (error instanceof Error && error.message.includes("duplicate key")) {
-			// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 			console.log(`✅ Already assigned: ${fileName}`);
 			return true;
 		}
-		// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 		console.error(`❌ Assignment failed for ${fileName}: ${error}`);
 		return false;
 	}
@@ -234,9 +228,7 @@ async function setupInvoiceFiles() {
 	const files = await readdir(invoicesDir);
 	const pdfFiles = files.filter((file) => file.endsWith(".pdf"));
 
-	// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 	console.log(`📄 Found ${pdfFiles.length} PDF files to process`);
-	// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 	console.log("🚀 Starting upload and assignment process...\n");
 
 	let uploadedCount = 0;
@@ -245,7 +237,6 @@ async function setupInvoiceFiles() {
 	for (const pdfFile of pdfFiles) {
 		const filePath = join(invoicesDir, pdfFile);
 
-		// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 		console.log(`Processing: ${pdfFile}`);
 
 		// Step 1: Upload file
@@ -262,19 +253,13 @@ async function setupInvoiceFiles() {
 			}
 		}
 
-		// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 		console.log(""); // Empty line for readability
 	}
 
-	// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 	console.log("📊 Summary:");
-	// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 	console.log(`   • Files processed: ${pdfFiles.length}`);
-	// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 	console.log(`   • Files uploaded: ${uploadedCount}`);
-	// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 	console.log(`   • Files assigned: ${assignedCount}`);
-	// biome-ignore lint/suspicious/noConsole: CLI script needs console output
 	console.log("✨ Setup complete!");
 }
 

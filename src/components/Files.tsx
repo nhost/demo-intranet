@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
-import { useState, useRef, useCallback } from "react";
-import { FilesList } from "./FilesList.tsx";
-import { Upload, FileText, AlertCircle } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AlertCircle, Upload } from "lucide-react";
+import type React from "react";
+import { useCallback, useRef, useState } from "react";
+import { FilesList } from "./FilesList.tsx";
 
 export function Files() {
 	const { session, nhost } = useAuth();
@@ -136,9 +136,10 @@ export function Files() {
 
 			{/* Upload Box */}
 			<div className="relative">
-				<div
+				<button
+					type="button"
 					className={`
-						border-2 border-dashed rounded-lg p-6 transition-colors cursor-pointer
+						border-2 border-dashed rounded-lg p-6 transition-colors cursor-pointer w-full
 						${
 							isDragOver
 								? "border-primary bg-primary/20 border-solid"
@@ -150,6 +151,8 @@ export function Files() {
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}
 					onClick={handleUploadClick}
+					disabled={isUploading}
+					aria-label="Upload files"
 				>
 					<div className="flex flex-col items-center gap-2 text-center">
 						{isUploading ? (
@@ -169,7 +172,7 @@ export function Files() {
 							</>
 						)}
 					</div>
-				</div>
+				</button>
 
 				<input
 					ref={fileInputRef}
