@@ -37,6 +37,7 @@ print-vars:  ## print all variables
 .PHONY: dev-env-up
 dev-env-up: ## Start development environment with Nhost
 	nhost up
+	bun ./fake-invoices/setup-invoice-files.ts
 
 
 .PHONY: dev-env-down

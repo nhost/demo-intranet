@@ -52,12 +52,21 @@ object_relationships:
   - name: bucket
     using:
       foreign_key_constraint_on: bucket_id
+  - name: department_file
+    using:
+      foreign_key_constraint_on:
+        column: file_id
+        table:
+          name: department_files
+          schema: public
 insert_permissions:
   - role: user
     permission:
       check:
         bucket_id:
-          _eq: profile_pics
+          _in:
+            - profile_pics
+            - default
       set:
         uploaded_by_user_id: x-hasura-User-Id
       columns:
@@ -107,6 +116,25 @@ select_permissions:
         - id
         - uploaded_by_user_id
       filter:
-        bucket_id:
-          _eq: profile_pics
+        _or:
+          - uploaded_by_user_id:
+              _eq: X-Hasura-User-Id
+          - department_file:
+              department:
+                id:
+                  _in: X-Hasura-departments
+          - bucket_id:
+              _eq: profile_pics
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        _or:
+          - uploaded_by_user_id:
+              _eq: X-Hasura-User-Id
+          - department_file:
+              department:
+                id:
+                  _in: X-Hasura-Departments
     comment: ""

@@ -31,11 +31,8 @@ select_permissions:
         - id
         - user_id
       filter:
-        _or:
-          - department_id:
-              _in: X-Hasura-department-member
-          - department_id:
-              _in: X-Hasura-department-manager
+        department_id:
+          _in: X-Hasura-departments
     comment: ""
 update_permissions:
   - role: user

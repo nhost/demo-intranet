@@ -35,7 +35,7 @@ interface DepartmentClaims {
 function parseDepartmentClaims(
 	claims: Record<string, string>,
 ): DepartmentClaims {
-	const memberIds = claims["x-hasura-department-member"];
+	const memberIds = claims["x-hasura-departments"];
 	const managerIds = claims["x-hasura-department-manager"];
 
 	// Parse PostgreSQL array format: {item1,item2,item3}

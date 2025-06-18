@@ -1,0 +1,38 @@
+table:
+  name: department_files
+  schema: public
+object_relationships:
+  - name: department
+    using:
+      foreign_key_constraint_on: department_id
+  - name: file
+    using:
+      foreign_key_constraint_on: file_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        department_id:
+          _in: X-Hasura-departments
+      columns:
+        - file_id
+        - department_id
+    comment: Users can assign files to departments they belong to
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - file_id
+        - department_id
+      filter:
+        department_id:
+          _in: X-Hasura-departments
+    comment: Users can view files from departments they belong to
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        department_id:
+          _in: X-Hasura-departments
+    comment: Department managers and file owners can remove department assignments

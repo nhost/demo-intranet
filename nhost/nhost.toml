@@ -31,7 +31,7 @@ httpPoolSize = 100
 version = 22
 
 [auth]
-version = '1.0.0-dev'
+version = '0.40.0-beta0'
 
 [auth.elevatedPrivileges]
 mode = 'disabled'
@@ -73,8 +73,8 @@ key = 'department-manager'
 value = 'departments[?(@.role == "manager")].department.id'
 
 [[auth.session.accessToken.customClaims]]
-key = 'department-member'
-value = 'departments[?(@.role == "member")].department.id'
+key = 'departments'
+value = 'departments[*].department.id'
 
 [auth.method]
 [auth.method.anonymous]

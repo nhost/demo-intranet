@@ -107,7 +107,7 @@ swe/
 
 #### `src/components/SignIn.tsx`
 - **Purpose**: User sign-in form with multiple authentication methods
-- **Features**: 
+- **Features**:
   - Email OTP authentication (two-step process)
   - WebAuthn/Passkey authentication (one-click sign-in)
   - Browser compatibility detection
@@ -118,7 +118,7 @@ swe/
 
 #### `src/components/SignUp.tsx`
 - **Purpose**: User registration form with multiple registration methods
-- **Features**: 
+- **Features**:
   - Email OTP registration (two-step process with name + email)
   - WebAuthn/Passkey registration (one-click sign-up)
   - Browser compatibility detection
@@ -129,7 +129,7 @@ swe/
 
 #### `src/components/UserProfile.tsx`
 - **Purpose**: User profile management and settings
-- **Features**: 
+- **Features**:
   - Display user information with avatar
   - Profile picture upload functionality
   - Display name editing
@@ -155,7 +155,7 @@ swe/
 
 #### `src/components/SecurityKeyManagement.tsx`
 - **Purpose**: WebAuthn security key and passkey management
-- **Features**: 
+- **Features**:
   - List user's registered security keys and passkeys
   - Add new security keys with WebAuthn registration
   - Delete existing security keys with confirmation
@@ -178,7 +178,7 @@ swe/
   - Permission-based UI (edit buttons only shown to managers)
 - **Dependencies**: useUserDepartments hook, JWT claims parsing, shadcn/ui components
 - **Route**: `/departments` (protected)
-- **Permissions**: Based on `x-hasura-department-member` and `x-hasura-department-manager` claims
+- **Permissions**: Based on `x-hasura-departments` and `x-hasura-department-manager` claims
 
 #### `src/components/DepartmentEditDialog.tsx`
 - **Purpose**: Modal dialog for editing department information (managers only)
@@ -192,6 +192,47 @@ swe/
 - **Dependencies**: useDepartmentDetails, useUpdateDepartment hooks, React Hook Form patterns
 - **Used by**: Departments component for manager-only editing
 - **Permissions**: Only accessible to users with manager role for the department
+
+### File Management Components
+
+#### `src/components/Files.tsx`
+- **Purpose**: Main files page for department file management
+- **Features**:
+  - Department selector for users in multiple departments
+  - Role-based UI showing user's permissions in selected department
+  - File upload and listing integration
+  - Auto-refresh after successful uploads
+  - Department-specific file access control
+- **Dependencies**: useGetUserDepartments hook, DepartmentFileUpload, DepartmentFilesList
+- **Route**: `/files` (protected)
+- **Permissions**: Users can only see files from departments they belong to
+
+#### `src/components/DepartmentFileUpload.tsx`
+- **Purpose**: File upload interface for department files
+- **Features**:
+  - Drag and drop or click to select files
+  - File validation (size limits, type checking)
+  - Optional file descriptions
+  - Upload progress and error handling
+  - File preview before upload
+  - Integration with Nhost storage API
+- **Dependencies**: useAddDepartmentFile hook, Nhost storage client
+- **Storage**: Uploads to `department_files` bucket
+- **Permissions**: All department members can upload files
+
+#### `src/components/DepartmentFilesList.tsx`
+- **Purpose**: Display and manage department files
+- **Features**:
+  - File listing with metadata (name, size, upload date, description)
+  - File type icons and visual indicators
+  - Download functionality with direct storage URLs
+  - Inline description editing (managers only)
+  - File deletion (managers only)
+  - Role-based action buttons
+  - Error handling for storage operations
+- **Dependencies**: useGetDepartmentFiles, useUpdateDepartmentFileDescription, useDeleteDepartmentFile hooks
+- **Storage**: Integrates with Nhost storage for file operations
+- **Permissions**: Members can view/download, managers can edit descriptions and delete files
 
 ### UI Components
 
@@ -255,13 +296,13 @@ swe/
 
 ### `src/lib/webauthn-utils.ts`
 - **Purpose**: WebAuthn utility functions and browser compatibility
-- **Features**: 
+- **Features**:
   - Browser WebAuthn support detection
   - Platform authenticator availability checking
   - Conditional UI (autofill) support detection
   - User-friendly error message formatting
   - WebAuthn capability reporting for debugging
-- **Exports**: 
+- **Exports**:
   - `isWebAuthnSupported()`: Check basic WebAuthn browser support
   - `isConditionalUISupported()`: Check autofill support
   - `isPlatformAuthenticatorAvailable()`: Check for Touch ID/Face ID/Windows Hello
@@ -318,7 +359,7 @@ The application includes WebAuthn (passkey) authentication as an alternative to 
 - **Library**: `@simplewebauthn/browser` for client-side WebAuthn operations
 - **Backend**: Nhost's native WebAuthn support via SDK
 - **Browser Support**: Automatic detection with graceful fallback to OTP
-- **User Flow**: 
+- **User Flow**:
   - Sign Up: Option to create passkey during registration
   - Sign In: Option to authenticate with existing passkey
   - Fallback: Always available OTP method for compatibility
@@ -384,7 +425,7 @@ The application includes WebAuthn (passkey) authentication as an alternative to 
 
 ### JWT Claims Structure
 The application uses JWT claims for role-based access control:
-- `x-hasura-department-member`: JSON string containing department IDs where user is a member
+- `x-hasura-departments`: JSON string containing all department IDs a user belongs to
 - `x-hasura-department-manager`: JSON string containing department IDs where user is a manager
 - Format: `"{\"id1\",\"id2\",\"id3\"}"` - parsed to extract individual department IDs
 
@@ -393,11 +434,31 @@ The application uses JWT claims for role-based access control:
 - **Managers**: Can view and edit department information (name, description, budget)
 - **Access Control**: Users can only see departments where they have member or manager roles
 
+## Database Schema Extensions
+
+### Department Files System
+
+The department files feature uses a junction table approach to link files with departments:
+
+- **`department_files` table**: Links storage files to departments with optional descriptions
+- **Storage integration**: Uses Nhost storage API with `department_files` bucket
+- **Permission model**: Role-based access through department memberships
+- **File tracking**: Maintains referential integrity between storage and database
+
+### File Upload Workflow
+
+1. User uploads file to Nhost storage (`department_files` bucket)
+2. File metadata is stored in `storage.files` table automatically
+3. Junction record created in `department_files` table linking file to department
+4. Permissions enforced at database level through GraphQL role system
+
 ## Notes for Developers
 
 1. **Always update this index** when creating new components or major structural changes
 2. **Use the established patterns** for new components (React Query + shadcn/ui + TypeScript)
 3. **Follow the naming conventions**: PascalCase for components, camelCase for utilities
+4. **File uploads**: Always use the junction table pattern for associating files with business entities
+5. **Storage operations**: Handle both database and storage cleanup when deleting files
 4. **Update .rules file** if architectural patterns change
 5. **Test GraphQL operations** with appropriate roles before integration
 6. **Use the local Nhost documentation** in `nhost/docs/` for SDK usage (beta version)

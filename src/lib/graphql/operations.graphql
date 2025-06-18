@@ -190,3 +190,65 @@ mutation UpdateMemberRole($membershipId: uuid!, $role: department_roles_enum!) {
 		}
 	}
 }
+
+# File operations
+query GetAllFiles {
+	files(order_by: { createdAt: desc }) {
+		id
+		name
+		size
+		mimeType
+		createdAt
+		uploadedByUserId
+	}
+}
+
+query GetDepartmentFiles {
+	department_files {
+		id
+		file_id
+		department_id
+		file {
+			id
+			name
+			size
+			mimeType
+			createdAt
+			uploadedByUserId
+		}
+		department {
+			id
+			name
+		}
+	}
+}
+
+query GetUserFiles {
+	files(
+		where: { uploadedByUserId: { _eq: "X-Hasura-User-Id" } }
+		order_by: { createdAt: desc }
+	) {
+		id
+		name
+		size
+		mimeType
+		createdAt
+		uploadedByUserId
+	}
+}
+
+mutation AddDepartmentFile($fileId: uuid!, $departmentId: uuid!) {
+	insert_department_files(
+		objects: [{ file_id: $fileId, department_id: $departmentId }]
+	) {
+		affected_rows
+	}
+}
+
+mutation RemoveDepartmentFile($fileId: uuid!, $departmentId: uuid!) {
+	delete_department_files(
+		where: { file_id: { _eq: $fileId }, department_id: { _eq: $departmentId } }
+	) {
+		affected_rows
+	}
+}

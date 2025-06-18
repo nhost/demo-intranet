@@ -9,6 +9,13 @@ array_relationships:
         table:
           name: user_departments
           schema: public
+  - name: files
+    using:
+      foreign_key_constraint_on:
+        column: department_id
+        table:
+          name: department_files
+          schema: public
 select_permissions:
   - role: user
     permission:
@@ -20,11 +27,8 @@ select_permissions:
         - updated_at
         - id
       filter:
-        _or:
-          - id:
-              _in: X-Hasura-department-member
-          - id:
-              _in: X-Hasura-department-manager
+        id:
+          _in: X-Hasura-departments
     comment: ""
 update_permissions:
   - role: user

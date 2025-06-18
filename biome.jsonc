@@ -55,6 +55,23 @@
 			}
 		}
 	},
+	"overrides": [
+		{
+			"include": [
+				"*.ts",
+				"fake-invoices/*.ts",
+				"assign-files-to-departments.ts"
+			],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "off",
+						"noConsoleLog": "off"
+					}
+				}
+			}
+		}
+	],
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
