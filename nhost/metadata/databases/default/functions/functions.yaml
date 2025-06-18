@@ -1,1 +1,2 @@
+- "!include public_graphite_search_kb_entries.yaml"
 - "!include public_graphite_similar_kb_entries.yaml"
