@@ -644,10 +644,6 @@ unique or primary key constraints on table "department_files"
 """
 enum department_files_constraint {
 	"""
-	unique or primary key constraint on columns "file_id"
-	"""
-	department_files_file_id_key
-	"""
 	unique or primary key constraint on columns "id"
 	"""
 	department_files_pkey

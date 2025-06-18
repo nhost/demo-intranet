@@ -487,8 +487,6 @@ export type Department_Files_Bool_Exp = {
 
 /** unique or primary key constraints on table "department_files" */
 export enum Department_Files_Constraint {
-	/** unique or primary key constraint on columns "file_id" */
-	DepartmentFilesFileIdKey = "department_files_file_id_key",
 	/** unique or primary key constraint on columns "id" */
 	DepartmentFilesPkey = "department_files_pkey",
 }
