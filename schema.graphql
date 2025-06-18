@@ -600,6 +600,183 @@ enum cursor_ordering {
 }
 
 """
+columns and relationships of "department_files"
+"""
+type department_files {
+	"""
+	An object relationship
+	"""
+	department: departments!
+	department_id: uuid!
+	"""
+	An object relationship
+	"""
+	file: files!
+	file_id: uuid!
+	id: uuid!
+}
+
+"""
+order by aggregate values of table "department_files"
+"""
+input department_files_aggregate_order_by {
+	count: order_by
+	max: department_files_max_order_by
+	min: department_files_min_order_by
+}
+
+"""
+Boolean expression to filter rows from the table "department_files". All fields are combined with a logical 'AND'.
+"""
+input department_files_bool_exp {
+	_and: [department_files_bool_exp!]
+	_not: department_files_bool_exp
+	_or: [department_files_bool_exp!]
+	department: departments_bool_exp
+	department_id: uuid_comparison_exp
+	file: files_bool_exp
+	file_id: uuid_comparison_exp
+	id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "department_files"
+"""
+enum department_files_constraint {
+	"""
+	unique or primary key constraint on columns "file_id"
+	"""
+	department_files_file_id_key
+	"""
+	unique or primary key constraint on columns "id"
+	"""
+	department_files_pkey
+}
+
+"""
+input type for inserting data into table "department_files"
+"""
+input department_files_insert_input {
+	department_id: uuid
+	file: files_obj_rel_insert_input
+	file_id: uuid
+}
+
+"""
+order by max() on columns of table "department_files"
+"""
+input department_files_max_order_by {
+	department_id: order_by
+	file_id: order_by
+	id: order_by
+}
+
+"""
+order by min() on columns of table "department_files"
+"""
+input department_files_min_order_by {
+	department_id: order_by
+	file_id: order_by
+	id: order_by
+}
+
+"""
+response of any mutation on the table "department_files"
+"""
+type department_files_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [department_files!]!
+}
+
+"""
+input type for inserting object relation for remote table "department_files"
+"""
+input department_files_obj_rel_insert_input {
+	data: department_files_insert_input!
+	"""
+	upsert condition
+	"""
+	on_conflict: department_files_on_conflict
+}
+
+"""
+on_conflict condition type for table "department_files"
+"""
+input department_files_on_conflict {
+	constraint: department_files_constraint!
+	update_columns: [department_files_update_column!]! = []
+	where: department_files_bool_exp
+}
+
+"""
+Ordering options when selecting data from "department_files".
+"""
+input department_files_order_by {
+	department: departments_order_by
+	department_id: order_by
+	file: files_order_by
+	file_id: order_by
+	id: order_by
+}
+
+"""
+select columns of table "department_files"
+"""
+enum department_files_select_column {
+	"""
+	column name
+	"""
+	department_id
+	"""
+	column name
+	"""
+	file_id
+	"""
+	column name
+	"""
+	id
+}
+
+"""
+Streaming cursor of the table "department_files"
+"""
+input department_files_stream_cursor_input {
+	"""
+	Stream column input with initial value
+	"""
+	initial_value: department_files_stream_cursor_value_input!
+	"""
+	cursor ordering
+	"""
+	ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input department_files_stream_cursor_value_input {
+	department_id: uuid
+	file_id: uuid
+	id: uuid
+}
+
+"""
+placeholder for update columns of table "department_files" (current role has no relevant permissions)
+"""
+enum department_files_update_column {
+	"""
+	placeholder (do not use)
+	"""
+	_PLACEHOLDER
+}
+
+"""
 columns and relationships of "department_roles"
 """
 type department_roles {
@@ -716,6 +893,31 @@ type departments {
 		"""
 		where: user_departments_bool_exp
 	): [user_departments!]!
+	"""
+	An array relationship
+	"""
+	files(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [department_files_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [department_files_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: department_files_bool_exp
+	): [department_files!]!
 	id: uuid!
 	name: String!
 	updated_at: timestamptz!
@@ -732,6 +934,7 @@ input departments_bool_exp {
 	created_at: timestamptz_comparison_exp
 	description: String_comparison_exp
 	employees: user_departments_bool_exp
+	files: department_files_bool_exp
 	id: uuid_comparison_exp
 	name: String_comparison_exp
 	updated_at: timestamptz_comparison_exp
@@ -766,6 +969,7 @@ input departments_order_by {
 	created_at: order_by
 	description: order_by
 	employees_aggregate: user_departments_aggregate_order_by
+	files_aggregate: department_files_aggregate_order_by
 	id: order_by
 	name: order_by
 	updated_at: order_by
@@ -867,6 +1071,10 @@ columns and relationships of "storage.files"
 type files {
 	bucketId: String!
 	createdAt: timestamptz!
+	"""
+	An object relationship
+	"""
+	department_file: department_files
 	etag: String
 	id: uuid!
 	isUploaded: Boolean
@@ -892,6 +1100,7 @@ input files_bool_exp {
 	_or: [files_bool_exp!]
 	bucketId: String_comparison_exp
 	createdAt: timestamptz_comparison_exp
+	department_file: department_files_bool_exp
 	etag: String_comparison_exp
 	id: uuid_comparison_exp
 	isUploaded: Boolean_comparison_exp
@@ -919,6 +1128,7 @@ input type for inserting data into table "storage.files"
 input files_insert_input {
 	bucketId: String
 	createdAt: timestamptz
+	department_file: department_files_obj_rel_insert_input
 	etag: String
 	id: uuid
 	isUploaded: Boolean
@@ -944,6 +1154,17 @@ type files_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "storage.files"
+"""
+input files_obj_rel_insert_input {
+	data: files_insert_input!
+	"""
+	upsert condition
+	"""
+	on_conflict: files_on_conflict
+}
+
+"""
 on_conflict condition type for table "storage.files"
 """
 input files_on_conflict {
@@ -958,6 +1179,7 @@ Ordering options when selecting data from "storage.files".
 input files_order_by {
 	bucketId: order_by
 	createdAt: order_by
+	department_file: department_files_order_by
 	etag: order_by
 	id: order_by
 	isUploaded: order_by
@@ -1133,6 +1355,32 @@ type mutation_root {
 		where: authUserSecurityKeys_bool_exp!
 	): authUserSecurityKeys_mutation_response
 	"""
+	delete single row from the table: "storage.files"
+	"""
+	deleteFile(id: uuid!): files
+	"""
+	delete data from the table: "storage.files"
+	"""
+	deleteFiles(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: files_bool_exp!
+	): files_mutation_response
+	"""
+	delete data from the table: "department_files"
+	"""
+	delete_department_files(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: department_files_bool_exp!
+	): department_files_mutation_response
+	"""
+	delete single row from the table: "department_files"
+	"""
+	delete_department_files_by_pk(id: uuid!): department_files
+	"""
 	delete data from the table: "user_departments"
 	"""
 	delete_user_departments(
@@ -1171,6 +1419,32 @@ type mutation_root {
 		"""
 		on_conflict: files_on_conflict
 	): files_mutation_response
+	"""
+	insert data into the table: "department_files"
+	"""
+	insert_department_files(
+		"""
+		the rows to be inserted
+		"""
+		objects: [department_files_insert_input!]!
+		"""
+		upsert condition
+		"""
+		on_conflict: department_files_on_conflict
+	): department_files_mutation_response
+	"""
+	insert a single row into the table: "department_files"
+	"""
+	insert_department_files_one(
+		"""
+		the row to be inserted
+		"""
+		object: department_files_insert_input!
+		"""
+		upsert condition
+		"""
+		on_conflict: department_files_on_conflict
+	): department_files
 	"""
 	insert data into the table: "user_departments"
 	"""
@@ -1409,6 +1683,35 @@ type query_root {
 		"""
 		where: authUserSecurityKeys_bool_exp
 	): [authUserSecurityKeys!]!
+	"""
+	fetch data from the table: "department_files"
+	"""
+	department_files(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [department_files_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [department_files_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: department_files_bool_exp
+	): [department_files!]!
+	"""
+	fetch data from the table: "department_files" using primary key columns
+	"""
+	department_files_by_pk(id: uuid!): department_files
 	"""
 	fetch data from the table: "department_roles"
 	"""
@@ -1649,6 +1952,52 @@ type subscription_root {
 		"""
 		where: authUserSecurityKeys_bool_exp
 	): [authUserSecurityKeys!]!
+	"""
+	fetch data from the table: "department_files"
+	"""
+	department_files(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [department_files_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [department_files_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: department_files_bool_exp
+	): [department_files!]!
+	"""
+	fetch data from the table: "department_files" using primary key columns
+	"""
+	department_files_by_pk(id: uuid!): department_files
+	"""
+	fetch data from the table in a streaming manner: "department_files"
+	"""
+	department_files_stream(
+		"""
+		maximum number of rows returned in a single batch
+		"""
+		batch_size: Int!
+		"""
+		cursor to stream the results returned by the query
+		"""
+		cursor: [department_files_stream_cursor_input]!
+		"""
+		filter the rows returned
+		"""
+		where: department_files_bool_exp
+	): [department_files!]!
 	"""
 	fetch data from the table: "department_roles"
 	"""

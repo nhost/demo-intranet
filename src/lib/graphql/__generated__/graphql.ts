@@ -454,6 +454,129 @@ export enum Cursor_Ordering {
 	Desc = "DESC",
 }
 
+/** columns and relationships of "department_files" */
+export type Department_Files = {
+	__typename?: "department_files";
+	/** An object relationship */
+	department: Departments;
+	department_id: Scalars["uuid"]["output"];
+	/** An object relationship */
+	file: Files;
+	file_id: Scalars["uuid"]["output"];
+	id: Scalars["uuid"]["output"];
+};
+
+/** order by aggregate values of table "department_files" */
+export type Department_Files_Aggregate_Order_By = {
+	count?: InputMaybe<Order_By>;
+	max?: InputMaybe<Department_Files_Max_Order_By>;
+	min?: InputMaybe<Department_Files_Min_Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "department_files". All fields are combined with a logical 'AND'. */
+export type Department_Files_Bool_Exp = {
+	_and?: InputMaybe<Array<Department_Files_Bool_Exp>>;
+	_not?: InputMaybe<Department_Files_Bool_Exp>;
+	_or?: InputMaybe<Array<Department_Files_Bool_Exp>>;
+	department?: InputMaybe<Departments_Bool_Exp>;
+	department_id?: InputMaybe<Uuid_Comparison_Exp>;
+	file?: InputMaybe<Files_Bool_Exp>;
+	file_id?: InputMaybe<Uuid_Comparison_Exp>;
+	id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "department_files" */
+export enum Department_Files_Constraint {
+	/** unique or primary key constraint on columns "file_id" */
+	DepartmentFilesFileIdKey = "department_files_file_id_key",
+	/** unique or primary key constraint on columns "id" */
+	DepartmentFilesPkey = "department_files_pkey",
+}
+
+/** input type for inserting data into table "department_files" */
+export type Department_Files_Insert_Input = {
+	department_id?: InputMaybe<Scalars["uuid"]["input"]>;
+	file?: InputMaybe<Files_Obj_Rel_Insert_Input>;
+	file_id?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** order by max() on columns of table "department_files" */
+export type Department_Files_Max_Order_By = {
+	department_id?: InputMaybe<Order_By>;
+	file_id?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+};
+
+/** order by min() on columns of table "department_files" */
+export type Department_Files_Min_Order_By = {
+	department_id?: InputMaybe<Order_By>;
+	file_id?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "department_files" */
+export type Department_Files_Mutation_Response = {
+	__typename?: "department_files_mutation_response";
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars["Int"]["output"];
+	/** data from the rows affected by the mutation */
+	returning: Array<Department_Files>;
+};
+
+/** input type for inserting object relation for remote table "department_files" */
+export type Department_Files_Obj_Rel_Insert_Input = {
+	data: Department_Files_Insert_Input;
+	/** upsert condition */
+	on_conflict?: InputMaybe<Department_Files_On_Conflict>;
+};
+
+/** on_conflict condition type for table "department_files" */
+export type Department_Files_On_Conflict = {
+	constraint: Department_Files_Constraint;
+	update_columns?: Array<Department_Files_Update_Column>;
+	where?: InputMaybe<Department_Files_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "department_files". */
+export type Department_Files_Order_By = {
+	department?: InputMaybe<Departments_Order_By>;
+	department_id?: InputMaybe<Order_By>;
+	file?: InputMaybe<Files_Order_By>;
+	file_id?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "department_files" */
+export enum Department_Files_Select_Column {
+	/** column name */
+	DepartmentId = "department_id",
+	/** column name */
+	FileId = "file_id",
+	/** column name */
+	Id = "id",
+}
+
+/** Streaming cursor of the table "department_files" */
+export type Department_Files_Stream_Cursor_Input = {
+	/** Stream column input with initial value */
+	initial_value: Department_Files_Stream_Cursor_Value_Input;
+	/** cursor ordering */
+	ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Department_Files_Stream_Cursor_Value_Input = {
+	department_id?: InputMaybe<Scalars["uuid"]["input"]>;
+	file_id?: InputMaybe<Scalars["uuid"]["input"]>;
+	id?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** placeholder for update columns of table "department_files" (current role has no relevant permissions) */
+export enum Department_Files_Update_Column {
+	/** placeholder (do not use) */
+	Placeholder = "_PLACEHOLDER",
+}
+
 /** columns and relationships of "department_roles" */
 export type Department_Roles = {
 	__typename?: "department_roles";
@@ -522,6 +645,8 @@ export type Departments = {
 	description?: Maybe<Scalars["String"]["output"]>;
 	/** An array relationship */
 	employees: Array<User_Departments>;
+	/** An array relationship */
+	files: Array<Department_Files>;
 	id: Scalars["uuid"]["output"];
 	name: Scalars["String"]["output"];
 	updated_at: Scalars["timestamptz"]["output"];
@@ -536,6 +661,15 @@ export type DepartmentsEmployeesArgs = {
 	where?: InputMaybe<User_Departments_Bool_Exp>;
 };
 
+/** columns and relationships of "departments" */
+export type DepartmentsFilesArgs = {
+	distinct_on?: InputMaybe<Array<Department_Files_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Department_Files_Order_By>>;
+	where?: InputMaybe<Department_Files_Bool_Exp>;
+};
+
 /** Boolean expression to filter rows from the table "departments". All fields are combined with a logical 'AND'. */
 export type Departments_Bool_Exp = {
 	_and?: InputMaybe<Array<Departments_Bool_Exp>>;
@@ -545,6 +679,7 @@ export type Departments_Bool_Exp = {
 	created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 	description?: InputMaybe<String_Comparison_Exp>;
 	employees?: InputMaybe<User_Departments_Bool_Exp>;
+	files?: InputMaybe<Department_Files_Bool_Exp>;
 	id?: InputMaybe<Uuid_Comparison_Exp>;
 	name?: InputMaybe<String_Comparison_Exp>;
 	updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -570,6 +705,7 @@ export type Departments_Order_By = {
 	created_at?: InputMaybe<Order_By>;
 	description?: InputMaybe<Order_By>;
 	employees_aggregate?: InputMaybe<User_Departments_Aggregate_Order_By>;
+	files_aggregate?: InputMaybe<Department_Files_Aggregate_Order_By>;
 	id?: InputMaybe<Order_By>;
 	name?: InputMaybe<Order_By>;
 	updated_at?: InputMaybe<Order_By>;
@@ -638,6 +774,8 @@ export type Files = {
 	__typename?: "files";
 	bucketId: Scalars["String"]["output"];
 	createdAt: Scalars["timestamptz"]["output"];
+	/** An object relationship */
+	department_file?: Maybe<Department_Files>;
 	etag?: Maybe<Scalars["String"]["output"]>;
 	id: Scalars["uuid"]["output"];
 	isUploaded?: Maybe<Scalars["Boolean"]["output"]>;
@@ -661,6 +799,7 @@ export type Files_Bool_Exp = {
 	_or?: InputMaybe<Array<Files_Bool_Exp>>;
 	bucketId?: InputMaybe<String_Comparison_Exp>;
 	createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+	department_file?: InputMaybe<Department_Files_Bool_Exp>;
 	etag?: InputMaybe<String_Comparison_Exp>;
 	id?: InputMaybe<Uuid_Comparison_Exp>;
 	isUploaded?: InputMaybe<Boolean_Comparison_Exp>;
@@ -682,6 +821,7 @@ export enum Files_Constraint {
 export type Files_Insert_Input = {
 	bucketId?: InputMaybe<Scalars["String"]["input"]>;
 	createdAt?: InputMaybe<Scalars["timestamptz"]["input"]>;
+	department_file?: InputMaybe<Department_Files_Obj_Rel_Insert_Input>;
 	etag?: InputMaybe<Scalars["String"]["input"]>;
 	id?: InputMaybe<Scalars["uuid"]["input"]>;
 	isUploaded?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -701,6 +841,13 @@ export type Files_Mutation_Response = {
 	returning: Array<Files>;
 };
 
+/** input type for inserting object relation for remote table "storage.files" */
+export type Files_Obj_Rel_Insert_Input = {
+	data: Files_Insert_Input;
+	/** upsert condition */
+	on_conflict?: InputMaybe<Files_On_Conflict>;
+};
+
 /** on_conflict condition type for table "storage.files" */
 export type Files_On_Conflict = {
 	constraint: Files_Constraint;
@@ -712,6 +859,7 @@ export type Files_On_Conflict = {
 export type Files_Order_By = {
 	bucketId?: InputMaybe<Order_By>;
 	createdAt?: InputMaybe<Order_By>;
+	department_file?: InputMaybe<Department_Files_Order_By>;
 	etag?: InputMaybe<Order_By>;
 	id?: InputMaybe<Order_By>;
 	isUploaded?: InputMaybe<Order_By>;
@@ -817,6 +965,14 @@ export type Mutation_Root = {
 	deleteAuthUserSecurityKey?: Maybe<AuthUserSecurityKeys>;
 	/** delete data from the table: "auth.user_security_keys" */
 	deleteAuthUserSecurityKeys?: Maybe<AuthUserSecurityKeys_Mutation_Response>;
+	/** delete single row from the table: "storage.files" */
+	deleteFile?: Maybe<Files>;
+	/** delete data from the table: "storage.files" */
+	deleteFiles?: Maybe<Files_Mutation_Response>;
+	/** delete data from the table: "department_files" */
+	delete_department_files?: Maybe<Department_Files_Mutation_Response>;
+	/** delete single row from the table: "department_files" */
+	delete_department_files_by_pk?: Maybe<Department_Files>;
 	/** delete data from the table: "user_departments" */
 	delete_user_departments?: Maybe<User_Departments_Mutation_Response>;
 	/** delete single row from the table: "user_departments" */
@@ -825,6 +981,10 @@ export type Mutation_Root = {
 	insertFile?: Maybe<Files>;
 	/** insert data into the table: "storage.files" */
 	insertFiles?: Maybe<Files_Mutation_Response>;
+	/** insert data into the table: "department_files" */
+	insert_department_files?: Maybe<Department_Files_Mutation_Response>;
+	/** insert a single row into the table: "department_files" */
+	insert_department_files_one?: Maybe<Department_Files>;
 	/** insert data into the table: "user_departments" */
 	insert_user_departments?: Maybe<User_Departments_Mutation_Response>;
 	/** insert a single row into the table: "user_departments" */
@@ -872,6 +1032,26 @@ export type Mutation_RootDeleteAuthUserSecurityKeysArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootDeleteFileArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+/** mutation root */
+export type Mutation_RootDeleteFilesArgs = {
+	where: Files_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Department_FilesArgs = {
+	where: Department_Files_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Department_Files_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+/** mutation root */
 export type Mutation_RootDelete_User_DepartmentsArgs = {
 	where: User_Departments_Bool_Exp;
 };
@@ -891,6 +1071,18 @@ export type Mutation_RootInsertFileArgs = {
 export type Mutation_RootInsertFilesArgs = {
 	objects: Array<Files_Insert_Input>;
 	on_conflict?: InputMaybe<Files_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Department_FilesArgs = {
+	objects: Array<Department_Files_Insert_Input>;
+	on_conflict?: InputMaybe<Department_Files_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Department_Files_OneArgs = {
+	object: Department_Files_Insert_Input;
+	on_conflict?: InputMaybe<Department_Files_On_Conflict>;
 };
 
 /** mutation root */
@@ -997,6 +1189,10 @@ export type Query_Root = {
 	authUserSecurityKey?: Maybe<AuthUserSecurityKeys>;
 	/** fetch data from the table: "auth.user_security_keys" */
 	authUserSecurityKeys: Array<AuthUserSecurityKeys>;
+	/** fetch data from the table: "department_files" */
+	department_files: Array<Department_Files>;
+	/** fetch data from the table: "department_files" using primary key columns */
+	department_files_by_pk?: Maybe<Department_Files>;
 	/** fetch data from the table: "department_roles" */
 	department_roles: Array<Department_Roles>;
 	/** fetch data from the table: "department_roles" using primary key columns */
@@ -1041,6 +1237,18 @@ export type Query_RootAuthUserSecurityKeysArgs = {
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
 	order_by?: InputMaybe<Array<AuthUserSecurityKeys_Order_By>>;
 	where?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
+};
+
+export type Query_RootDepartment_FilesArgs = {
+	distinct_on?: InputMaybe<Array<Department_Files_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Department_Files_Order_By>>;
+	where?: InputMaybe<Department_Files_Bool_Exp>;
+};
+
+export type Query_RootDepartment_Files_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
 };
 
 export type Query_RootDepartment_RolesArgs = {
@@ -1117,6 +1325,12 @@ export type Subscription_Root = {
 	authUserSecurityKeys: Array<AuthUserSecurityKeys>;
 	/** fetch data from the table in a streaming manner: "auth.user_security_keys" */
 	authUserSecurityKeys_stream: Array<AuthUserSecurityKeys>;
+	/** fetch data from the table: "department_files" */
+	department_files: Array<Department_Files>;
+	/** fetch data from the table: "department_files" using primary key columns */
+	department_files_by_pk?: Maybe<Department_Files>;
+	/** fetch data from the table in a streaming manner: "department_files" */
+	department_files_stream: Array<Department_Files>;
 	/** fetch data from the table: "department_roles" */
 	department_roles: Array<Department_Roles>;
 	/** fetch data from the table: "department_roles" using primary key columns */
@@ -1183,6 +1397,24 @@ export type Subscription_RootAuthUserSecurityKeys_StreamArgs = {
 	batch_size: Scalars["Int"]["input"];
 	cursor: Array<InputMaybe<AuthUserSecurityKeys_Stream_Cursor_Input>>;
 	where?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
+};
+
+export type Subscription_RootDepartment_FilesArgs = {
+	distinct_on?: InputMaybe<Array<Department_Files_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Department_Files_Order_By>>;
+	where?: InputMaybe<Department_Files_Bool_Exp>;
+};
+
+export type Subscription_RootDepartment_Files_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+export type Subscription_RootDepartment_Files_StreamArgs = {
+	batch_size: Scalars["Int"]["input"];
+	cursor: Array<InputMaybe<Department_Files_Stream_Cursor_Input>>;
+	where?: InputMaybe<Department_Files_Bool_Exp>;
 };
 
 export type Subscription_RootDepartment_RolesArgs = {
@@ -1842,6 +2074,84 @@ export type UpdateMemberRoleMutation = {
 	} | null;
 };
 
+export type GetAllFilesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllFilesQuery = {
+	__typename?: "query_root";
+	files: Array<{
+		__typename?: "files";
+		id: string;
+		name?: string | null;
+		size?: number | null;
+		mimeType?: string | null;
+		createdAt: string;
+		uploadedByUserId?: string | null;
+	}>;
+};
+
+export type GetDepartmentFilesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetDepartmentFilesQuery = {
+	__typename?: "query_root";
+	department_files: Array<{
+		__typename?: "department_files";
+		id: string;
+		file_id: string;
+		department_id: string;
+		file: {
+			__typename?: "files";
+			id: string;
+			name?: string | null;
+			size?: number | null;
+			mimeType?: string | null;
+			createdAt: string;
+			uploadedByUserId?: string | null;
+		};
+		department: { __typename?: "departments"; id: string; name: string };
+	}>;
+};
+
+export type GetUserFilesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserFilesQuery = {
+	__typename?: "query_root";
+	files: Array<{
+		__typename?: "files";
+		id: string;
+		name?: string | null;
+		size?: number | null;
+		mimeType?: string | null;
+		createdAt: string;
+		uploadedByUserId?: string | null;
+	}>;
+};
+
+export type AddDepartmentFileMutationVariables = Exact<{
+	fileId: Scalars["uuid"]["input"];
+	departmentId: Scalars["uuid"]["input"];
+}>;
+
+export type AddDepartmentFileMutation = {
+	__typename?: "mutation_root";
+	insert_department_files?: {
+		__typename?: "department_files_mutation_response";
+		affected_rows: number;
+	} | null;
+};
+
+export type RemoveDepartmentFileMutationVariables = Exact<{
+	fileId: Scalars["uuid"]["input"];
+	departmentId: Scalars["uuid"]["input"];
+}>;
+
+export type RemoveDepartmentFileMutation = {
+	__typename?: "mutation_root";
+	delete_department_files?: {
+		__typename?: "department_files_mutation_response";
+		affected_rows: number;
+	} | null;
+};
+
 export const UpdateUserDisplayNameDocument = `
     mutation UpdateUserDisplayName($userId: uuid!, $displayName: String!) {
   updateUser(pk_columns: {id: $userId}, _set: {displayName: $displayName}) {
@@ -2359,6 +2669,214 @@ export const useUpdateMemberRoleMutation = <
 			UpdateMemberRoleMutation,
 			UpdateMemberRoleMutationVariables
 		>(UpdateMemberRoleDocument),
+		...options,
+	});
+};
+
+export const GetAllFilesDocument = `
+    query GetAllFiles {
+  files(order_by: {createdAt: desc}) {
+    id
+    name
+    size
+    mimeType
+    createdAt
+    uploadedByUserId
+  }
+}
+    `;
+
+export const useGetAllFilesQuery = <TData = GetAllFilesQuery, TError = unknown>(
+	variables?: GetAllFilesQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetAllFilesQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<GetAllFilesQuery, TError, TData>["queryKey"];
+	},
+) => {
+	return useQuery<GetAllFilesQuery, TError, TData>({
+		queryKey:
+			variables === undefined ? ["GetAllFiles"] : ["GetAllFiles", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetAllFilesQuery,
+			GetAllFilesQueryVariables
+		>(GetAllFilesDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetAllFilesQuery.getKey = (variables?: GetAllFilesQueryVariables) =>
+	variables === undefined ? ["GetAllFiles"] : ["GetAllFiles", variables];
+
+export const GetDepartmentFilesDocument = `
+    query GetDepartmentFiles {
+  department_files {
+    id
+    file_id
+    department_id
+    file {
+      id
+      name
+      size
+      mimeType
+      createdAt
+      uploadedByUserId
+    }
+    department {
+      id
+      name
+    }
+  }
+}
+    `;
+
+export const useGetDepartmentFilesQuery = <
+	TData = GetDepartmentFilesQuery,
+	TError = unknown,
+>(
+	variables?: GetDepartmentFilesQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetDepartmentFilesQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetDepartmentFilesQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetDepartmentFilesQuery, TError, TData>({
+		queryKey:
+			variables === undefined
+				? ["GetDepartmentFiles"]
+				: ["GetDepartmentFiles", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetDepartmentFilesQuery,
+			GetDepartmentFilesQueryVariables
+		>(GetDepartmentFilesDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetDepartmentFilesQuery.getKey = (
+	variables?: GetDepartmentFilesQueryVariables,
+) =>
+	variables === undefined
+		? ["GetDepartmentFiles"]
+		: ["GetDepartmentFiles", variables];
+
+export const GetUserFilesDocument = `
+    query GetUserFiles {
+  files(
+    where: {uploadedByUserId: {_eq: "X-Hasura-User-Id"}}
+    order_by: {createdAt: desc}
+  ) {
+    id
+    name
+    size
+    mimeType
+    createdAt
+    uploadedByUserId
+  }
+}
+    `;
+
+export const useGetUserFilesQuery = <
+	TData = GetUserFilesQuery,
+	TError = unknown,
+>(
+	variables?: GetUserFilesQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetUserFilesQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<GetUserFilesQuery, TError, TData>["queryKey"];
+	},
+) => {
+	return useQuery<GetUserFilesQuery, TError, TData>({
+		queryKey:
+			variables === undefined ? ["GetUserFiles"] : ["GetUserFiles", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetUserFilesQuery,
+			GetUserFilesQueryVariables
+		>(GetUserFilesDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetUserFilesQuery.getKey = (variables?: GetUserFilesQueryVariables) =>
+	variables === undefined ? ["GetUserFiles"] : ["GetUserFiles", variables];
+
+export const AddDepartmentFileDocument = `
+    mutation AddDepartmentFile($fileId: uuid!, $departmentId: uuid!) {
+  insert_department_files(
+    objects: [{file_id: $fileId, department_id: $departmentId}]
+  ) {
+    affected_rows
+  }
+}
+    `;
+
+export const useAddDepartmentFileMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		AddDepartmentFileMutation,
+		TError,
+		AddDepartmentFileMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		AddDepartmentFileMutation,
+		TError,
+		AddDepartmentFileMutationVariables,
+		TContext
+	>({
+		mutationKey: ["AddDepartmentFile"],
+		mutationFn: useAuthenticatedFetcher<
+			AddDepartmentFileMutation,
+			AddDepartmentFileMutationVariables
+		>(AddDepartmentFileDocument),
+		...options,
+	});
+};
+
+export const RemoveDepartmentFileDocument = `
+    mutation RemoveDepartmentFile($fileId: uuid!, $departmentId: uuid!) {
+  delete_department_files(
+    where: {file_id: {_eq: $fileId}, department_id: {_eq: $departmentId}}
+  ) {
+    affected_rows
+  }
+}
+    `;
+
+export const useRemoveDepartmentFileMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		RemoveDepartmentFileMutation,
+		TError,
+		RemoveDepartmentFileMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		RemoveDepartmentFileMutation,
+		TError,
+		RemoveDepartmentFileMutationVariables,
+		TContext
+	>({
+		mutationKey: ["RemoveDepartmentFile"],
+		mutationFn: useAuthenticatedFetcher<
+			RemoveDepartmentFileMutation,
+			RemoveDepartmentFileMutationVariables
+		>(RemoveDepartmentFileDocument),
 		...options,
 	});
 };

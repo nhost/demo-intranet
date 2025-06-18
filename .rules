@@ -142,9 +142,34 @@ Use GraphQL Codegen for type safety:
 - Integrate generated hooks with React Query for caching and state management
 
 ## Project Documentation
+## File Management System
+
+The Files feature implements a department-based file sharing system:
+
+### Architecture
+- **Junction Table Pattern**: Uses `department_files` table to link storage files with departments
+- **Storage Integration**: Leverages Nhost storage API with dedicated `department_files` bucket
+- **Role-Based Access**: Department members can upload/view, managers can delete/edit descriptions
+- **Permission Inheritance**: File access permissions derived from department membership
+
+### Implementation Guidelines
+- Always use junction tables when associating files with business entities
+- Handle both database and storage cleanup when deleting files
+- Store minimal metadata in junction table (file_id, department_id, description)
+- Leverage storage.files table for standard file metadata (size, type, upload date)
+- Use bucket-specific storage for different file categories
+
+### File Upload Workflow
+1. Upload file to Nhost storage bucket
+2. Create junction record linking file to department
+3. Handle transaction consistency between storage and database operations
+4. Validate file permissions through department membership
+
+## Notes for Developers
 
 Maintain accurate documentation:
 - Update PROJECT_INDEX.md when adding components or changing structure
 - Update this .rules file when architectural patterns change
 - Document component purposes, features, and dependencies in PROJECT_INDEX.md
 - Keep README.md updated with basic setup and development instructions
+- Follow junction table pattern for file associations with business entities

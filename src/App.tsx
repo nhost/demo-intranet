@@ -1,6 +1,7 @@
 import "./index.css";
 import { Dashboard } from "@/components/Dashboard";
 import { Departments } from "@/components/Departments";
+import { Files } from "@/components/Files";
 import { Navigation } from "@/components/Navigation";
 import { ProtectedLayout } from "@/components/ProtectedLayout";
 import { SignIn } from "@/components/SignIn";
@@ -70,6 +71,7 @@ export function App() {
 									<Route element={<ProtectedLayout />}>
 										<Route path="/dashboard" element={<Dashboard />} />
 										<Route path="/departments" element={<Departments />} />
+										<Route path="/files" element={<Files />} />
 										<Route path="/user" element={<UserProfile />} />
 									</Route>
 									<Route

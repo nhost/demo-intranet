@@ -49,6 +49,14 @@ export function Navigation() {
 										Departments
 									</Button>
 								</Link>
+								<Link to="/files">
+									<Button
+										variant={isActive("/files") ? "default" : "ghost"}
+										size="sm"
+									>
+										Files
+									</Button>
+								</Link>
 								<Link to="/user">
 									<Button
 										variant={isActive("/user") ? "default" : "ghost"}

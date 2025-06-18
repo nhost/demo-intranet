@@ -73,8 +73,8 @@ key = 'department-manager'
 value = 'departments[?(@.role == "manager")].department.id'
 
 [[auth.session.accessToken.customClaims]]
-key = 'department-member'
-value = 'departments[?(@.role == "member")].department.id'
+key = 'departments'
+value = 'departments[*].department.id'
 
 [auth.method]
 [auth.method.anonymous]
