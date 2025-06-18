@@ -27,7 +27,7 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
 			// Upload to Nhost storage using uploadFiles API
 			const response = await nhost.storage.uploadFiles({
 				"file[]": [file],
-				"bucket-id": "default", // Use default bucket instead of department_files
+				"bucket-id": "default",
 				"metadata[]": [
 					{
 						name: file.name,
