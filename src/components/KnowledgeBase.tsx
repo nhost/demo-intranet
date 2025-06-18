@@ -59,6 +59,249 @@ import { useState } from "react";
 type KnowledgeBaseEntry = GetKnowledgeBaseEntriesQuery["kb_entries"][0];
 type Department = GetUserDepartmentsQuery["departments"][0];
 
+interface KnowledgeBaseEntryProps {
+	entry: KnowledgeBaseEntry;
+	isEditing: boolean;
+	editFormData: {
+		title: string;
+		summary: string;
+		content: string;
+	};
+	onEditFormChange: (data: {
+		title: string;
+		summary: string;
+		content: string;
+	}) => void;
+	onEditEntry: (entry: KnowledgeBaseEntry) => void;
+	onCancelEdit: () => void;
+	onUpdateEntry: (entryId: string) => void;
+	onDeleteEntry: (entryId: string) => void;
+	expandedEntries: Set<string>;
+	onToggleExpansion: (entryId: string) => void;
+	isUpdating: boolean;
+}
+
+function KnowledgeBaseEntry({
+	entry,
+	isEditing,
+	editFormData,
+	onEditFormChange,
+	onEditEntry,
+	onCancelEdit,
+	onUpdateEntry,
+	onDeleteEntry,
+	expandedEntries,
+	onToggleExpansion,
+	isUpdating,
+}: KnowledgeBaseEntryProps) {
+	if (isEditing) {
+		return (
+			<Card className="hover:shadow-md transition-shadow">
+				<CardHeader>
+					<div className="space-y-4">
+						<div>
+							<Label htmlFor={`edit-title-${entry.id}`}>Title</Label>
+							<Input
+								id={`edit-title-${entry.id}`}
+								value={editFormData.title}
+								onChange={(e) =>
+									onEditFormChange({
+										...editFormData,
+										title: e.target.value,
+									})
+								}
+								placeholder="Enter a descriptive title"
+							/>
+						</div>
+						<div>
+							<Label htmlFor={`edit-summary-${entry.id}`}>
+								Summary (optional)
+							</Label>
+							<Input
+								id={`edit-summary-${entry.id}`}
+								value={editFormData.summary}
+								onChange={(e) =>
+									onEditFormChange({
+										...editFormData,
+										summary: e.target.value,
+									})
+								}
+								placeholder="Brief summary of the content"
+							/>
+						</div>
+					</div>
+
+					<div className="flex flex-wrap gap-2">
+						{entry.kb_entry_departments.map((dept) => (
+							<Badge key={dept.id} variant="secondary">
+								<TagIcon className="mr-1 h-3 w-3" />
+								{dept.department.name}
+							</Badge>
+						))}
+					</div>
+				</CardHeader>
+				<CardContent>
+					<div className="space-y-4">
+						<div>
+							<Label htmlFor={`edit-content-${entry.id}`}>Content</Label>
+							<Textarea
+								id={`edit-content-${entry.id}`}
+								value={editFormData.content}
+								onChange={(e) =>
+									onEditFormChange({
+										...editFormData,
+										content: e.target.value,
+									})
+								}
+								placeholder="Enter the knowledge base content"
+								rows={8}
+							/>
+						</div>
+
+						<div className="flex items-center justify-between">
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
+								<div className="flex items-center space-x-2">
+									<UserIcon className="h-4 w-4" />
+									<span>{entry.uploader.displayName}</span>
+								</div>
+								<div className="flex items-center space-x-2">
+									<CalendarIcon className="h-4 w-4" />
+									<span>
+										{formatDistanceToNow(new Date(entry.created_at), {
+											addSuffix: true,
+										})}
+									</span>
+								</div>
+							</div>
+
+							<div className="flex items-center space-x-2">
+								<Button variant="outline" size="sm" onClick={onCancelEdit}>
+									Cancel
+								</Button>
+								<Button
+									size="sm"
+									onClick={() => onUpdateEntry(entry.id)}
+									disabled={
+										!editFormData.title.trim() ||
+										!editFormData.content.trim() ||
+										isUpdating
+									}
+								>
+									{isUpdating ? "Updating..." : "Save"}
+								</Button>
+							</div>
+						</div>
+					</div>
+				</CardContent>
+			</Card>
+		);
+	}
+
+	return (
+		<Card className="hover:shadow-md transition-shadow">
+			<CardHeader>
+				<div className="flex items-start justify-between">
+					<div className="space-y-2 flex-1">
+						<CardTitle className="text-xl">{entry.title}</CardTitle>
+						{entry.summary && (
+							<CardDescription className="text-base">
+								{entry.summary}
+							</CardDescription>
+						)}
+					</div>
+					<div className="flex items-center space-x-2 ml-4">
+						<Button
+							variant="ghost"
+							size="sm"
+							onClick={() => onEditEntry(entry)}
+						>
+							<EditIcon className="h-4 w-4" />
+						</Button>
+						<Button
+							variant="ghost"
+							size="sm"
+							onClick={() => onDeleteEntry(entry.id)}
+							className="text-destructive hover:text-destructive"
+						>
+							<TrashIcon className="h-4 w-4" />
+						</Button>
+					</div>
+				</div>
+
+				<div className="flex flex-wrap gap-2">
+					{entry.kb_entry_departments.map((dept) => (
+						<Badge key={dept.id} variant="secondary">
+							<TagIcon className="mr-1 h-3 w-3" />
+							{dept.department.name}
+						</Badge>
+					))}
+				</div>
+			</CardHeader>
+			<CardContent>
+				<div className="space-y-4">
+					<div className="prose prose-sm max-w-none">
+						<p className="text-muted-foreground whitespace-pre-wrap">
+							{expandedEntries.has(entry.id) || entry.content.length <= 300
+								? entry.content
+								: `${entry.content.substring(0, 300)}...`}
+						</p>
+					</div>
+
+					{entry.content.length > 300 && (
+						<div className="flex justify-center">
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={() => onToggleExpansion(entry.id)}
+								className="text-xs text-muted-foreground hover:text-foreground"
+							>
+								{expandedEntries.has(entry.id) ? (
+									<>
+										<ChevronUpIcon className="mr-1 h-3 w-3" />
+										Show Less
+									</>
+								) : (
+									<>
+										<ChevronDownIcon className="mr-1 h-3 w-3" />
+										Show More
+									</>
+								)}
+							</Button>
+						</div>
+					)}
+
+					<Separator />
+
+					<div className="flex items-center justify-between text-sm text-muted-foreground">
+						<div className="flex items-center space-x-4">
+							<div className="flex items-center space-x-2">
+								<UserIcon className="h-4 w-4" />
+								<span>{entry.uploader.displayName}</span>
+							</div>
+							<div className="flex items-center space-x-2">
+								<CalendarIcon className="h-4 w-4" />
+								<span>
+									{formatDistanceToNow(new Date(entry.created_at), {
+										addSuffix: true,
+									})}
+								</span>
+							</div>
+						</div>
+						{entry.updated_at !== entry.created_at && (
+							<div className="text-xs">
+								Updated{" "}
+								{formatDistanceToNow(new Date(entry.updated_at), {
+									addSuffix: true,
+								})}
+							</div>
+						)}
+					</div>
+				</div>
+			</CardContent>
+		</Card>
+	);
+}
+
 interface CreateEntryFormData {
 	title: string;
 	summary: string;
@@ -429,223 +672,20 @@ export function KnowledgeBase() {
 			) : (
 				<div className="grid gap-6">
 					{filteredEntries.map((entry) => (
-						<Card key={entry.id} className="hover:shadow-md transition-shadow">
-							{editingEntryId === entry.id ? (
-								// Edit mode
-								<>
-									<CardHeader>
-										<div className="space-y-4">
-											<div>
-												<Label htmlFor={`edit-title-${entry.id}`}>Title</Label>
-												<Input
-													id={`edit-title-${entry.id}`}
-													value={editFormData.title}
-													onChange={(e) =>
-														setEditFormData((prev) => ({
-															...prev,
-															title: e.target.value,
-														}))
-													}
-													placeholder="Enter a descriptive title"
-												/>
-											</div>
-											<div>
-												<Label htmlFor={`edit-summary-${entry.id}`}>
-													Summary (optional)
-												</Label>
-												<Input
-													id={`edit-summary-${entry.id}`}
-													value={editFormData.summary}
-													onChange={(e) =>
-														setEditFormData((prev) => ({
-															...prev,
-															summary: e.target.value,
-														}))
-													}
-													placeholder="Brief summary of the content"
-												/>
-											</div>
-										</div>
-
-										<div className="flex flex-wrap gap-2">
-											{entry.kb_entry_departments.map((dept) => (
-												<Badge key={dept.id} variant="secondary">
-													<TagIcon className="mr-1 h-3 w-3" />
-													{dept.department.name}
-												</Badge>
-											))}
-										</div>
-									</CardHeader>
-									<CardContent>
-										<div className="space-y-4">
-											<div>
-												<Label htmlFor={`edit-content-${entry.id}`}>
-													Content
-												</Label>
-												<Textarea
-													id={`edit-content-${entry.id}`}
-													value={editFormData.content}
-													onChange={(e) =>
-														setEditFormData((prev) => ({
-															...prev,
-															content: e.target.value,
-														}))
-													}
-													placeholder="Enter the knowledge base content"
-													rows={8}
-												/>
-											</div>
-
-											<div className="flex items-center justify-between">
-												<div className="flex items-center space-x-4 text-sm text-muted-foreground">
-													<div className="flex items-center space-x-2">
-														<UserIcon className="h-4 w-4" />
-														<span>{entry.uploader.displayName}</span>
-													</div>
-													<div className="flex items-center space-x-2">
-														<CalendarIcon className="h-4 w-4" />
-														<span>
-															{formatDistanceToNow(new Date(entry.created_at), {
-																addSuffix: true,
-															})}
-														</span>
-													</div>
-												</div>
-
-												<div className="flex items-center space-x-2">
-													<Button
-														variant="outline"
-														size="sm"
-														onClick={handleCancelEdit}
-													>
-														Cancel
-													</Button>
-													<Button
-														size="sm"
-														onClick={() => handleUpdateEntry(entry.id)}
-														disabled={
-															!editFormData.title.trim() ||
-															!editFormData.content.trim() ||
-															updateEntryMutation.isPending
-														}
-													>
-														{updateEntryMutation.isPending
-															? "Updating..."
-															: "Save"}
-													</Button>
-												</div>
-											</div>
-										</div>
-									</CardContent>
-								</>
-							) : (
-								// View mode
-								<>
-									<CardHeader>
-										<div className="flex items-start justify-between">
-											<div className="space-y-2 flex-1">
-												<CardTitle className="text-xl">{entry.title}</CardTitle>
-												{entry.summary && (
-													<CardDescription className="text-base">
-														{entry.summary}
-													</CardDescription>
-												)}
-											</div>
-											<div className="flex items-center space-x-2 ml-4">
-												<>
-													<Button
-														variant="ghost"
-														size="sm"
-														onClick={() => handleEditEntry(entry)}
-													>
-														<EditIcon className="h-4 w-4" />
-													</Button>
-													<Button
-														variant="ghost"
-														size="sm"
-														onClick={() => handleDeleteEntry(entry.id)}
-														className="text-destructive hover:text-destructive"
-													>
-														<TrashIcon className="h-4 w-4" />
-													</Button>
-												</>
-											</div>
-										</div>
-
-										<div className="flex flex-wrap gap-2">
-											{entry.kb_entry_departments.map((dept) => (
-												<Badge key={dept.id} variant="secondary">
-													<TagIcon className="mr-1 h-3 w-3" />
-													{dept.department.name}
-												</Badge>
-											))}
-										</div>
-									</CardHeader>
-									<CardContent>
-										<div className="space-y-4">
-											<div className="prose prose-sm max-w-none">
-												<p className="text-muted-foreground whitespace-pre-wrap">
-													{expandedEntries.has(entry.id) ||
-													entry.content.length <= 300
-														? entry.content
-														: `${entry.content.substring(0, 300)}...`}
-												</p>
-											</div>
-
-											{entry.content.length > 300 && (
-												<div className="flex justify-center">
-													<Button
-														variant="ghost"
-														size="sm"
-														onClick={() => toggleEntryExpansion(entry.id)}
-														className="text-xs text-muted-foreground hover:text-foreground"
-													>
-														{expandedEntries.has(entry.id) ? (
-															<>
-																<ChevronUpIcon className="mr-1 h-3 w-3" />
-																Show Less
-															</>
-														) : (
-															<>
-																<ChevronDownIcon className="mr-1 h-3 w-3" />
-																Show More
-															</>
-														)}
-													</Button>
-												</div>
-											)}
-
-											<Separator />
-
-											<div className="flex items-center justify-between text-sm text-muted-foreground">
-												<div className="flex items-center space-x-4">
-													<div className="flex items-center space-x-2">
-														<UserIcon className="h-4 w-4" />
-														<span>{entry.uploader.displayName}</span>
-													</div>
-													<div className="flex items-center space-x-2">
-														<CalendarIcon className="h-4 w-4" />
-														<span>
-															{formatDistanceToNow(new Date(entry.created_at), {
-																addSuffix: true,
-															})}
-														</span>
-													</div>
-												</div>
-												{entry.updated_at !== entry.created_at && (
-													<div className="text-xs">
-														Updated{" "}
-														{formatDistanceToNow(new Date(entry.updated_at), {
-															addSuffix: true,
-														})}
-													</div>
-												)}
-											</div>
-										</div>
-									</CardContent>
-								</>
-							)}
-						</Card>
+						<KnowledgeBaseEntry
+							key={entry.id}
+							entry={entry}
+							isEditing={editingEntryId === entry.id}
+							editFormData={editFormData}
+							onEditFormChange={setEditFormData}
+							onEditEntry={handleEditEntry}
+							onCancelEdit={handleCancelEdit}
+							onUpdateEntry={handleUpdateEntry}
+							onDeleteEntry={handleDeleteEntry}
+							expandedEntries={expandedEntries}
+							onToggleExpansion={toggleEntryExpansion}
+							isUpdating={updateEntryMutation.isPending}
+						/>
 					))}
 				</div>
 			)}
