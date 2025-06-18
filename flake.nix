@@ -46,7 +46,8 @@
 
         devShells = flake-utils.lib.flattenTree rec{
           default = pkgs.mkShell {
-            buildInputs = [
+            buildInputs = with pkgs; [
+              postgresql_17
             ] ++ checkDeps ++ buildInputs ++ nativeBuildInputs;
           };
 

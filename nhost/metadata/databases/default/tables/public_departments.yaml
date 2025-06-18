@@ -16,6 +16,14 @@ array_relationships:
         table:
           name: department_files
           schema: public
+  - name: kb_entry_departments
+    using:
+      foreign_key_constraint_on:
+        column: department_id
+        table:
+          name: kb_entry_departments
+          schema: public
+    comment: KB entries available to this department
 select_permissions:
   - role: user
     permission:

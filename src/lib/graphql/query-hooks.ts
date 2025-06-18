@@ -3,25 +3,42 @@ import { useCallback } from "react";
 import { useAuth } from "../auth-context.tsx";
 import {
 	AddDepartmentMemberDocument,
+	AddKnowledgeBaseToDepartmentDocument,
+	CreateKnowledgeBaseEntryWithDepartmentsDocument,
+	DeleteKnowledgeBaseEntryDocument,
 	GetDepartmentDetailsDocument,
+	GetKnowledgeBaseEntriesDocument,
 	GetUserDepartmentsDocument,
 	RemoveDepartmentMemberDocument,
+	RemoveKnowledgeBaseFromDepartmentDocument,
 	SearchUsersDocument,
 	UpdateDepartmentDocument,
+	UpdateKnowledgeBaseEntryDocument,
 	UpdateMemberRoleDocument,
 } from "./__generated__/graphql.ts";
 import type {
 	AddDepartmentMemberMutation,
 	AddDepartmentMemberMutationVariables,
+	AddKnowledgeBaseToDepartmentMutation,
+	AddKnowledgeBaseToDepartmentMutationVariables,
+	CreateKnowledgeBaseEntryWithDepartmentsMutation,
+	CreateKnowledgeBaseEntryWithDepartmentsMutationVariables,
+	DeleteKnowledgeBaseEntryMutation,
+	DeleteKnowledgeBaseEntryMutationVariables,
 	GetDepartmentDetailsQuery,
 	GetDepartmentDetailsQueryVariables,
+	GetKnowledgeBaseEntriesQuery,
 	GetUserDepartmentsQuery,
 	RemoveDepartmentMemberMutation,
 	RemoveDepartmentMemberMutationVariables,
+	RemoveKnowledgeBaseFromDepartmentMutation,
+	RemoveKnowledgeBaseFromDepartmentMutationVariables,
 	SearchUsersQuery,
 	SearchUsersQueryVariables,
 	UpdateDepartmentMutation,
 	UpdateDepartmentMutationVariables,
+	UpdateKnowledgeBaseEntryMutation,
+	UpdateKnowledgeBaseEntryMutationVariables,
 	UpdateMemberRoleMutation,
 	UpdateMemberRoleMutationVariables,
 } from "./__generated__/graphql.ts";
@@ -148,5 +165,80 @@ export const useUpdateMemberRole = () => {
 	return useMutation({
 		mutationFn: (variables: UpdateMemberRoleMutationVariables) =>
 			fetcher(variables),
+	});
+};
+
+// Knowledge base hooks
+export const useKnowledgeBaseEntries = () => {
+	const fetcher = useAuthenticatedFetcher<GetKnowledgeBaseEntriesQuery, never>(
+		GetKnowledgeBaseEntriesDocument,
+	);
+
+	return useQuery({
+		queryKey: ["knowledgeBaseEntries"],
+		queryFn: () => fetcher(),
+		staleTime: 5 * 60 * 1000, // 5 minutes
+	});
+};
+
+export const useCreateKnowledgeBaseEntry = () => {
+	const fetcher = useAuthenticatedFetcher<
+		CreateKnowledgeBaseEntryWithDepartmentsMutation,
+		CreateKnowledgeBaseEntryWithDepartmentsMutationVariables
+	>(CreateKnowledgeBaseEntryWithDepartmentsDocument);
+
+	return useMutation({
+		mutationFn: (
+			variables: CreateKnowledgeBaseEntryWithDepartmentsMutationVariables,
+		) => fetcher(variables),
+	});
+};
+
+export const useUpdateKnowledgeBaseEntry = () => {
+	const fetcher = useAuthenticatedFetcher<
+		UpdateKnowledgeBaseEntryMutation,
+		UpdateKnowledgeBaseEntryMutationVariables
+	>(UpdateKnowledgeBaseEntryDocument);
+
+	return useMutation({
+		mutationFn: (variables: UpdateKnowledgeBaseEntryMutationVariables) =>
+			fetcher(variables),
+	});
+};
+
+export const useDeleteKnowledgeBaseEntry = () => {
+	const fetcher = useAuthenticatedFetcher<
+		DeleteKnowledgeBaseEntryMutation,
+		DeleteKnowledgeBaseEntryMutationVariables
+	>(DeleteKnowledgeBaseEntryDocument);
+
+	return useMutation({
+		mutationFn: (variables: DeleteKnowledgeBaseEntryMutationVariables) =>
+			fetcher(variables),
+	});
+};
+
+export const useAddKnowledgeBaseToDepartment = () => {
+	const fetcher = useAuthenticatedFetcher<
+		AddKnowledgeBaseToDepartmentMutation,
+		AddKnowledgeBaseToDepartmentMutationVariables
+	>(AddKnowledgeBaseToDepartmentDocument);
+
+	return useMutation({
+		mutationFn: (variables: AddKnowledgeBaseToDepartmentMutationVariables) =>
+			fetcher(variables),
+	});
+};
+
+export const useRemoveKnowledgeBaseFromDepartment = () => {
+	const fetcher = useAuthenticatedFetcher<
+		RemoveKnowledgeBaseFromDepartmentMutation,
+		RemoveKnowledgeBaseFromDepartmentMutationVariables
+	>(RemoveKnowledgeBaseFromDepartmentDocument);
+
+	return useMutation({
+		mutationFn: (
+			variables: RemoveKnowledgeBaseFromDepartmentMutationVariables,
+		) => fetcher(variables),
 	});
 };

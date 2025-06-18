@@ -65,9 +65,6 @@ rating = 'g'
 [auth.session.accessToken]
 expiresIn = 65
 
-[auth.session.refreshToken]
-expiresIn = 2592000
-
 [[auth.session.accessToken.customClaims]]
 key = 'department-manager'
 value = 'departments[?(@.role == "manager")].department.id'
@@ -75,6 +72,9 @@ value = 'departments[?(@.role == "manager")].department.id'
 [[auth.session.accessToken.customClaims]]
 key = 'departments'
 value = 'departments[*].department.id'
+
+[auth.session.refreshToken]
+expiresIn = 2592000
 
 [auth.method]
 [auth.method.anonymous]
@@ -191,6 +191,22 @@ capacity = 1
 
 [storage]
 version = '0.7.2'
+
+[ai]
+version = '0.8.0'
+webhookSecret = '{{ secrets.GRAPHITE_WEBHOOK_SECRETS }}'
+
+[ai.resources]
+[ai.resources.compute]
+cpu = 125
+memory = 256
+
+[ai.openai]
+organization = ''
+apiKey = '{{ secrets.OPENAI_API_KEY }}'
+
+[ai.autoEmbeddings]
+synchPeriodMinutes = 5
 
 [observability]
 [observability.grafana]

@@ -1,6 +1,6 @@
 # Project Index
 
-This document serves as a comprehensive index of all components, utilities, and project structure for the Language Learning Application. This index should be kept up-to-date whenever new components or significant changes are made.
+This document serves as a comprehensive index of all components, utilities, and project structure for the Intranet Application. This index should be kept up-to-date whenever new components or significant changes are made.
 
 ## Project Overview
 
