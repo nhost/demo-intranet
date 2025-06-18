@@ -253,53 +253,60 @@ export function FilesList({ refreshTrigger: _refreshTrigger }: FilesListProps) {
                     </div>
 
                     {/* Department Bubbles and Owned Badge */}
-                    <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      {isOwned && (
-                        <Badge variant="default" className="text-xs">
-                          Owned
-                        </Badge>
-                      )}
-                      {assignedDepartments.map((dept) => (
-                        <div key={dept.id} className="flex items-center gap-1">
-                          <Badge variant="secondary" className="text-xs">
-                            {dept.name}
+                    <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {isOwned && (
+                          <Badge variant="default" className="text-xs">
+                            Owned
                           </Badge>
-                          {(isOwned ||
-                            dept.employees.some(
-                              (emp) =>
-                                emp.user.id === session?.user?.id &&
-                                emp.role === "manager",
-                            )) && (
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() =>
-                                handleRemoveFromDepartment(file.id, dept.id)
-                              }
-                              className="h-4 w-4 p-0 hover:bg-destructive/10 hover:text-destructive"
-                              title="Remove from department"
-                            >
-                              <X className="h-3 w-3" />
-                            </Button>
-                          )}
-                        </div>
-                      ))}
+                        )}
+                        {assignedDepartments.map((dept) => (
+                          <div
+                            key={dept.id}
+                            className="flex items-center gap-1"
+                          >
+                            <Badge variant="secondary" className="text-xs">
+                              {dept.name}
+                            </Badge>
+                            {(isOwned ||
+                              dept.employees.some(
+                                (emp) =>
+                                  emp.user.id === session?.user?.id &&
+                                  emp.role === "manager",
+                              )) && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() =>
+                                  handleRemoveFromDepartment(file.id, dept.id)
+                                }
+                                className="h-4 w-4 p-0 hover:bg-destructive/10 hover:text-destructive"
+                                title="Remove from department"
+                              >
+                                <X className="h-3 w-3" />
+                              </Button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                       {/* Add to Department buttons */}
-                      {availableDepartments.map((dept) => (
-                        <Button
-                          key={dept.id}
-                          size="sm"
-                          variant="ghost"
-                          onClick={() =>
-                            handleAddToDepartment(file.id, dept.id)
-                          }
-                          className="h-6 text-xs border-dashed border"
-                          title={`Add to ${dept.name}`}
-                        >
-                          <Plus className="h-3 w-3 mr-1" />
-                          {dept.name}
-                        </Button>
-                      ))}
+                      <div className="flex items-center gap-1 flex-wrap">
+                        {availableDepartments.map((dept) => (
+                          <Button
+                            key={dept.id}
+                            size="sm"
+                            variant="ghost"
+                            onClick={() =>
+                              handleAddToDepartment(file.id, dept.id)
+                            }
+                            className="h-6 text-xs border-dashed border"
+                            title={`Add to ${dept.name}`}
+                          >
+                            <Plus className="h-3 w-3 mr-1" />
+                            {dept.name}
+                          </Button>
+                        ))}
+                      </div>
                     </div>
 
                     <p className="text-xs text-muted-foreground">
