@@ -57,6 +57,14 @@ export function Navigation() {
 										Files
 									</Button>
 								</Link>
+								<Link to="/knowledge">
+									<Button
+										variant={isActive("/knowledge") ? "default" : "ghost"}
+										size="sm"
+									>
+										Knowledge
+									</Button>
+								</Link>
 								<Link to="/user">
 									<Button
 										variant={isActive("/user") ? "default" : "ghost"}

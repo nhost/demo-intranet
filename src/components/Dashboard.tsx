@@ -15,7 +15,7 @@ export function Dashboard() {
 							!
 						</h1>
 						<p className="text-lg text-muted-foreground mb-6">
-							Continue your language learning journey
+							Enjoy the Intranet.
 						</p>
 					</CardContent>
 				</Card>

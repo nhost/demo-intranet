@@ -646,6 +646,8 @@ export type Departments = {
 	/** An array relationship */
 	files: Array<Department_Files>;
 	id: Scalars["uuid"]["output"];
+	/** An array relationship */
+	kb_entry_departments: Array<Kb_Entry_Departments>;
 	name: Scalars["String"]["output"];
 	updated_at: Scalars["timestamptz"]["output"];
 };
@@ -668,6 +670,15 @@ export type DepartmentsFilesArgs = {
 	where?: InputMaybe<Department_Files_Bool_Exp>;
 };
 
+/** columns and relationships of "departments" */
+export type DepartmentsKb_Entry_DepartmentsArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
 /** Boolean expression to filter rows from the table "departments". All fields are combined with a logical 'AND'. */
 export type Departments_Bool_Exp = {
 	_and?: InputMaybe<Array<Departments_Bool_Exp>>;
@@ -679,6 +690,7 @@ export type Departments_Bool_Exp = {
 	employees?: InputMaybe<User_Departments_Bool_Exp>;
 	files?: InputMaybe<Department_Files_Bool_Exp>;
 	id?: InputMaybe<Uuid_Comparison_Exp>;
+	kb_entry_departments?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
 	name?: InputMaybe<String_Comparison_Exp>;
 	updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -705,6 +717,7 @@ export type Departments_Order_By = {
 	employees_aggregate?: InputMaybe<User_Departments_Aggregate_Order_By>;
 	files_aggregate?: InputMaybe<Department_Files_Aggregate_Order_By>;
 	id?: InputMaybe<Order_By>;
+	kb_entry_departments_aggregate?: InputMaybe<Kb_Entry_Departments_Aggregate_Order_By>;
 	name?: InputMaybe<Order_By>;
 	updated_at?: InputMaybe<Order_By>;
 };
@@ -952,6 +965,286 @@ export type Jsonb_Comparison_Exp = {
 	_nin?: InputMaybe<Array<Scalars["jsonb"]["input"]>>;
 };
 
+/** columns and relationships of "kb_entries" */
+export type Kb_Entries = {
+	__typename?: "kb_entries";
+	content: Scalars["String"]["output"];
+	created_at: Scalars["timestamptz"]["output"];
+	id: Scalars["uuid"]["output"];
+	/** An array relationship */
+	kb_entry_departments: Array<Kb_Entry_Departments>;
+	summary?: Maybe<Scalars["String"]["output"]>;
+	title: Scalars["String"]["output"];
+	updated_at: Scalars["timestamptz"]["output"];
+	/** An object relationship */
+	uploader: Users;
+	uploader_id: Scalars["uuid"]["output"];
+};
+
+/** columns and relationships of "kb_entries" */
+export type Kb_EntriesKb_Entry_DepartmentsArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+/** Boolean expression to filter rows from the table "kb_entries". All fields are combined with a logical 'AND'. */
+export type Kb_Entries_Bool_Exp = {
+	_and?: InputMaybe<Array<Kb_Entries_Bool_Exp>>;
+	_not?: InputMaybe<Kb_Entries_Bool_Exp>;
+	_or?: InputMaybe<Array<Kb_Entries_Bool_Exp>>;
+	content?: InputMaybe<String_Comparison_Exp>;
+	created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+	id?: InputMaybe<Uuid_Comparison_Exp>;
+	kb_entry_departments?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+	summary?: InputMaybe<String_Comparison_Exp>;
+	title?: InputMaybe<String_Comparison_Exp>;
+	updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+	uploader?: InputMaybe<Users_Bool_Exp>;
+	uploader_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "kb_entries" */
+export enum Kb_Entries_Constraint {
+	/** unique or primary key constraint on columns "id" */
+	KbEntriesPkey = "kb_entries_pkey",
+}
+
+/** input type for inserting data into table "kb_entries" */
+export type Kb_Entries_Insert_Input = {
+	content?: InputMaybe<Scalars["String"]["input"]>;
+	kb_entry_departments?: InputMaybe<Kb_Entry_Departments_Arr_Rel_Insert_Input>;
+	summary?: InputMaybe<Scalars["String"]["input"]>;
+	title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** response of any mutation on the table "kb_entries" */
+export type Kb_Entries_Mutation_Response = {
+	__typename?: "kb_entries_mutation_response";
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars["Int"]["output"];
+	/** data from the rows affected by the mutation */
+	returning: Array<Kb_Entries>;
+};
+
+/** input type for inserting object relation for remote table "kb_entries" */
+export type Kb_Entries_Obj_Rel_Insert_Input = {
+	data: Kb_Entries_Insert_Input;
+	/** upsert condition */
+	on_conflict?: InputMaybe<Kb_Entries_On_Conflict>;
+};
+
+/** on_conflict condition type for table "kb_entries" */
+export type Kb_Entries_On_Conflict = {
+	constraint: Kb_Entries_Constraint;
+	update_columns?: Array<Kb_Entries_Update_Column>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "kb_entries". */
+export type Kb_Entries_Order_By = {
+	content?: InputMaybe<Order_By>;
+	created_at?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+	kb_entry_departments_aggregate?: InputMaybe<Kb_Entry_Departments_Aggregate_Order_By>;
+	summary?: InputMaybe<Order_By>;
+	title?: InputMaybe<Order_By>;
+	updated_at?: InputMaybe<Order_By>;
+	uploader?: InputMaybe<Users_Order_By>;
+	uploader_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: kb_entries */
+export type Kb_Entries_Pk_Columns_Input = {
+	id: Scalars["uuid"]["input"];
+};
+
+/** select columns of table "kb_entries" */
+export enum Kb_Entries_Select_Column {
+	/** column name */
+	Content = "content",
+	/** column name */
+	CreatedAt = "created_at",
+	/** column name */
+	Id = "id",
+	/** column name */
+	Summary = "summary",
+	/** column name */
+	Title = "title",
+	/** column name */
+	UpdatedAt = "updated_at",
+	/** column name */
+	UploaderId = "uploader_id",
+}
+
+/** input type for updating data in table "kb_entries" */
+export type Kb_Entries_Set_Input = {
+	content?: InputMaybe<Scalars["String"]["input"]>;
+	summary?: InputMaybe<Scalars["String"]["input"]>;
+	title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** Streaming cursor of the table "kb_entries" */
+export type Kb_Entries_Stream_Cursor_Input = {
+	/** Stream column input with initial value */
+	initial_value: Kb_Entries_Stream_Cursor_Value_Input;
+	/** cursor ordering */
+	ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Kb_Entries_Stream_Cursor_Value_Input = {
+	content?: InputMaybe<Scalars["String"]["input"]>;
+	created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+	id?: InputMaybe<Scalars["uuid"]["input"]>;
+	summary?: InputMaybe<Scalars["String"]["input"]>;
+	title?: InputMaybe<Scalars["String"]["input"]>;
+	updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
+	uploader_id?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** update columns of table "kb_entries" */
+export enum Kb_Entries_Update_Column {
+	/** column name */
+	Content = "content",
+	/** column name */
+	Summary = "summary",
+	/** column name */
+	Title = "title",
+}
+
+export type Kb_Entries_Updates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<Kb_Entries_Set_Input>;
+	/** filter the rows which have to be updated */
+	where: Kb_Entries_Bool_Exp;
+};
+
+/** columns and relationships of "kb_entry_departments" */
+export type Kb_Entry_Departments = {
+	__typename?: "kb_entry_departments";
+	/** An object relationship */
+	department: Departments;
+	department_id: Scalars["uuid"]["output"];
+	id: Scalars["uuid"]["output"];
+	/** An object relationship */
+	kb_entry: Kb_Entries;
+	kb_entry_id: Scalars["uuid"]["output"];
+};
+
+/** order by aggregate values of table "kb_entry_departments" */
+export type Kb_Entry_Departments_Aggregate_Order_By = {
+	count?: InputMaybe<Order_By>;
+	max?: InputMaybe<Kb_Entry_Departments_Max_Order_By>;
+	min?: InputMaybe<Kb_Entry_Departments_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "kb_entry_departments" */
+export type Kb_Entry_Departments_Arr_Rel_Insert_Input = {
+	data: Array<Kb_Entry_Departments_Insert_Input>;
+	/** upsert condition */
+	on_conflict?: InputMaybe<Kb_Entry_Departments_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "kb_entry_departments". All fields are combined with a logical 'AND'. */
+export type Kb_Entry_Departments_Bool_Exp = {
+	_and?: InputMaybe<Array<Kb_Entry_Departments_Bool_Exp>>;
+	_not?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+	_or?: InputMaybe<Array<Kb_Entry_Departments_Bool_Exp>>;
+	department?: InputMaybe<Departments_Bool_Exp>;
+	department_id?: InputMaybe<Uuid_Comparison_Exp>;
+	id?: InputMaybe<Uuid_Comparison_Exp>;
+	kb_entry?: InputMaybe<Kb_Entries_Bool_Exp>;
+	kb_entry_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "kb_entry_departments" */
+export enum Kb_Entry_Departments_Constraint {
+	/** unique or primary key constraint on columns "kb_entry_id", "department_id" */
+	KbEntryDepartmentsKbEntryIdDepartmentIdKey = "kb_entry_departments_kb_entry_id_department_id_key",
+	/** unique or primary key constraint on columns "id" */
+	KbEntryDepartmentsPkey = "kb_entry_departments_pkey",
+}
+
+/** input type for inserting data into table "kb_entry_departments" */
+export type Kb_Entry_Departments_Insert_Input = {
+	department_id?: InputMaybe<Scalars["uuid"]["input"]>;
+	kb_entry?: InputMaybe<Kb_Entries_Obj_Rel_Insert_Input>;
+	kb_entry_id?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** order by max() on columns of table "kb_entry_departments" */
+export type Kb_Entry_Departments_Max_Order_By = {
+	department_id?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+	kb_entry_id?: InputMaybe<Order_By>;
+};
+
+/** order by min() on columns of table "kb_entry_departments" */
+export type Kb_Entry_Departments_Min_Order_By = {
+	department_id?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+	kb_entry_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "kb_entry_departments" */
+export type Kb_Entry_Departments_Mutation_Response = {
+	__typename?: "kb_entry_departments_mutation_response";
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars["Int"]["output"];
+	/** data from the rows affected by the mutation */
+	returning: Array<Kb_Entry_Departments>;
+};
+
+/** on_conflict condition type for table "kb_entry_departments" */
+export type Kb_Entry_Departments_On_Conflict = {
+	constraint: Kb_Entry_Departments_Constraint;
+	update_columns?: Array<Kb_Entry_Departments_Update_Column>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "kb_entry_departments". */
+export type Kb_Entry_Departments_Order_By = {
+	department?: InputMaybe<Departments_Order_By>;
+	department_id?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+	kb_entry?: InputMaybe<Kb_Entries_Order_By>;
+	kb_entry_id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kb_entry_departments" */
+export enum Kb_Entry_Departments_Select_Column {
+	/** column name */
+	DepartmentId = "department_id",
+	/** column name */
+	Id = "id",
+	/** column name */
+	KbEntryId = "kb_entry_id",
+}
+
+/** Streaming cursor of the table "kb_entry_departments" */
+export type Kb_Entry_Departments_Stream_Cursor_Input = {
+	/** Stream column input with initial value */
+	initial_value: Kb_Entry_Departments_Stream_Cursor_Value_Input;
+	/** cursor ordering */
+	ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Kb_Entry_Departments_Stream_Cursor_Value_Input = {
+	department_id?: InputMaybe<Scalars["uuid"]["input"]>;
+	id?: InputMaybe<Scalars["uuid"]["input"]>;
+	kb_entry_id?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** placeholder for update columns of table "kb_entry_departments" (current role has no relevant permissions) */
+export enum Kb_Entry_Departments_Update_Column {
+	/** placeholder (do not use) */
+	Placeholder = "_PLACEHOLDER",
+}
+
 /** mutation root */
 export type Mutation_Root = {
 	__typename?: "mutation_root";
@@ -971,6 +1264,14 @@ export type Mutation_Root = {
 	delete_department_files?: Maybe<Department_Files_Mutation_Response>;
 	/** delete single row from the table: "department_files" */
 	delete_department_files_by_pk?: Maybe<Department_Files>;
+	/** delete data from the table: "kb_entries" */
+	delete_kb_entries?: Maybe<Kb_Entries_Mutation_Response>;
+	/** delete single row from the table: "kb_entries" */
+	delete_kb_entries_by_pk?: Maybe<Kb_Entries>;
+	/** delete data from the table: "kb_entry_departments" */
+	delete_kb_entry_departments?: Maybe<Kb_Entry_Departments_Mutation_Response>;
+	/** delete single row from the table: "kb_entry_departments" */
+	delete_kb_entry_departments_by_pk?: Maybe<Kb_Entry_Departments>;
 	/** delete data from the table: "user_departments" */
 	delete_user_departments?: Maybe<User_Departments_Mutation_Response>;
 	/** delete single row from the table: "user_departments" */
@@ -983,6 +1284,14 @@ export type Mutation_Root = {
 	insert_department_files?: Maybe<Department_Files_Mutation_Response>;
 	/** insert a single row into the table: "department_files" */
 	insert_department_files_one?: Maybe<Department_Files>;
+	/** insert data into the table: "kb_entries" */
+	insert_kb_entries?: Maybe<Kb_Entries_Mutation_Response>;
+	/** insert a single row into the table: "kb_entries" */
+	insert_kb_entries_one?: Maybe<Kb_Entries>;
+	/** insert data into the table: "kb_entry_departments" */
+	insert_kb_entry_departments?: Maybe<Kb_Entry_Departments_Mutation_Response>;
+	/** insert a single row into the table: "kb_entry_departments" */
+	insert_kb_entry_departments_one?: Maybe<Kb_Entry_Departments>;
 	/** insert data into the table: "user_departments" */
 	insert_user_departments?: Maybe<User_Departments_Mutation_Response>;
 	/** insert a single row into the table: "user_departments" */
@@ -997,6 +1306,12 @@ export type Mutation_Root = {
 	update_departments_by_pk?: Maybe<Departments>;
 	/** update multiples rows of table: "departments" */
 	update_departments_many?: Maybe<Array<Maybe<Departments_Mutation_Response>>>;
+	/** update data of the table: "kb_entries" */
+	update_kb_entries?: Maybe<Kb_Entries_Mutation_Response>;
+	/** update single row of the table: "kb_entries" */
+	update_kb_entries_by_pk?: Maybe<Kb_Entries>;
+	/** update multiples rows of table: "kb_entries" */
+	update_kb_entries_many?: Maybe<Array<Maybe<Kb_Entries_Mutation_Response>>>;
 	/** update data of the table: "user_departments" */
 	update_user_departments?: Maybe<User_Departments_Mutation_Response>;
 	/** update single row of the table: "user_departments" */
@@ -1050,6 +1365,26 @@ export type Mutation_RootDelete_Department_Files_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootDelete_Kb_EntriesArgs = {
+	where: Kb_Entries_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Kb_Entries_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Kb_Entry_DepartmentsArgs = {
+	where: Kb_Entry_Departments_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Kb_Entry_Departments_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+/** mutation root */
 export type Mutation_RootDelete_User_DepartmentsArgs = {
 	where: User_Departments_Bool_Exp;
 };
@@ -1081,6 +1416,30 @@ export type Mutation_RootInsert_Department_FilesArgs = {
 export type Mutation_RootInsert_Department_Files_OneArgs = {
 	object: Department_Files_Insert_Input;
 	on_conflict?: InputMaybe<Department_Files_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Kb_EntriesArgs = {
+	objects: Array<Kb_Entries_Insert_Input>;
+	on_conflict?: InputMaybe<Kb_Entries_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Kb_Entries_OneArgs = {
+	object: Kb_Entries_Insert_Input;
+	on_conflict?: InputMaybe<Kb_Entries_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Kb_Entry_DepartmentsArgs = {
+	objects: Array<Kb_Entry_Departments_Insert_Input>;
+	on_conflict?: InputMaybe<Kb_Entry_Departments_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Kb_Entry_Departments_OneArgs = {
+	object: Kb_Entry_Departments_Insert_Input;
+	on_conflict?: InputMaybe<Kb_Entry_Departments_On_Conflict>;
 };
 
 /** mutation root */
@@ -1124,6 +1483,23 @@ export type Mutation_RootUpdate_Departments_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Departments_ManyArgs = {
 	updates: Array<Departments_Updates>;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Kb_EntriesArgs = {
+	_set?: InputMaybe<Kb_Entries_Set_Input>;
+	where: Kb_Entries_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Kb_Entries_By_PkArgs = {
+	_set?: InputMaybe<Kb_Entries_Set_Input>;
+	pk_columns: Kb_Entries_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Kb_Entries_ManyArgs = {
+	updates: Array<Kb_Entries_Updates>;
 };
 
 /** mutation root */
@@ -1203,6 +1579,14 @@ export type Query_Root = {
 	file?: Maybe<Files>;
 	/** fetch data from the table: "storage.files" */
 	files: Array<Files>;
+	/** fetch data from the table: "kb_entries" */
+	kb_entries: Array<Kb_Entries>;
+	/** fetch data from the table: "kb_entries" using primary key columns */
+	kb_entries_by_pk?: Maybe<Kb_Entries>;
+	/** An array relationship */
+	kb_entry_departments: Array<Kb_Entry_Departments>;
+	/** fetch data from the table: "kb_entry_departments" using primary key columns */
+	kb_entry_departments_by_pk?: Maybe<Kb_Entry_Departments>;
 	/** fetch data from the table: "auth.users" using primary key columns */
 	user?: Maybe<Users>;
 	/** fetch data from the table: "user_departments" */
@@ -1285,6 +1669,30 @@ export type Query_RootFilesArgs = {
 	where?: InputMaybe<Files_Bool_Exp>;
 };
 
+export type Query_RootKb_EntriesArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entries_Order_By>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
+export type Query_RootKb_Entries_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+export type Query_RootKb_Entry_DepartmentsArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+export type Query_RootKb_Entry_Departments_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
 export type Query_RootUserArgs = {
 	id: Scalars["uuid"]["input"];
 };
@@ -1347,6 +1755,18 @@ export type Subscription_Root = {
 	files: Array<Files>;
 	/** fetch data from the table in a streaming manner: "storage.files" */
 	files_stream: Array<Files>;
+	/** fetch data from the table: "kb_entries" */
+	kb_entries: Array<Kb_Entries>;
+	/** fetch data from the table: "kb_entries" using primary key columns */
+	kb_entries_by_pk?: Maybe<Kb_Entries>;
+	/** fetch data from the table in a streaming manner: "kb_entries" */
+	kb_entries_stream: Array<Kb_Entries>;
+	/** An array relationship */
+	kb_entry_departments: Array<Kb_Entry_Departments>;
+	/** fetch data from the table: "kb_entry_departments" using primary key columns */
+	kb_entry_departments_by_pk?: Maybe<Kb_Entry_Departments>;
+	/** fetch data from the table in a streaming manner: "kb_entry_departments" */
+	kb_entry_departments_stream: Array<Kb_Entry_Departments>;
 	/** fetch data from the table: "auth.users" using primary key columns */
 	user?: Maybe<Users>;
 	/** fetch data from the table: "user_departments" */
@@ -1467,6 +1887,42 @@ export type Subscription_RootFiles_StreamArgs = {
 	batch_size: Scalars["Int"]["input"];
 	cursor: Array<InputMaybe<Files_Stream_Cursor_Input>>;
 	where?: InputMaybe<Files_Bool_Exp>;
+};
+
+export type Subscription_RootKb_EntriesArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entries_Order_By>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
+export type Subscription_RootKb_Entries_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+export type Subscription_RootKb_Entries_StreamArgs = {
+	batch_size: Scalars["Int"]["input"];
+	cursor: Array<InputMaybe<Kb_Entries_Stream_Cursor_Input>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
+export type Subscription_RootKb_Entry_DepartmentsArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+export type Subscription_RootKb_Entry_Departments_By_PkArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+export type Subscription_RootKb_Entry_Departments_StreamArgs = {
+	batch_size: Scalars["Int"]["input"];
+	cursor: Array<InputMaybe<Kb_Entry_Departments_Stream_Cursor_Input>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
 };
 
 export type Subscription_RootUserArgs = {
@@ -2146,6 +2602,229 @@ export type RemoveDepartmentFileMutation = {
 	__typename?: "mutation_root";
 	delete_department_files?: {
 		__typename?: "department_files_mutation_response";
+		affected_rows: number;
+	} | null;
+};
+
+export type GetKnowledgeBaseEntriesQueryVariables = Exact<{
+	[key: string]: never;
+}>;
+
+export type GetKnowledgeBaseEntriesQuery = {
+	__typename?: "query_root";
+	kb_entries: Array<{
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+		summary?: string | null;
+		content: string;
+		created_at: string;
+		updated_at: string;
+		uploader: {
+			__typename?: "users";
+			id: string;
+			displayName: string;
+			email?: string | null;
+			avatarUrl: string;
+		};
+		kb_entry_departments: Array<{
+			__typename?: "kb_entry_departments";
+			id: string;
+			department: { __typename?: "departments"; id: string; name: string };
+		}>;
+	}>;
+};
+
+export type GetKnowledgeBaseEntryQueryVariables = Exact<{
+	entryId: Scalars["uuid"]["input"];
+}>;
+
+export type GetKnowledgeBaseEntryQuery = {
+	__typename?: "query_root";
+	kb_entries_by_pk?: {
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+		summary?: string | null;
+		content: string;
+		created_at: string;
+		updated_at: string;
+		uploader: {
+			__typename?: "users";
+			id: string;
+			displayName: string;
+			email?: string | null;
+			avatarUrl: string;
+		};
+		kb_entry_departments: Array<{
+			__typename?: "kb_entry_departments";
+			id: string;
+			department: { __typename?: "departments"; id: string; name: string };
+		}>;
+	} | null;
+};
+
+export type GetDepartmentKnowledgeBaseQueryVariables = Exact<{
+	departmentId: Scalars["uuid"]["input"];
+}>;
+
+export type GetDepartmentKnowledgeBaseQuery = {
+	__typename?: "query_root";
+	kb_entry_departments: Array<{
+		__typename?: "kb_entry_departments";
+		id: string;
+		kb_entry: {
+			__typename?: "kb_entries";
+			id: string;
+			title: string;
+			summary?: string | null;
+			content: string;
+			created_at: string;
+			updated_at: string;
+			uploader: {
+				__typename?: "users";
+				id: string;
+				displayName: string;
+				email?: string | null;
+				avatarUrl: string;
+			};
+		};
+	}>;
+};
+
+export type CreateKnowledgeBaseEntryMutationVariables = Exact<{
+	title: Scalars["String"]["input"];
+	summary?: InputMaybe<Scalars["String"]["input"]>;
+	content: Scalars["String"]["input"];
+	departmentId: Scalars["uuid"]["input"];
+}>;
+
+export type CreateKnowledgeBaseEntryMutation = {
+	__typename?: "mutation_root";
+	insert_kb_entries_one?: {
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+		summary?: string | null;
+		content: string;
+		created_at: string;
+		updated_at: string;
+		uploader: {
+			__typename?: "users";
+			id: string;
+			displayName: string;
+			email?: string | null;
+			avatarUrl: string;
+		};
+		kb_entry_departments: Array<{
+			__typename?: "kb_entry_departments";
+			id: string;
+			department: { __typename?: "departments"; id: string; name: string };
+		}>;
+	} | null;
+};
+
+export type CreateKnowledgeBaseEntryWithDepartmentsMutationVariables = Exact<{
+	title: Scalars["String"]["input"];
+	summary?: InputMaybe<Scalars["String"]["input"]>;
+	content: Scalars["String"]["input"];
+	departmentAssociations:
+		| Array<Kb_Entry_Departments_Insert_Input>
+		| Kb_Entry_Departments_Insert_Input;
+}>;
+
+export type CreateKnowledgeBaseEntryWithDepartmentsMutation = {
+	__typename?: "mutation_root";
+	insert_kb_entries_one?: {
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+		summary?: string | null;
+		content: string;
+		created_at: string;
+		updated_at: string;
+		uploader: {
+			__typename?: "users";
+			id: string;
+			displayName: string;
+			email?: string | null;
+			avatarUrl: string;
+		};
+		kb_entry_departments: Array<{
+			__typename?: "kb_entry_departments";
+			id: string;
+			department: { __typename?: "departments"; id: string; name: string };
+		}>;
+	} | null;
+};
+
+export type UpdateKnowledgeBaseEntryMutationVariables = Exact<{
+	entryId: Scalars["uuid"]["input"];
+	title?: InputMaybe<Scalars["String"]["input"]>;
+	summary?: InputMaybe<Scalars["String"]["input"]>;
+	content?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type UpdateKnowledgeBaseEntryMutation = {
+	__typename?: "mutation_root";
+	update_kb_entries_by_pk?: {
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+		summary?: string | null;
+		content: string;
+		updated_at: string;
+		uploader: {
+			__typename?: "users";
+			id: string;
+			displayName: string;
+			email?: string | null;
+			avatarUrl: string;
+		};
+		kb_entry_departments: Array<{
+			__typename?: "kb_entry_departments";
+			id: string;
+			department: { __typename?: "departments"; id: string; name: string };
+		}>;
+	} | null;
+};
+
+export type DeleteKnowledgeBaseEntryMutationVariables = Exact<{
+	entryId: Scalars["uuid"]["input"];
+}>;
+
+export type DeleteKnowledgeBaseEntryMutation = {
+	__typename?: "mutation_root";
+	delete_kb_entries_by_pk?: {
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+	} | null;
+};
+
+export type AddKnowledgeBaseToDepartmentMutationVariables = Exact<{
+	entryId: Scalars["uuid"]["input"];
+	departmentId: Scalars["uuid"]["input"];
+}>;
+
+export type AddKnowledgeBaseToDepartmentMutation = {
+	__typename?: "mutation_root";
+	insert_kb_entry_departments_one?: {
+		__typename?: "kb_entry_departments";
+		id: string;
+		department: { __typename?: "departments"; id: string; name: string };
+	} | null;
+};
+
+export type RemoveKnowledgeBaseFromDepartmentMutationVariables = Exact<{
+	entryId: Scalars["uuid"]["input"];
+	departmentId: Scalars["uuid"]["input"];
+}>;
+
+export type RemoveKnowledgeBaseFromDepartmentMutation = {
+	__typename?: "mutation_root";
+	delete_kb_entry_departments?: {
+		__typename?: "kb_entry_departments_mutation_response";
 		affected_rows: number;
 	} | null;
 };
@@ -2875,6 +3554,452 @@ export const useRemoveDepartmentFileMutation = <
 			RemoveDepartmentFileMutation,
 			RemoveDepartmentFileMutationVariables
 		>(RemoveDepartmentFileDocument),
+		...options,
+	});
+};
+
+export const GetKnowledgeBaseEntriesDocument = `
+    query GetKnowledgeBaseEntries {
+  kb_entries(order_by: {created_at: desc}) {
+    id
+    title
+    summary
+    content
+    created_at
+    updated_at
+    uploader {
+      id
+      displayName
+      email
+      avatarUrl
+    }
+    kb_entry_departments {
+      id
+      department {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+export const useGetKnowledgeBaseEntriesQuery = <
+	TData = GetKnowledgeBaseEntriesQuery,
+	TError = unknown,
+>(
+	variables?: GetKnowledgeBaseEntriesQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetKnowledgeBaseEntriesQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetKnowledgeBaseEntriesQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetKnowledgeBaseEntriesQuery, TError, TData>({
+		queryKey:
+			variables === undefined
+				? ["GetKnowledgeBaseEntries"]
+				: ["GetKnowledgeBaseEntries", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetKnowledgeBaseEntriesQuery,
+			GetKnowledgeBaseEntriesQueryVariables
+		>(GetKnowledgeBaseEntriesDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetKnowledgeBaseEntriesQuery.getKey = (
+	variables?: GetKnowledgeBaseEntriesQueryVariables,
+) =>
+	variables === undefined
+		? ["GetKnowledgeBaseEntries"]
+		: ["GetKnowledgeBaseEntries", variables];
+
+export const GetKnowledgeBaseEntryDocument = `
+    query GetKnowledgeBaseEntry($entryId: uuid!) {
+  kb_entries_by_pk(id: $entryId) {
+    id
+    title
+    summary
+    content
+    created_at
+    updated_at
+    uploader {
+      id
+      displayName
+      email
+      avatarUrl
+    }
+    kb_entry_departments {
+      id
+      department {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+export const useGetKnowledgeBaseEntryQuery = <
+	TData = GetKnowledgeBaseEntryQuery,
+	TError = unknown,
+>(
+	variables: GetKnowledgeBaseEntryQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetKnowledgeBaseEntryQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetKnowledgeBaseEntryQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetKnowledgeBaseEntryQuery, TError, TData>({
+		queryKey: ["GetKnowledgeBaseEntry", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetKnowledgeBaseEntryQuery,
+			GetKnowledgeBaseEntryQueryVariables
+		>(GetKnowledgeBaseEntryDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetKnowledgeBaseEntryQuery.getKey = (
+	variables: GetKnowledgeBaseEntryQueryVariables,
+) => ["GetKnowledgeBaseEntry", variables];
+
+export const GetDepartmentKnowledgeBaseDocument = `
+    query GetDepartmentKnowledgeBase($departmentId: uuid!) {
+  kb_entry_departments(
+    where: {department_id: {_eq: $departmentId}}
+    order_by: {kb_entry: {created_at: desc}}
+  ) {
+    id
+    kb_entry {
+      id
+      title
+      summary
+      content
+      created_at
+      updated_at
+      uploader {
+        id
+        displayName
+        email
+        avatarUrl
+      }
+    }
+  }
+}
+    `;
+
+export const useGetDepartmentKnowledgeBaseQuery = <
+	TData = GetDepartmentKnowledgeBaseQuery,
+	TError = unknown,
+>(
+	variables: GetDepartmentKnowledgeBaseQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetDepartmentKnowledgeBaseQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetDepartmentKnowledgeBaseQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetDepartmentKnowledgeBaseQuery, TError, TData>({
+		queryKey: ["GetDepartmentKnowledgeBase", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetDepartmentKnowledgeBaseQuery,
+			GetDepartmentKnowledgeBaseQueryVariables
+		>(GetDepartmentKnowledgeBaseDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetDepartmentKnowledgeBaseQuery.getKey = (
+	variables: GetDepartmentKnowledgeBaseQueryVariables,
+) => ["GetDepartmentKnowledgeBase", variables];
+
+export const CreateKnowledgeBaseEntryDocument = `
+    mutation CreateKnowledgeBaseEntry($title: String!, $summary: String, $content: String!, $departmentId: uuid!) {
+  insert_kb_entries_one(
+    object: {title: $title, summary: $summary, content: $content, kb_entry_departments: {data: [{department_id: $departmentId}]}}
+  ) {
+    id
+    title
+    summary
+    content
+    created_at
+    updated_at
+    uploader {
+      id
+      displayName
+      email
+      avatarUrl
+    }
+    kb_entry_departments {
+      id
+      department {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+export const useCreateKnowledgeBaseEntryMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		CreateKnowledgeBaseEntryMutation,
+		TError,
+		CreateKnowledgeBaseEntryMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		CreateKnowledgeBaseEntryMutation,
+		TError,
+		CreateKnowledgeBaseEntryMutationVariables,
+		TContext
+	>({
+		mutationKey: ["CreateKnowledgeBaseEntry"],
+		mutationFn: useAuthenticatedFetcher<
+			CreateKnowledgeBaseEntryMutation,
+			CreateKnowledgeBaseEntryMutationVariables
+		>(CreateKnowledgeBaseEntryDocument),
+		...options,
+	});
+};
+
+export const CreateKnowledgeBaseEntryWithDepartmentsDocument = `
+    mutation CreateKnowledgeBaseEntryWithDepartments($title: String!, $summary: String, $content: String!, $departmentAssociations: [kb_entry_departments_insert_input!]!) {
+  insert_kb_entries_one(
+    object: {title: $title, summary: $summary, content: $content, kb_entry_departments: {data: $departmentAssociations}}
+  ) {
+    id
+    title
+    summary
+    content
+    created_at
+    updated_at
+    uploader {
+      id
+      displayName
+      email
+      avatarUrl
+    }
+    kb_entry_departments {
+      id
+      department {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+export const useCreateKnowledgeBaseEntryWithDepartmentsMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		CreateKnowledgeBaseEntryWithDepartmentsMutation,
+		TError,
+		CreateKnowledgeBaseEntryWithDepartmentsMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		CreateKnowledgeBaseEntryWithDepartmentsMutation,
+		TError,
+		CreateKnowledgeBaseEntryWithDepartmentsMutationVariables,
+		TContext
+	>({
+		mutationKey: ["CreateKnowledgeBaseEntryWithDepartments"],
+		mutationFn: useAuthenticatedFetcher<
+			CreateKnowledgeBaseEntryWithDepartmentsMutation,
+			CreateKnowledgeBaseEntryWithDepartmentsMutationVariables
+		>(CreateKnowledgeBaseEntryWithDepartmentsDocument),
+		...options,
+	});
+};
+
+export const UpdateKnowledgeBaseEntryDocument = `
+    mutation UpdateKnowledgeBaseEntry($entryId: uuid!, $title: String, $summary: String, $content: String) {
+  update_kb_entries_by_pk(
+    pk_columns: {id: $entryId}
+    _set: {title: $title, summary: $summary, content: $content}
+  ) {
+    id
+    title
+    summary
+    content
+    updated_at
+    uploader {
+      id
+      displayName
+      email
+      avatarUrl
+    }
+    kb_entry_departments {
+      id
+      department {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+export const useUpdateKnowledgeBaseEntryMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		UpdateKnowledgeBaseEntryMutation,
+		TError,
+		UpdateKnowledgeBaseEntryMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		UpdateKnowledgeBaseEntryMutation,
+		TError,
+		UpdateKnowledgeBaseEntryMutationVariables,
+		TContext
+	>({
+		mutationKey: ["UpdateKnowledgeBaseEntry"],
+		mutationFn: useAuthenticatedFetcher<
+			UpdateKnowledgeBaseEntryMutation,
+			UpdateKnowledgeBaseEntryMutationVariables
+		>(UpdateKnowledgeBaseEntryDocument),
+		...options,
+	});
+};
+
+export const DeleteKnowledgeBaseEntryDocument = `
+    mutation DeleteKnowledgeBaseEntry($entryId: uuid!) {
+  delete_kb_entries_by_pk(id: $entryId) {
+    id
+    title
+  }
+}
+    `;
+
+export const useDeleteKnowledgeBaseEntryMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		DeleteKnowledgeBaseEntryMutation,
+		TError,
+		DeleteKnowledgeBaseEntryMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		DeleteKnowledgeBaseEntryMutation,
+		TError,
+		DeleteKnowledgeBaseEntryMutationVariables,
+		TContext
+	>({
+		mutationKey: ["DeleteKnowledgeBaseEntry"],
+		mutationFn: useAuthenticatedFetcher<
+			DeleteKnowledgeBaseEntryMutation,
+			DeleteKnowledgeBaseEntryMutationVariables
+		>(DeleteKnowledgeBaseEntryDocument),
+		...options,
+	});
+};
+
+export const AddKnowledgeBaseToDepartmentDocument = `
+    mutation AddKnowledgeBaseToDepartment($entryId: uuid!, $departmentId: uuid!) {
+  insert_kb_entry_departments_one(
+    object: {kb_entry_id: $entryId, department_id: $departmentId}
+  ) {
+    id
+    department {
+      id
+      name
+    }
+  }
+}
+    `;
+
+export const useAddKnowledgeBaseToDepartmentMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		AddKnowledgeBaseToDepartmentMutation,
+		TError,
+		AddKnowledgeBaseToDepartmentMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		AddKnowledgeBaseToDepartmentMutation,
+		TError,
+		AddKnowledgeBaseToDepartmentMutationVariables,
+		TContext
+	>({
+		mutationKey: ["AddKnowledgeBaseToDepartment"],
+		mutationFn: useAuthenticatedFetcher<
+			AddKnowledgeBaseToDepartmentMutation,
+			AddKnowledgeBaseToDepartmentMutationVariables
+		>(AddKnowledgeBaseToDepartmentDocument),
+		...options,
+	});
+};
+
+export const RemoveKnowledgeBaseFromDepartmentDocument = `
+    mutation RemoveKnowledgeBaseFromDepartment($entryId: uuid!, $departmentId: uuid!) {
+  delete_kb_entry_departments(
+    where: {kb_entry_id: {_eq: $entryId}, department_id: {_eq: $departmentId}}
+  ) {
+    affected_rows
+  }
+}
+    `;
+
+export const useRemoveKnowledgeBaseFromDepartmentMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		RemoveKnowledgeBaseFromDepartmentMutation,
+		TError,
+		RemoveKnowledgeBaseFromDepartmentMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		RemoveKnowledgeBaseFromDepartmentMutation,
+		TError,
+		RemoveKnowledgeBaseFromDepartmentMutationVariables,
+		TContext
+	>({
+		mutationKey: ["RemoveKnowledgeBaseFromDepartment"],
+		mutationFn: useAuthenticatedFetcher<
+			RemoveKnowledgeBaseFromDepartmentMutation,
+			RemoveKnowledgeBaseFromDepartmentMutationVariables
+		>(RemoveKnowledgeBaseFromDepartmentDocument),
 		...options,
 	});
 };

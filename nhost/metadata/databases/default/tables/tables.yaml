@@ -10,6 +10,8 @@
 - "!include public_department_files.yaml"
 - "!include public_department_roles.yaml"
 - "!include public_departments.yaml"
+- "!include public_kb_entries.yaml"
+- "!include public_kb_entry_departments.yaml"
 - "!include public_user_departments.yaml"
 - "!include storage_buckets.yaml"
 - "!include storage_files.yaml"

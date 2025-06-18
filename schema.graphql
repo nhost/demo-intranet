@@ -915,6 +915,31 @@ type departments {
 		where: department_files_bool_exp
 	): [department_files!]!
 	id: uuid!
+	"""
+	An array relationship
+	"""
+	kb_entry_departments(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entry_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entry_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): [kb_entry_departments!]!
 	name: String!
 	updated_at: timestamptz!
 }
@@ -932,6 +957,7 @@ input departments_bool_exp {
 	employees: user_departments_bool_exp
 	files: department_files_bool_exp
 	id: uuid_comparison_exp
+	kb_entry_departments: kb_entry_departments_bool_exp
 	name: String_comparison_exp
 	updated_at: timestamptz_comparison_exp
 }
@@ -967,6 +993,7 @@ input departments_order_by {
 	employees_aggregate: user_departments_aggregate_order_by
 	files_aggregate: department_files_aggregate_order_by
 	id: order_by
+	kb_entry_departments_aggregate: kb_entry_departments_aggregate_order_by
 	name: order_by
 	updated_at: order_by
 }
@@ -1321,6 +1348,418 @@ input jsonb_comparison_exp {
 }
 
 """
+columns and relationships of "kb_entries"
+"""
+type kb_entries {
+	content: String!
+	created_at: timestamptz!
+	id: uuid!
+	"""
+	An array relationship
+	"""
+	kb_entry_departments(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entry_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entry_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): [kb_entry_departments!]!
+	summary: String
+	title: String!
+	updated_at: timestamptz!
+	"""
+	An object relationship
+	"""
+	uploader: users!
+	uploader_id: uuid!
+}
+
+"""
+Boolean expression to filter rows from the table "kb_entries". All fields are combined with a logical 'AND'.
+"""
+input kb_entries_bool_exp {
+	_and: [kb_entries_bool_exp!]
+	_not: kb_entries_bool_exp
+	_or: [kb_entries_bool_exp!]
+	content: String_comparison_exp
+	created_at: timestamptz_comparison_exp
+	id: uuid_comparison_exp
+	kb_entry_departments: kb_entry_departments_bool_exp
+	summary: String_comparison_exp
+	title: String_comparison_exp
+	updated_at: timestamptz_comparison_exp
+	uploader: users_bool_exp
+	uploader_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "kb_entries"
+"""
+enum kb_entries_constraint {
+	"""
+	unique or primary key constraint on columns "id"
+	"""
+	kb_entries_pkey
+}
+
+"""
+input type for inserting data into table "kb_entries"
+"""
+input kb_entries_insert_input {
+	content: String
+	kb_entry_departments: kb_entry_departments_arr_rel_insert_input
+	summary: String
+	title: String
+}
+
+"""
+response of any mutation on the table "kb_entries"
+"""
+type kb_entries_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [kb_entries!]!
+}
+
+"""
+input type for inserting object relation for remote table "kb_entries"
+"""
+input kb_entries_obj_rel_insert_input {
+	data: kb_entries_insert_input!
+	"""
+	upsert condition
+	"""
+	on_conflict: kb_entries_on_conflict
+}
+
+"""
+on_conflict condition type for table "kb_entries"
+"""
+input kb_entries_on_conflict {
+	constraint: kb_entries_constraint!
+	update_columns: [kb_entries_update_column!]! = []
+	where: kb_entries_bool_exp
+}
+
+"""
+Ordering options when selecting data from "kb_entries".
+"""
+input kb_entries_order_by {
+	content: order_by
+	created_at: order_by
+	id: order_by
+	kb_entry_departments_aggregate: kb_entry_departments_aggregate_order_by
+	summary: order_by
+	title: order_by
+	updated_at: order_by
+	uploader: users_order_by
+	uploader_id: order_by
+}
+
+"""
+primary key columns input for table: kb_entries
+"""
+input kb_entries_pk_columns_input {
+	id: uuid!
+}
+
+"""
+select columns of table "kb_entries"
+"""
+enum kb_entries_select_column {
+	"""
+	column name
+	"""
+	content
+	"""
+	column name
+	"""
+	created_at
+	"""
+	column name
+	"""
+	id
+	"""
+	column name
+	"""
+	summary
+	"""
+	column name
+	"""
+	title
+	"""
+	column name
+	"""
+	updated_at
+	"""
+	column name
+	"""
+	uploader_id
+}
+
+"""
+input type for updating data in table "kb_entries"
+"""
+input kb_entries_set_input {
+	content: String
+	summary: String
+	title: String
+}
+
+"""
+Streaming cursor of the table "kb_entries"
+"""
+input kb_entries_stream_cursor_input {
+	"""
+	Stream column input with initial value
+	"""
+	initial_value: kb_entries_stream_cursor_value_input!
+	"""
+	cursor ordering
+	"""
+	ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input kb_entries_stream_cursor_value_input {
+	content: String
+	created_at: timestamptz
+	id: uuid
+	summary: String
+	title: String
+	updated_at: timestamptz
+	uploader_id: uuid
+}
+
+"""
+update columns of table "kb_entries"
+"""
+enum kb_entries_update_column {
+	"""
+	column name
+	"""
+	content
+	"""
+	column name
+	"""
+	summary
+	"""
+	column name
+	"""
+	title
+}
+
+input kb_entries_updates {
+	"""
+	sets the columns of the filtered rows to the given values
+	"""
+	_set: kb_entries_set_input
+	"""
+	filter the rows which have to be updated
+	"""
+	where: kb_entries_bool_exp!
+}
+
+"""
+columns and relationships of "kb_entry_departments"
+"""
+type kb_entry_departments {
+	"""
+	An object relationship
+	"""
+	department: departments!
+	department_id: uuid!
+	id: uuid!
+	"""
+	An object relationship
+	"""
+	kb_entry: kb_entries!
+	kb_entry_id: uuid!
+}
+
+"""
+order by aggregate values of table "kb_entry_departments"
+"""
+input kb_entry_departments_aggregate_order_by {
+	count: order_by
+	max: kb_entry_departments_max_order_by
+	min: kb_entry_departments_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "kb_entry_departments"
+"""
+input kb_entry_departments_arr_rel_insert_input {
+	data: [kb_entry_departments_insert_input!]!
+	"""
+	upsert condition
+	"""
+	on_conflict: kb_entry_departments_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "kb_entry_departments". All fields are combined with a logical 'AND'.
+"""
+input kb_entry_departments_bool_exp {
+	_and: [kb_entry_departments_bool_exp!]
+	_not: kb_entry_departments_bool_exp
+	_or: [kb_entry_departments_bool_exp!]
+	department: departments_bool_exp
+	department_id: uuid_comparison_exp
+	id: uuid_comparison_exp
+	kb_entry: kb_entries_bool_exp
+	kb_entry_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "kb_entry_departments"
+"""
+enum kb_entry_departments_constraint {
+	"""
+	unique or primary key constraint on columns "kb_entry_id", "department_id"
+	"""
+	kb_entry_departments_kb_entry_id_department_id_key
+	"""
+	unique or primary key constraint on columns "id"
+	"""
+	kb_entry_departments_pkey
+}
+
+"""
+input type for inserting data into table "kb_entry_departments"
+"""
+input kb_entry_departments_insert_input {
+	department_id: uuid
+	kb_entry: kb_entries_obj_rel_insert_input
+	kb_entry_id: uuid
+}
+
+"""
+order by max() on columns of table "kb_entry_departments"
+"""
+input kb_entry_departments_max_order_by {
+	department_id: order_by
+	id: order_by
+	kb_entry_id: order_by
+}
+
+"""
+order by min() on columns of table "kb_entry_departments"
+"""
+input kb_entry_departments_min_order_by {
+	department_id: order_by
+	id: order_by
+	kb_entry_id: order_by
+}
+
+"""
+response of any mutation on the table "kb_entry_departments"
+"""
+type kb_entry_departments_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [kb_entry_departments!]!
+}
+
+"""
+on_conflict condition type for table "kb_entry_departments"
+"""
+input kb_entry_departments_on_conflict {
+	constraint: kb_entry_departments_constraint!
+	update_columns: [kb_entry_departments_update_column!]! = []
+	where: kb_entry_departments_bool_exp
+}
+
+"""
+Ordering options when selecting data from "kb_entry_departments".
+"""
+input kb_entry_departments_order_by {
+	department: departments_order_by
+	department_id: order_by
+	id: order_by
+	kb_entry: kb_entries_order_by
+	kb_entry_id: order_by
+}
+
+"""
+select columns of table "kb_entry_departments"
+"""
+enum kb_entry_departments_select_column {
+	"""
+	column name
+	"""
+	department_id
+	"""
+	column name
+	"""
+	id
+	"""
+	column name
+	"""
+	kb_entry_id
+}
+
+"""
+Streaming cursor of the table "kb_entry_departments"
+"""
+input kb_entry_departments_stream_cursor_input {
+	"""
+	Stream column input with initial value
+	"""
+	initial_value: kb_entry_departments_stream_cursor_value_input!
+	"""
+	cursor ordering
+	"""
+	ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input kb_entry_departments_stream_cursor_value_input {
+	department_id: uuid
+	id: uuid
+	kb_entry_id: uuid
+}
+
+"""
+placeholder for update columns of table "kb_entry_departments" (current role has no relevant permissions)
+"""
+enum kb_entry_departments_update_column {
+	"""
+	placeholder (do not use)
+	"""
+	_PLACEHOLDER
+}
+
+"""
 mutation root
 """
 type mutation_root {
@@ -1376,6 +1815,32 @@ type mutation_root {
 	delete single row from the table: "department_files"
 	"""
 	delete_department_files_by_pk(id: uuid!): department_files
+	"""
+	delete data from the table: "kb_entries"
+	"""
+	delete_kb_entries(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: kb_entries_bool_exp!
+	): kb_entries_mutation_response
+	"""
+	delete single row from the table: "kb_entries"
+	"""
+	delete_kb_entries_by_pk(id: uuid!): kb_entries
+	"""
+	delete data from the table: "kb_entry_departments"
+	"""
+	delete_kb_entry_departments(
+		"""
+		filter the rows which have to be deleted
+		"""
+		where: kb_entry_departments_bool_exp!
+	): kb_entry_departments_mutation_response
+	"""
+	delete single row from the table: "kb_entry_departments"
+	"""
+	delete_kb_entry_departments_by_pk(id: uuid!): kb_entry_departments
 	"""
 	delete data from the table: "user_departments"
 	"""
@@ -1441,6 +1906,58 @@ type mutation_root {
 		"""
 		on_conflict: department_files_on_conflict
 	): department_files
+	"""
+	insert data into the table: "kb_entries"
+	"""
+	insert_kb_entries(
+		"""
+		the rows to be inserted
+		"""
+		objects: [kb_entries_insert_input!]!
+		"""
+		upsert condition
+		"""
+		on_conflict: kb_entries_on_conflict
+	): kb_entries_mutation_response
+	"""
+	insert a single row into the table: "kb_entries"
+	"""
+	insert_kb_entries_one(
+		"""
+		the row to be inserted
+		"""
+		object: kb_entries_insert_input!
+		"""
+		upsert condition
+		"""
+		on_conflict: kb_entries_on_conflict
+	): kb_entries
+	"""
+	insert data into the table: "kb_entry_departments"
+	"""
+	insert_kb_entry_departments(
+		"""
+		the rows to be inserted
+		"""
+		objects: [kb_entry_departments_insert_input!]!
+		"""
+		upsert condition
+		"""
+		on_conflict: kb_entry_departments_on_conflict
+	): kb_entry_departments_mutation_response
+	"""
+	insert a single row into the table: "kb_entry_departments"
+	"""
+	insert_kb_entry_departments_one(
+		"""
+		the row to be inserted
+		"""
+		object: kb_entry_departments_insert_input!
+		"""
+		upsert condition
+		"""
+		on_conflict: kb_entry_departments_on_conflict
+	): kb_entry_departments
 	"""
 	insert data into the table: "user_departments"
 	"""
@@ -1530,6 +2047,38 @@ type mutation_root {
 		"""
 		updates: [departments_updates!]!
 	): [departments_mutation_response]
+	"""
+	update data of the table: "kb_entries"
+	"""
+	update_kb_entries(
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: kb_entries_set_input
+		"""
+		filter the rows which have to be updated
+		"""
+		where: kb_entries_bool_exp!
+	): kb_entries_mutation_response
+	"""
+	update single row of the table: "kb_entries"
+	"""
+	update_kb_entries_by_pk(
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: kb_entries_set_input
+		pk_columns: kb_entries_pk_columns_input!
+	): kb_entries
+	"""
+	update multiples rows of table: "kb_entries"
+	"""
+	update_kb_entries_many(
+		"""
+		updates to execute, in order
+		"""
+		updates: [kb_entries_updates!]!
+	): [kb_entries_mutation_response]
 	"""
 	update data of the table: "user_departments"
 	"""
@@ -1795,6 +2344,64 @@ type query_root {
 		"""
 		where: files_bool_exp
 	): [files!]!
+	"""
+	fetch data from the table: "kb_entries"
+	"""
+	kb_entries(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entries_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entries_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): [kb_entries!]!
+	"""
+	fetch data from the table: "kb_entries" using primary key columns
+	"""
+	kb_entries_by_pk(id: uuid!): kb_entries
+	"""
+	An array relationship
+	"""
+	kb_entry_departments(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entry_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entry_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): [kb_entry_departments!]!
+	"""
+	fetch data from the table: "kb_entry_departments" using primary key columns
+	"""
+	kb_entry_departments_by_pk(id: uuid!): kb_entry_departments
 	"""
 	fetch data from the table: "auth.users" using primary key columns
 	"""
@@ -2132,6 +2739,98 @@ type subscription_root {
 		"""
 		where: files_bool_exp
 	): [files!]!
+	"""
+	fetch data from the table: "kb_entries"
+	"""
+	kb_entries(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entries_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entries_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): [kb_entries!]!
+	"""
+	fetch data from the table: "kb_entries" using primary key columns
+	"""
+	kb_entries_by_pk(id: uuid!): kb_entries
+	"""
+	fetch data from the table in a streaming manner: "kb_entries"
+	"""
+	kb_entries_stream(
+		"""
+		maximum number of rows returned in a single batch
+		"""
+		batch_size: Int!
+		"""
+		cursor to stream the results returned by the query
+		"""
+		cursor: [kb_entries_stream_cursor_input]!
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): [kb_entries!]!
+	"""
+	An array relationship
+	"""
+	kb_entry_departments(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entry_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entry_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): [kb_entry_departments!]!
+	"""
+	fetch data from the table: "kb_entry_departments" using primary key columns
+	"""
+	kb_entry_departments_by_pk(id: uuid!): kb_entry_departments
+	"""
+	fetch data from the table in a streaming manner: "kb_entry_departments"
+	"""
+	kb_entry_departments_stream(
+		"""
+		maximum number of rows returned in a single batch
+		"""
+		batch_size: Int!
+		"""
+		cursor to stream the results returned by the query
+		"""
+		cursor: [kb_entry_departments_stream_cursor_input]!
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): [kb_entry_departments!]!
 	"""
 	fetch data from the table: "auth.users" using primary key columns
 	"""

@@ -252,3 +252,211 @@ mutation RemoveDepartmentFile($fileId: uuid!, $departmentId: uuid!) {
 		affected_rows
 	}
 }
+
+# Knowledge base operations
+query GetKnowledgeBaseEntries {
+	kb_entries(order_by: { created_at: desc }) {
+		id
+		title
+		summary
+		content
+		created_at
+		updated_at
+		uploader {
+			id
+			displayName
+			email
+			avatarUrl
+		}
+		kb_entry_departments {
+			id
+			department {
+				id
+				name
+			}
+		}
+	}
+}
+
+query GetKnowledgeBaseEntry($entryId: uuid!) {
+	kb_entries_by_pk(id: $entryId) {
+		id
+		title
+		summary
+		content
+		created_at
+		updated_at
+		uploader {
+			id
+			displayName
+			email
+			avatarUrl
+		}
+		kb_entry_departments {
+			id
+			department {
+				id
+				name
+			}
+		}
+	}
+}
+
+query GetDepartmentKnowledgeBase($departmentId: uuid!) {
+	kb_entry_departments(
+		where: { department_id: { _eq: $departmentId } }
+		order_by: { kb_entry: { created_at: desc } }
+	) {
+		id
+		kb_entry {
+			id
+			title
+			summary
+			content
+			created_at
+			updated_at
+			uploader {
+				id
+				displayName
+				email
+				avatarUrl
+			}
+		}
+	}
+}
+
+mutation CreateKnowledgeBaseEntry(
+	$title: String!
+	$summary: String
+	$content: String!
+	$departmentId: uuid!
+) {
+	insert_kb_entries_one(
+		object: {
+			title: $title
+			summary: $summary
+			content: $content
+			kb_entry_departments: { data: [{ department_id: $departmentId }] }
+		}
+	) {
+		id
+		title
+		summary
+		content
+		created_at
+		updated_at
+		uploader {
+			id
+			displayName
+			email
+			avatarUrl
+		}
+		kb_entry_departments {
+			id
+			department {
+				id
+				name
+			}
+		}
+	}
+}
+
+mutation CreateKnowledgeBaseEntryWithDepartments(
+	$title: String!
+	$summary: String
+	$content: String!
+	$departmentAssociations: [kb_entry_departments_insert_input!]!
+) {
+	insert_kb_entries_one(
+		object: {
+			title: $title
+			summary: $summary
+			content: $content
+			kb_entry_departments: { data: $departmentAssociations }
+		}
+	) {
+		id
+		title
+		summary
+		content
+		created_at
+		updated_at
+		uploader {
+			id
+			displayName
+			email
+			avatarUrl
+		}
+		kb_entry_departments {
+			id
+			department {
+				id
+				name
+			}
+		}
+	}
+}
+
+mutation UpdateKnowledgeBaseEntry(
+	$entryId: uuid!
+	$title: String
+	$summary: String
+	$content: String
+) {
+	update_kb_entries_by_pk(
+		pk_columns: { id: $entryId }
+		_set: { title: $title, summary: $summary, content: $content }
+	) {
+		id
+		title
+		summary
+		content
+		updated_at
+		uploader {
+			id
+			displayName
+			email
+			avatarUrl
+		}
+		kb_entry_departments {
+			id
+			department {
+				id
+				name
+			}
+		}
+	}
+}
+
+mutation DeleteKnowledgeBaseEntry($entryId: uuid!) {
+	delete_kb_entries_by_pk(id: $entryId) {
+		id
+		title
+	}
+}
+
+mutation AddKnowledgeBaseToDepartment($entryId: uuid!, $departmentId: uuid!) {
+	insert_kb_entry_departments_one(
+		object: { kb_entry_id: $entryId, department_id: $departmentId }
+	) {
+		id
+		department {
+			id
+			name
+		}
+	}
+}
+
+mutation RemoveKnowledgeBaseFromDepartment(
+	$entryId: uuid!
+	$departmentId: uuid!
+) {
+	delete_kb_entry_departments(
+		where: {
+			kb_entry_id: { _eq: $entryId }
+			department_id: { _eq: $departmentId }
+		}
+	) {
+		affected_rows
+	}
+}
