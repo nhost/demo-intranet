@@ -47,7 +47,6 @@ insert_permissions:
 select_permissions:
   - role: user
     permission:
-      check: {}
       columns:
         - assistant_id
         - id
@@ -59,10 +58,10 @@ select_permissions:
 update_permissions:
   - role: user
     permission:
-      check: {}
       columns:
         - updated_at
       filter:
         user_id:
           _eq: X-Hasura-User-Id
+      check: {}
     comment: ""

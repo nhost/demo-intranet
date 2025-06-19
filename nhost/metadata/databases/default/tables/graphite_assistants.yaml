@@ -35,7 +35,6 @@ configuration:
 select_permissions:
   - role: user
     permission:
-      check: {}
       columns:
         - data
         - assistant_id
