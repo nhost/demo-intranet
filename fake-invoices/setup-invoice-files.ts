@@ -49,7 +49,6 @@ async function uploadFile(
 	const fileId = generateConsistentUUID(fileName);
 
 	try {
-		// biome-ignore lint/correctness/noUndeclaredVariables: Bun global
 		const file = Bun.file(filePath);
 		const fileBuffer = await file.arrayBuffer();
 		const uploadFile = new File([fileBuffer], fileName, {
