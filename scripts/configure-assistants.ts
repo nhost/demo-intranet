@@ -3,8 +3,8 @@
 import { createClient } from "@nhost/nhost-js";
 
 // Configuration
-const NHOST_SUBDOMAIN = process.env.BUN_PUBLIC_NHOST_SUBDOMAIN;
-const NHOST_REGION = process.env.BUN_PUBLIC_NHOST_REGION;
+const NHOST_SUBDOMAIN = process.env.NHOST_SUBDOMAIN || "local";
+const NHOST_REGION = process.env.NHOST_REGION || "local";
 const NHOST_ADMIN_SECRET =
 	process.env.NHOST_ADMIN_SECRET || "nhost-admin-secret";
 

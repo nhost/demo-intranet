@@ -90,7 +90,7 @@ swe/
 #### `src/App.tsx`
 - **Purpose**: Main application component with routing and providers
 - **Features**: Router setup, theme provider, auth provider, query client
-- **Routes**: Home (`/`), Sign In (`/signin`), Sign Up (`/signup`), Dashboard (`/dashboard`), Departments (`/departments`), User Profile (`/user`)
+- **Routes**: Home (`/`), Sign In (`/signin`), Sign Up (`/signup`), Dashboard (`/dashboard`), Departments (`/departments`), Files (`/files`), Knowledge Base (`/knowledge`), User Profile (`/user`)
 - **Dependencies**: React Router, React Query, Auth Context, Theme Context
 
 #### `src/components/Navigation.tsx`
@@ -102,6 +102,30 @@ swe/
 - **Purpose**: Layout component for protected routes using React Router Outlet pattern
 - **Features**: Authentication checking, automatic redirect to sign-in, nested route support
 - **Used by**: Wrapping protected routes (`/dashboard`, `/user`) in App.tsx
+
+### AI Assistant Components
+
+#### `src/components/FloatingChatBubble.tsx`
+- **Purpose**: Floating chat interface for AI assistant interaction
+- **Features**:
+  - Toggleable chat window with floating bubble design
+  - Real-time message display with user/assistant differentiation
+  - Session management with message history
+  - Auto-focus on input field when opened
+  - Responsive design with proper positioning
+- **Dependencies**: useAiAssistant hook, shadcn/ui components
+- **Integration**: Available globally via floating action button
+
+#### `src/lib/useAiAssistant.ts`
+- **Purpose**: Custom hook for AI assistant functionality
+- **Features**:
+  - Real-time chat session management
+  - Message sending and receiving
+  - Error handling for AI responses
+  - Integration with Graphite AI via GraphQL
+  - Session persistence and cleanup
+- **Dependencies**: React Query, GraphQL operations
+- **Used by**: FloatingChatBubble component
 
 ### Authentication Components
 
@@ -140,6 +164,27 @@ swe/
 - **Dependencies**: ProfilePictureUpload, DisplayNameEditForm, EmailEditForm, SecurityKeyManagement
 - **Route**: `/user` (protected)
 
+#### `src/components/DisplayNameEditForm.tsx`
+- **Purpose**: Dedicated form component for editing user display names
+- **Features**:
+  - Inline editing with validation
+  - Real-time form validation with Zod
+  - Loading states and error handling
+  - Automatic focus management
+  - Cancel/save functionality
+- **Dependencies**: React Hook Form, Zod, GraphQL mutations
+- **Used by**: UserProfile component
+
+#### `src/components/EmailEditForm.tsx`
+- **Purpose**: Form component for managing user email addresses
+- **Features**:
+  - Email validation and formatting
+  - Change detection to prevent unnecessary updates
+  - Error handling for email conflicts
+  - Loading states during updates
+- **Dependencies**: React Hook Form, Zod, GraphQL mutations
+- **Used by**: UserProfile component
+
 #### `src/components/ProfilePictureUpload.tsx`
 - **Purpose**: Profile picture upload and management component
 - **Features**:
@@ -164,6 +209,21 @@ swe/
   - Real-time error handling and user feedback
 - **Dependencies**: React Hook Form, Zod, @simplewebauthn/browser, GraphQL mutations
 - **Used by**: UserProfile component for security management
+
+### Dashboard Components
+
+#### `src/components/Dashboard.tsx`
+- **Purpose**: Main dashboard providing overview of user activities and statistics
+- **Features**:
+  - Department statistics and summaries
+  - File upload and management statistics
+  - Recent activity feed
+  - Knowledge base entry counts
+  - Role-based information display
+  - Quick action buttons for common tasks
+- **Dependencies**: useGetDashboardSummary, useGetUserDepartments hooks
+- **Route**: `/dashboard` (protected)
+- **Permissions**: Shows different information based on user's department roles
 
 ### Department Management Components
 
@@ -193,6 +253,34 @@ swe/
 - **Used by**: Departments component for manager-only editing
 - **Permissions**: Only accessible to users with manager role for the department
 
+#### `src/components/MemberManagement.tsx`
+- **Purpose**: Comprehensive member management interface for department managers
+- **Features**:
+  - Add new members to departments with user search
+  - Remove existing members with confirmation
+  - Role assignment (member vs manager)
+  - Real-time member list updates
+  - User search functionality with autocomplete
+  - Bulk operations for member management
+- **Dependencies**: useAddDepartmentMember, useRemoveDepartmentMember, useSearchUsers hooks
+- **Used by**: Department management interface
+- **Permissions**: Only accessible to department managers
+
+### Knowledge Base Components
+
+#### `src/components/KnowledgeBase.tsx`
+- **Purpose**: Knowledge base management system for departments
+- **Features**:
+  - Create, read, update, delete knowledge entries
+  - Department-specific filtering and access control
+  - Rich text editing for knowledge entries
+  - Search functionality across knowledge base
+  - Category and tag management
+  - Version history and audit trail
+- **Dependencies**: useGetKnowledgeEntries, useCreateKnowledgeEntry, useUpdateKnowledgeEntry hooks
+- **Route**: `/knowledge` (protected)
+- **Permissions**: Department-based access control for viewing and editing
+
 ### File Management Components
 
 #### `src/components/Files.tsx`
@@ -203,9 +291,35 @@ swe/
   - File upload and listing integration
   - Auto-refresh after successful uploads
   - Department-specific file access control
-- **Dependencies**: useGetUserDepartments hook, DepartmentFileUpload, DepartmentFilesList
+- **Dependencies**: useGetUserDepartments hook, FileUpload, FilesList components
 - **Route**: `/files` (protected)
 - **Permissions**: Users can only see files from departments they belong to
+
+#### `src/components/FileUpload.tsx`
+- **Purpose**: Enhanced file upload component with department association
+- **Features**:
+  - Drag and drop file upload interface
+  - File validation (size, type, format)
+  - Department assignment during upload
+  - Multiple file selection support
+  - Upload progress tracking
+  - Error handling and retry functionality
+- **Dependencies**: useAddFile hook, Nhost storage integration
+- **Used by**: Files page for file management
+- **Storage**: Integrates with Nhost storage system
+
+#### `src/components/FilesList.tsx`
+- **Purpose**: Enhanced file listing with department associations
+- **Features**:
+  - Department-filtered file listing
+  - File metadata display (size, type, upload date)
+  - File ownership and sharing controls
+  - Bulk file operations (delete, move, share)
+  - Search and filter functionality
+  - Role-based action permissions
+- **Dependencies**: useGetFiles, useDeleteFile, useUpdateFile hooks
+- **Used by**: Files page for file management
+- **Permissions**: Role-based access to file operations
 
 #### `src/components/DepartmentFileUpload.tsx`
 - **Purpose**: File upload interface for department files
@@ -268,6 +382,59 @@ swe/
 - **Purpose**: Select dropdown component
 - **Sub-components**: Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton
 
+#### `avatar.tsx`
+- **Purpose**: Avatar component for user profile pictures
+- **Sub-components**: Avatar, AvatarImage, AvatarFallback
+- **Features**: Automatic fallback to initials, responsive sizing
+
+#### `badge.tsx`
+- **Purpose**: Badge component for tags, status indicators, and labels
+- **Variants**: default, secondary, destructive, outline
+- **Features**: Small, styled labels for categorization
+
+#### `dialog.tsx`
+- **Purpose**: Modal dialog component
+- **Sub-components**: Dialog, DialogPortal, DialogOverlay, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose
+- **Features**: Accessible modal dialogs with backdrop
+
+#### `tabs.tsx`
+- **Purpose**: Tab navigation component
+- **Sub-components**: Tabs, TabsList, TabsTrigger, TabsContent
+- **Features**: Keyboard navigation, active state management
+
+#### `alert.tsx`
+- **Purpose**: Alert and notification component
+- **Sub-components**: Alert, AlertTitle, AlertDescription
+- **Variants**: default, destructive
+- **Features**: Status messages and notifications
+
+#### `checkbox.tsx`
+- **Purpose**: Checkbox input component
+- **Features**: Controlled state, indeterminate support, accessibility
+
+#### `separator.tsx`
+- **Purpose**: Visual separator component
+- **Features**: Horizontal and vertical separators for content division
+
+#### `textarea.tsx`
+- **Purpose**: Multi-line text input component
+- **Features**: Resizable text area with consistent styling
+
+#### `scroll-area.tsx`
+- **Purpose**: Custom scrollable area component
+- **Sub-components**: ScrollArea, ScrollBar
+- **Features**: Styled scrollbars, smooth scrolling
+
+#### `editable-field.tsx`
+- **Purpose**: Reusable inline editable field component
+- **Features**: Click-to-edit functionality, validation, cancel/save actions
+- **Used by**: Profile editing, department management
+
+#### `status-message.tsx`
+- **Purpose**: Status and alert message component
+- **Features**: Success, error, warning, info message types
+- **Used by**: Forms and action feedback throughout the app
+
 ## Context Providers
 
 ### `src/lib/auth-context.tsx`
@@ -313,22 +480,24 @@ swe/
 ### `src/lib/graphql/`
 - **Purpose**: GraphQL operations and generated code
 - **Files**:
-  - `operations.graphql`: GraphQL queries and mutations for user profiles, security keys, and departments
+  - `operations.graphql`: GraphQL queries and mutations for all app features
   - `query-hooks.ts`: Custom React Query hooks for GraphQL
   - `__generated__/`: Auto-generated TypeScript types
 - **Operations**:
-  - `GetCurrentUser`: Fetch user profile with security keys and avatar
-  - `UpdateUserDisplayName`: Update user's display name
-  - `UpdateUserAvatarUrl`: Update user's profile picture URL
-  - `GetUserSecurityKeys`: Fetch user's WebAuthn security keys
-  - `DeleteSecurityKey`: Remove a security key by ID
-  - `GetUserDepartments`: Fetch all departments with their employees and details
-  - `GetDepartmentDetails`: Fetch detailed information for a specific department
-  - `UpdateDepartment`: Update department information (name, description, budget)
+  - **User Management**: GetCurrentUser, UpdateUserDisplayName, UpdateUserAvatarUrl, GetUserSecurityKeys, DeleteSecurityKey
+  - **Department Management**: GetUserDepartments, GetDepartmentDetails, UpdateDepartment, AddDepartmentMember, RemoveDepartmentMember
+  - **File Management**: GetFiles, AddFile, UpdateFile, DeleteFile, GetDepartmentFiles
+  - **Knowledge Base**: GetKnowledgeEntries, CreateKnowledgeEntry, UpdateKnowledgeEntry, DeleteKnowledgeEntry
+  - **Dashboard**: GetDashboardSummary, GetRecentActivity, GetUserStats
+  - **AI Assistant**: SendAiMessage, GetAiSessions, CreateAiSession
+  - **User Search**: SearchUsers, GetUserByEmail
 - **Custom Hooks**:
-  - `useUserDepartments()`: Query hook for fetching all departments
-  - `useDepartmentDetails(departmentId)`: Query hook for fetching specific department details
-  - `useUpdateDepartment()`: Mutation hook for updating department information
+  - **Department Hooks**: useUserDepartments(), useDepartmentDetails(), useUpdateDepartment(), useAddDepartmentMember(), useRemoveDepartmentMember()
+  - **File Hooks**: useGetFiles(), useAddFile(), useUpdateFile(), useDeleteFile()
+  - **Knowledge Hooks**: useGetKnowledgeEntries(), useCreateKnowledgeEntry(), useUpdateKnowledgeEntry()
+  - **Dashboard Hooks**: useGetDashboardSummary(), useGetRecentActivity()
+  - **AI Hooks**: useSendAiMessage(), useGetAiSessions()
+  - **User Hooks**: useSearchUsers(), useGetUserByEmail()
 
 ## Styling and Theming
 
@@ -445,6 +614,24 @@ The department files feature uses a junction table approach to link files with d
 - **Permission model**: Role-based access through department memberships
 - **File tracking**: Maintains referential integrity between storage and database
 
+### Knowledge Base System
+
+The knowledge base uses a structured approach for department-specific content:
+
+- **`knowledge_entries` table**: Stores knowledge base articles with rich content
+- **Department association**: Links entries to specific departments for access control
+- **Versioning**: Tracks entry modifications with timestamps and user attribution
+- **Search optimization**: Full-text search capabilities across entry content
+
+### AI Assistant Integration
+
+AI assistant functionality is integrated with the existing user system:
+
+- **`ai_sessions` table**: Tracks chat sessions with users
+- **`ai_messages` table**: Stores conversation history
+- **Graphite AI integration**: External AI service via GraphQL endpoints
+- **Session management**: Automatic cleanup and session persistence
+
 ### File Upload Workflow
 
 1. User uploads file to Nhost storage (`department_files` bucket)
@@ -467,5 +654,5 @@ The department files feature uses a junction table approach to link files with d
 
 ---
 
-*Last Updated: When creating this index*
+*Last Updated: Updated to reflect current project state with AI Assistant, Knowledge Base, Dashboard, and enhanced file management features*
 *Next Review: Should be updated with each significant component addition or architectural change*

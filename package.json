@@ -12,9 +12,11 @@
 		"build:codegen": "./codegen.sh",
 		"check": "bun run check:types && bun run check:biome",
 		"check:biome": "biome check",
-		"check:types": "tsc --noEmit"
+		"check:types": "tsc --noEmit",
+		"update-emails": "bun scripts/update-user-emails.ts"
 	},
 	"dependencies": {
+		"@clack/prompts": "^0.11.0",
 		"@graphql-codegen/cli": "^5.0.7",
 		"@graphql-codegen/schema-ast": "^4.1.0",
 		"@graphql-codegen/typescript": "^4.1.6",
