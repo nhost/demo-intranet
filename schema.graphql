@@ -103,6 +103,258 @@ input String_comparison_exp {
 	_similar: String
 }
 
+"""
+columns and relationships of "graphite.assistants"
+"""
+type _graphiteAssistants {
+	assistantID: String
+	createdAt: timestamptz!
+	data(
+		"""
+		JSON select path
+		"""
+		path: String
+	): jsonb
+	id: uuid!
+	updatedAt: timestamptz!
+	user_id: uuid
+}
+
+"""
+Boolean expression to filter rows from the table "graphite.assistants". All fields are combined with a logical 'AND'.
+"""
+input _graphiteAssistants_bool_exp {
+	_and: [_graphiteAssistants_bool_exp!]
+	_not: _graphiteAssistants_bool_exp
+	_or: [_graphiteAssistants_bool_exp!]
+	assistantID: String_comparison_exp
+	createdAt: timestamptz_comparison_exp
+	data: jsonb_comparison_exp
+	id: uuid_comparison_exp
+	updatedAt: timestamptz_comparison_exp
+	user_id: uuid_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "graphite.assistants".
+"""
+input _graphiteAssistants_order_by {
+	assistantID: order_by
+	createdAt: order_by
+	data: order_by
+	id: order_by
+	updatedAt: order_by
+	user_id: order_by
+}
+
+"""
+select columns of table "graphite.assistants"
+"""
+enum _graphiteAssistants_select_column {
+	"""
+	column name
+	"""
+	assistantID
+	"""
+	column name
+	"""
+	createdAt
+	"""
+	column name
+	"""
+	data
+	"""
+	column name
+	"""
+	id
+	"""
+	column name
+	"""
+	updatedAt
+	"""
+	column name
+	"""
+	user_id
+}
+
+"""
+Streaming cursor of the table "_graphiteAssistants"
+"""
+input _graphiteAssistants_stream_cursor_input {
+	"""
+	Stream column input with initial value
+	"""
+	initial_value: _graphiteAssistants_stream_cursor_value_input!
+	"""
+	cursor ordering
+	"""
+	ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input _graphiteAssistants_stream_cursor_value_input {
+	assistantID: String
+	createdAt: timestamptz
+	data: jsonb
+	id: uuid
+	updatedAt: timestamptz
+	user_id: uuid
+}
+
+"""
+columns and relationships of "graphite.sessions"
+"""
+type _graphiteSessions {
+	assistantID: String
+	id: uuid!
+	sessionID: String
+}
+
+"""
+Boolean expression to filter rows from the table "graphite.sessions". All fields are combined with a logical 'AND'.
+"""
+input _graphiteSessions_bool_exp {
+	_and: [_graphiteSessions_bool_exp!]
+	_not: _graphiteSessions_bool_exp
+	_or: [_graphiteSessions_bool_exp!]
+	assistantID: String_comparison_exp
+	id: uuid_comparison_exp
+	sessionID: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "graphite.sessions"
+"""
+enum _graphiteSessions_constraint {
+	"""
+	unique or primary key constraint on columns "id"
+	"""
+	sessions_pkey
+	"""
+	unique or primary key constraint on columns "session_id"
+	"""
+	sessions_session_id_key
+}
+
+"""
+input type for inserting data into table "graphite.sessions"
+"""
+input _graphiteSessions_insert_input {
+	assistantID: String
+	id: uuid
+	userID: uuid
+}
+
+"""
+response of any mutation on the table "graphite.sessions"
+"""
+type _graphiteSessions_mutation_response {
+	"""
+	number of rows affected by the mutation
+	"""
+	affected_rows: Int!
+	"""
+	data from the rows affected by the mutation
+	"""
+	returning: [_graphiteSessions!]!
+}
+
+"""
+on_conflict condition type for table "graphite.sessions"
+"""
+input _graphiteSessions_on_conflict {
+	constraint: _graphiteSessions_constraint!
+	update_columns: [_graphiteSessions_update_column!]! = []
+	where: _graphiteSessions_bool_exp
+}
+
+"""
+Ordering options when selecting data from "graphite.sessions".
+"""
+input _graphiteSessions_order_by {
+	assistantID: order_by
+	id: order_by
+	sessionID: order_by
+}
+
+"""
+primary key columns input for table: graphite.sessions
+"""
+input _graphiteSessions_pk_columns_input {
+	id: uuid!
+}
+
+"""
+select columns of table "graphite.sessions"
+"""
+enum _graphiteSessions_select_column {
+	"""
+	column name
+	"""
+	assistantID
+	"""
+	column name
+	"""
+	id
+	"""
+	column name
+	"""
+	sessionID
+}
+
+"""
+input type for updating data in table "graphite.sessions"
+"""
+input _graphiteSessions_set_input {
+	updatedAt: timestamptz
+}
+
+"""
+Streaming cursor of the table "_graphiteSessions"
+"""
+input _graphiteSessions_stream_cursor_input {
+	"""
+	Stream column input with initial value
+	"""
+	initial_value: _graphiteSessions_stream_cursor_value_input!
+	"""
+	cursor ordering
+	"""
+	ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input _graphiteSessions_stream_cursor_value_input {
+	assistantID: String
+	id: uuid
+	sessionID: String
+}
+
+"""
+update columns of table "graphite.sessions"
+"""
+enum _graphiteSessions_update_column {
+	"""
+	column name
+	"""
+	updatedAt
+}
+
+input _graphiteSessions_updates {
+	"""
+	sets the columns of the filtered rows to the given values
+	"""
+	_set: _graphiteSessions_set_input
+	"""
+	filter the rows which have to be updated
+	"""
+	where: _graphiteSessions_bool_exp!
+}
+
 enum authRefreshTokenTypes_enum {
 	"""
 	Personal access token
@@ -617,6 +869,34 @@ type department_files {
 }
 
 """
+aggregated selection of "department_files"
+"""
+type department_files_aggregate {
+	aggregate: department_files_aggregate_fields
+	nodes: [department_files!]!
+}
+
+input department_files_aggregate_bool_exp {
+	count: department_files_aggregate_bool_exp_count
+}
+
+input department_files_aggregate_bool_exp_count {
+	arguments: [department_files_select_column!]
+	distinct: Boolean
+	filter: department_files_bool_exp
+	predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "department_files"
+"""
+type department_files_aggregate_fields {
+	count(columns: [department_files_select_column!], distinct: Boolean): Int!
+	max: department_files_max_fields
+	min: department_files_min_fields
+}
+
+"""
 order by aggregate values of table "department_files"
 """
 input department_files_aggregate_order_by {
@@ -659,12 +939,30 @@ input department_files_insert_input {
 }
 
 """
+aggregate max on columns
+"""
+type department_files_max_fields {
+	department_id: uuid
+	file_id: uuid
+	id: uuid
+}
+
+"""
 order by max() on columns of table "department_files"
 """
 input department_files_max_order_by {
 	department_id: order_by
 	file_id: order_by
 	id: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type department_files_min_fields {
+	department_id: uuid
+	file_id: uuid
+	id: uuid
 }
 
 """
@@ -890,6 +1188,31 @@ type departments {
 		where: user_departments_bool_exp
 	): [user_departments!]!
 	"""
+	An aggregate relationship
+	"""
+	employees_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [user_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [user_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: user_departments_bool_exp
+	): user_departments_aggregate!
+	"""
 	An array relationship
 	"""
 	files(
@@ -914,6 +1237,31 @@ type departments {
 		"""
 		where: department_files_bool_exp
 	): [department_files!]!
+	"""
+	An aggregate relationship
+	"""
+	files_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [department_files_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [department_files_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: department_files_bool_exp
+	): department_files_aggregate!
 	id: uuid!
 	"""
 	An array relationship
@@ -940,8 +1288,65 @@ type departments {
 		"""
 		where: kb_entry_departments_bool_exp
 	): [kb_entry_departments!]!
+	"""
+	An aggregate relationship
+	"""
+	kb_entry_departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entry_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entry_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): kb_entry_departments_aggregate!
 	name: String!
 	updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "departments"
+"""
+type departments_aggregate {
+	aggregate: departments_aggregate_fields
+	nodes: [departments!]!
+}
+
+"""
+aggregate fields of "departments"
+"""
+type departments_aggregate_fields {
+	avg: departments_avg_fields
+	count(columns: [departments_select_column!], distinct: Boolean): Int!
+	max: departments_max_fields
+	min: departments_min_fields
+	stddev: departments_stddev_fields
+	stddev_pop: departments_stddev_pop_fields
+	stddev_samp: departments_stddev_samp_fields
+	sum: departments_sum_fields
+	var_pop: departments_var_pop_fields
+	var_samp: departments_var_samp_fields
+	variance: departments_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type departments_avg_fields {
+	budget: Float
 }
 
 """
@@ -955,9 +1360,12 @@ input departments_bool_exp {
 	created_at: timestamptz_comparison_exp
 	description: String_comparison_exp
 	employees: user_departments_bool_exp
+	employees_aggregate: user_departments_aggregate_bool_exp
 	files: department_files_bool_exp
+	files_aggregate: department_files_aggregate_bool_exp
 	id: uuid_comparison_exp
 	kb_entry_departments: kb_entry_departments_bool_exp
+	kb_entry_departments_aggregate: kb_entry_departments_aggregate_bool_exp
 	name: String_comparison_exp
 	updated_at: timestamptz_comparison_exp
 }
@@ -967,6 +1375,30 @@ input type for incrementing numeric columns in table "departments"
 """
 input departments_inc_input {
 	budget: numeric
+}
+
+"""
+aggregate max on columns
+"""
+type departments_max_fields {
+	budget: numeric
+	created_at: timestamptz
+	description: String
+	id: uuid
+	name: String
+	updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type departments_min_fields {
+	budget: numeric
+	created_at: timestamptz
+	description: String
+	id: uuid
+	name: String
+	updated_at: timestamptz
 }
 
 """
@@ -1048,6 +1480,27 @@ input departments_set_input {
 }
 
 """
+aggregate stddev on columns
+"""
+type departments_stddev_fields {
+	budget: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type departments_stddev_pop_fields {
+	budget: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type departments_stddev_samp_fields {
+	budget: Float
+}
+
+"""
 Streaming cursor of the table "departments"
 """
 input departments_stream_cursor_input {
@@ -1073,6 +1526,13 @@ input departments_stream_cursor_value_input {
 	updated_at: timestamptz
 }
 
+"""
+aggregate sum on columns
+"""
+type departments_sum_fields {
+	budget: numeric
+}
+
 input departments_updates {
 	"""
 	increments the numeric columns with given value of the filtered values
@@ -1086,6 +1546,27 @@ input departments_updates {
 	filter the rows which have to be updated
 	"""
 	where: departments_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type departments_var_pop_fields {
+	budget: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type departments_var_samp_fields {
+	budget: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type departments_variance_fields {
+	budget: Float
 }
 
 """
@@ -1112,6 +1593,38 @@ type files {
 	size: Int
 	updatedAt: timestamptz!
 	uploadedByUserId: uuid
+}
+
+"""
+aggregated selection of "storage.files"
+"""
+type files_aggregate {
+	aggregate: files_aggregate_fields
+	nodes: [files!]!
+}
+
+"""
+aggregate fields of "storage.files"
+"""
+type files_aggregate_fields {
+	avg: files_avg_fields
+	count(columns: [files_select_column!], distinct: Boolean): Int!
+	max: files_max_fields
+	min: files_min_fields
+	stddev: files_stddev_fields
+	stddev_pop: files_stddev_pop_fields
+	stddev_samp: files_stddev_samp_fields
+	sum: files_sum_fields
+	var_pop: files_var_pop_fields
+	var_samp: files_var_samp_fields
+	variance: files_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type files_avg_fields {
+	size: Float
 }
 
 """
@@ -1160,6 +1673,36 @@ input files_insert_input {
 	name: String
 	size: Int
 	updatedAt: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type files_max_fields {
+	bucketId: String
+	createdAt: timestamptz
+	etag: String
+	id: uuid
+	mimeType: String
+	name: String
+	size: Int
+	updatedAt: timestamptz
+	uploadedByUserId: uuid
+}
+
+"""
+aggregate min on columns
+"""
+type files_min_fields {
+	bucketId: String
+	createdAt: timestamptz
+	etag: String
+	id: uuid
+	mimeType: String
+	name: String
+	size: Int
+	updatedAt: timestamptz
+	uploadedByUserId: uuid
 }
 
 """
@@ -1265,6 +1808,27 @@ enum files_select_column {
 }
 
 """
+aggregate stddev on columns
+"""
+type files_stddev_fields {
+	size: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type files_stddev_pop_fields {
+	size: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type files_stddev_samp_fields {
+	size: Float
+}
+
+"""
 Streaming cursor of the table "files"
 """
 input files_stream_cursor_input {
@@ -1296,6 +1860,13 @@ input files_stream_cursor_value_input {
 }
 
 """
+aggregate sum on columns
+"""
+type files_sum_fields {
+	size: Int
+}
+
+"""
 placeholder for update columns of table "storage.files" (current role has no relevant permissions)
 """
 enum files_update_column {
@@ -1303,6 +1874,27 @@ enum files_update_column {
 	placeholder (do not use)
 	"""
 	_PLACEHOLDER
+}
+
+"""
+aggregate var_pop on columns
+"""
+type files_var_pop_fields {
+	size: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type files_var_samp_fields {
+	size: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type files_variance_fields {
+	size: Float
 }
 
 scalar float8
@@ -1948,6 +2540,31 @@ type kb_entries {
 		"""
 		where: kb_entry_departments_bool_exp
 	): [kb_entry_departments!]!
+	"""
+	An aggregate relationship
+	"""
+	kb_entry_departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entry_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entry_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): kb_entry_departments_aggregate!
 	summary: String
 	title: String!
 	updated_at: timestamptz!
@@ -1956,6 +2573,20 @@ type kb_entries {
 	"""
 	uploader: users!
 	uploader_id: uuid!
+}
+
+type kb_entries_aggregate {
+	aggregate: kb_entries_aggregate_fields
+	nodes: [kb_entries!]!
+}
+
+"""
+aggregate fields of "kb_entries"
+"""
+type kb_entries_aggregate_fields {
+	count(columns: [kb_entries_select_column!], distinct: Boolean): Int!
+	max: kb_entries_max_fields
+	min: kb_entries_min_fields
 }
 
 """
@@ -1969,6 +2600,7 @@ input kb_entries_bool_exp {
 	created_at: timestamptz_comparison_exp
 	id: uuid_comparison_exp
 	kb_entry_departments: kb_entry_departments_bool_exp
+	kb_entry_departments_aggregate: kb_entry_departments_aggregate_bool_exp
 	summary: String_comparison_exp
 	title: String_comparison_exp
 	updated_at: timestamptz_comparison_exp
@@ -1994,6 +2626,32 @@ input kb_entries_insert_input {
 	kb_entry_departments: kb_entry_departments_arr_rel_insert_input
 	summary: String
 	title: String
+}
+
+"""
+aggregate max on columns
+"""
+type kb_entries_max_fields {
+	content: String
+	created_at: timestamptz
+	id: uuid
+	summary: String
+	title: String
+	updated_at: timestamptz
+	uploader_id: uuid
+}
+
+"""
+aggregate min on columns
+"""
+type kb_entries_min_fields {
+	content: String
+	created_at: timestamptz
+	id: uuid
+	summary: String
+	title: String
+	updated_at: timestamptz
+	uploader_id: uuid
 }
 
 """
@@ -2169,6 +2827,34 @@ type kb_entry_departments {
 }
 
 """
+aggregated selection of "kb_entry_departments"
+"""
+type kb_entry_departments_aggregate {
+	aggregate: kb_entry_departments_aggregate_fields
+	nodes: [kb_entry_departments!]!
+}
+
+input kb_entry_departments_aggregate_bool_exp {
+	count: kb_entry_departments_aggregate_bool_exp_count
+}
+
+input kb_entry_departments_aggregate_bool_exp_count {
+	arguments: [kb_entry_departments_select_column!]
+	distinct: Boolean
+	filter: kb_entry_departments_bool_exp
+	predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "kb_entry_departments"
+"""
+type kb_entry_departments_aggregate_fields {
+	count(columns: [kb_entry_departments_select_column!], distinct: Boolean): Int!
+	max: kb_entry_departments_max_fields
+	min: kb_entry_departments_min_fields
+}
+
+"""
 order by aggregate values of table "kb_entry_departments"
 """
 input kb_entry_departments_aggregate_order_by {
@@ -2226,12 +2912,30 @@ input kb_entry_departments_insert_input {
 }
 
 """
+aggregate max on columns
+"""
+type kb_entry_departments_max_fields {
+	department_id: uuid
+	id: uuid
+	kb_entry_id: uuid
+}
+
+"""
 order by max() on columns of table "kb_entry_departments"
 """
 input kb_entry_departments_max_order_by {
 	department_id: order_by
 	id: order_by
 	kb_entry_id: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type kb_entry_departments_min_fields {
+	department_id: uuid
+	id: uuid
+	kb_entry_id: uuid
 }
 
 """
@@ -2332,6 +3036,64 @@ enum kb_entry_departments_update_column {
 mutation root
 """
 type mutation_root {
+	"""
+	insert a single row into the table: "graphite.sessions"
+	"""
+	_insertGraphiteSession(
+		"""
+		the row to be inserted
+		"""
+		object: _graphiteSessions_insert_input!
+		"""
+		upsert condition
+		"""
+		on_conflict: _graphiteSessions_on_conflict
+	): _graphiteSessions
+	"""
+	insert data into the table: "graphite.sessions"
+	"""
+	_insertGraphiteSessions(
+		"""
+		the rows to be inserted
+		"""
+		objects: [_graphiteSessions_insert_input!]!
+		"""
+		upsert condition
+		"""
+		on_conflict: _graphiteSessions_on_conflict
+	): _graphiteSessions_mutation_response
+	"""
+	update single row of the table: "graphite.sessions"
+	"""
+	_updateGraphiteSession(
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: _graphiteSessions_set_input
+		pk_columns: _graphiteSessions_pk_columns_input!
+	): _graphiteSessions
+	"""
+	update data of the table: "graphite.sessions"
+	"""
+	_updateGraphiteSessions(
+		"""
+		sets the columns of the filtered rows to the given values
+		"""
+		_set: _graphiteSessions_set_input
+		"""
+		filter the rows which have to be updated
+		"""
+		where: _graphiteSessions_bool_exp!
+	): _graphiteSessions_mutation_response
+	"""
+	update multiples rows of table: "graphite.sessions"
+	"""
+	_updateManyGraphiteSessions(
+		"""
+		updates to execute, in order
+		"""
+		updates: [_graphiteSessions_updates!]!
+	): [_graphiteSessions_mutation_response]
 	"""
 	delete single row from the table: "auth.refresh_tokens"
 	"""
@@ -2741,6 +3503,64 @@ enum order_by {
 
 type query_root {
 	"""
+	fetch data from the table: "graphite.assistants" using primary key columns
+	"""
+	_graphiteAssistant(id: uuid!): _graphiteAssistants
+	"""
+	fetch data from the table: "graphite.assistants"
+	"""
+	_graphiteAssistants(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [_graphiteAssistants_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [_graphiteAssistants_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: _graphiteAssistants_bool_exp
+	): [_graphiteAssistants!]!
+	"""
+	fetch data from the table: "graphite.sessions" using primary key columns
+	"""
+	_graphiteSession(id: uuid!): _graphiteSessions
+	"""
+	fetch data from the table: "graphite.sessions"
+	"""
+	_graphiteSessions(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [_graphiteSessions_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [_graphiteSessions_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: _graphiteSessions_bool_exp
+	): [_graphiteSessions!]!
+	"""
 	fetch data from the table: "auth.refresh_tokens" using primary key columns
 	"""
 	authRefreshToken(id: uuid!): authRefreshTokens
@@ -2824,6 +3644,31 @@ type query_root {
 		where: department_files_bool_exp
 	): [department_files!]!
 	"""
+	fetch aggregated fields from the table: "department_files"
+	"""
+	department_files_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [department_files_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [department_files_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: department_files_bool_exp
+	): department_files_aggregate!
+	"""
 	fetch data from the table: "department_files" using primary key columns
 	"""
 	department_files_by_pk(id: uuid!): department_files
@@ -2882,6 +3727,31 @@ type query_root {
 		where: departments_bool_exp
 	): [departments!]!
 	"""
+	fetch aggregated fields from the table: "departments"
+	"""
+	departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: departments_bool_exp
+	): departments_aggregate!
+	"""
 	fetch data from the table: "departments" using primary key columns
 	"""
 	departments_by_pk(id: uuid!): departments
@@ -2914,6 +3784,31 @@ type query_root {
 		"""
 		where: files_bool_exp
 	): [files!]!
+	"""
+	fetch aggregated fields from the table: "storage.files"
+	"""
+	filesAggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [files_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [files_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: files_bool_exp
+	): files_aggregate!
 	graphite: graphiteQuery
 	"""
 	execute function "graphite_search_kb_entries" which returns "kb_entries"
@@ -2945,6 +3840,35 @@ type query_root {
 		where: kb_entries_bool_exp
 	): [kb_entries!]!
 	"""
+	execute function "graphite_search_kb_entries" and query aggregates on result of table type "kb_entries"
+	"""
+	graphiteSearchKbEntriesAggregate(
+		"""
+		input parameters for function "graphiteSearchKbEntriesAggregate"
+		"""
+		args: graphite_search_kb_entries_args!
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entries_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entries_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): kb_entries_aggregate!
+	"""
 	execute function "graphite_similar_kb_entries" which returns "kb_entries"
 	"""
 	graphiteSimilarKbEntries(
@@ -2974,6 +3898,35 @@ type query_root {
 		where: kb_entries_bool_exp
 	): [kb_entries!]!
 	"""
+	execute function "graphite_similar_kb_entries" and query aggregates on result of table type "kb_entries"
+	"""
+	graphiteSimilarKbEntriesAggregate(
+		"""
+		input parameters for function "graphiteSimilarKbEntriesAggregate"
+		"""
+		args: graphite_similar_kb_entries_args!
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entries_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entries_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): kb_entries_aggregate!
+	"""
 	fetch data from the table: "kb_entries"
 	"""
 	kb_entries(
@@ -2998,6 +3951,31 @@ type query_root {
 		"""
 		where: kb_entries_bool_exp
 	): [kb_entries!]!
+	"""
+	fetch aggregated fields from the table: "kb_entries"
+	"""
+	kb_entries_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entries_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entries_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): kb_entries_aggregate!
 	"""
 	fetch data from the table: "kb_entries" using primary key columns
 	"""
@@ -3027,6 +4005,31 @@ type query_root {
 		"""
 		where: kb_entry_departments_bool_exp
 	): [kb_entry_departments!]!
+	"""
+	An aggregate relationship
+	"""
+	kb_entry_departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entry_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entry_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): kb_entry_departments_aggregate!
 	"""
 	fetch data from the table: "kb_entry_departments" using primary key columns
 	"""
@@ -3061,6 +4064,31 @@ type query_root {
 		where: user_departments_bool_exp
 	): [user_departments!]!
 	"""
+	fetch aggregated fields from the table: "user_departments"
+	"""
+	user_departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [user_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [user_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: user_departments_bool_exp
+	): user_departments_aggregate!
+	"""
 	fetch data from the table: "user_departments" using primary key columns
 	"""
 	user_departments_by_pk(id: uuid!): user_departments
@@ -3089,9 +4117,126 @@ type query_root {
 		"""
 		where: users_bool_exp
 	): [users!]!
+	"""
+	fetch aggregated fields from the table: "auth.users"
+	"""
+	usersAggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [users_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [users_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: users_bool_exp
+	): users_aggregate!
 }
 
 type subscription_root {
+	"""
+	fetch data from the table: "graphite.assistants" using primary key columns
+	"""
+	_graphiteAssistant(id: uuid!): _graphiteAssistants
+	"""
+	fetch data from the table in a streaming manner: "graphite.assistants"
+	"""
+	_graphiteAssistantStream(
+		"""
+		maximum number of rows returned in a single batch
+		"""
+		batch_size: Int!
+		"""
+		cursor to stream the results returned by the query
+		"""
+		cursor: [_graphiteAssistants_stream_cursor_input]!
+		"""
+		filter the rows returned
+		"""
+		where: _graphiteAssistants_bool_exp
+	): [_graphiteAssistants!]!
+	"""
+	fetch data from the table: "graphite.assistants"
+	"""
+	_graphiteAssistants(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [_graphiteAssistants_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [_graphiteAssistants_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: _graphiteAssistants_bool_exp
+	): [_graphiteAssistants!]!
+	"""
+	fetch data from the table: "graphite.sessions" using primary key columns
+	"""
+	_graphiteSession(id: uuid!): _graphiteSessions
+	"""
+	fetch data from the table in a streaming manner: "graphite.sessions"
+	"""
+	_graphiteSessionStream(
+		"""
+		maximum number of rows returned in a single batch
+		"""
+		batch_size: Int!
+		"""
+		cursor to stream the results returned by the query
+		"""
+		cursor: [_graphiteSessions_stream_cursor_input]!
+		"""
+		filter the rows returned
+		"""
+		where: _graphiteSessions_bool_exp
+	): [_graphiteSessions!]!
+	"""
+	fetch data from the table: "graphite.sessions"
+	"""
+	_graphiteSessions(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [_graphiteSessions_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [_graphiteSessions_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: _graphiteSessions_bool_exp
+	): [_graphiteSessions!]!
 	"""
 	fetch data from the table: "auth.refresh_tokens" using primary key columns
 	"""
@@ -3210,6 +4355,31 @@ type subscription_root {
 		where: department_files_bool_exp
 	): [department_files!]!
 	"""
+	fetch aggregated fields from the table: "department_files"
+	"""
+	department_files_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [department_files_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [department_files_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: department_files_bool_exp
+	): department_files_aggregate!
+	"""
 	fetch data from the table: "department_files" using primary key columns
 	"""
 	department_files_by_pk(id: uuid!): department_files
@@ -3302,6 +4472,31 @@ type subscription_root {
 		where: departments_bool_exp
 	): [departments!]!
 	"""
+	fetch aggregated fields from the table: "departments"
+	"""
+	departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: departments_bool_exp
+	): departments_aggregate!
+	"""
 	fetch data from the table: "departments" using primary key columns
 	"""
 	departments_by_pk(id: uuid!): departments
@@ -3352,6 +4547,31 @@ type subscription_root {
 		where: files_bool_exp
 	): [files!]!
 	"""
+	fetch aggregated fields from the table: "storage.files"
+	"""
+	filesAggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [files_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [files_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: files_bool_exp
+	): files_aggregate!
+	"""
 	fetch data from the table in a streaming manner: "storage.files"
 	"""
 	files_stream(
@@ -3398,6 +4618,35 @@ type subscription_root {
 		where: kb_entries_bool_exp
 	): [kb_entries!]!
 	"""
+	execute function "graphite_search_kb_entries" and query aggregates on result of table type "kb_entries"
+	"""
+	graphiteSearchKbEntriesAggregate(
+		"""
+		input parameters for function "graphiteSearchKbEntriesAggregate"
+		"""
+		args: graphite_search_kb_entries_args!
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entries_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entries_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): kb_entries_aggregate!
+	"""
 	execute function "graphite_similar_kb_entries" which returns "kb_entries"
 	"""
 	graphiteSimilarKbEntries(
@@ -3427,6 +4676,35 @@ type subscription_root {
 		where: kb_entries_bool_exp
 	): [kb_entries!]!
 	"""
+	execute function "graphite_similar_kb_entries" and query aggregates on result of table type "kb_entries"
+	"""
+	graphiteSimilarKbEntriesAggregate(
+		"""
+		input parameters for function "graphiteSimilarKbEntriesAggregate"
+		"""
+		args: graphite_similar_kb_entries_args!
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entries_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entries_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): kb_entries_aggregate!
+	"""
 	fetch data from the table: "kb_entries"
 	"""
 	kb_entries(
@@ -3451,6 +4729,31 @@ type subscription_root {
 		"""
 		where: kb_entries_bool_exp
 	): [kb_entries!]!
+	"""
+	fetch aggregated fields from the table: "kb_entries"
+	"""
+	kb_entries_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entries_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entries_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entries_bool_exp
+	): kb_entries_aggregate!
 	"""
 	fetch data from the table: "kb_entries" using primary key columns
 	"""
@@ -3497,6 +4800,31 @@ type subscription_root {
 		"""
 		where: kb_entry_departments_bool_exp
 	): [kb_entry_departments!]!
+	"""
+	An aggregate relationship
+	"""
+	kb_entry_departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [kb_entry_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [kb_entry_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: kb_entry_departments_bool_exp
+	): kb_entry_departments_aggregate!
 	"""
 	fetch data from the table: "kb_entry_departments" using primary key columns
 	"""
@@ -3548,6 +4876,31 @@ type subscription_root {
 		where: user_departments_bool_exp
 	): [user_departments!]!
 	"""
+	fetch aggregated fields from the table: "user_departments"
+	"""
+	user_departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [user_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [user_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: user_departments_bool_exp
+	): user_departments_aggregate!
+	"""
 	fetch data from the table: "user_departments" using primary key columns
 	"""
 	user_departments_by_pk(id: uuid!): user_departments
@@ -3593,6 +4946,31 @@ type subscription_root {
 		"""
 		where: users_bool_exp
 	): [users!]!
+	"""
+	fetch aggregated fields from the table: "auth.users"
+	"""
+	usersAggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [users_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [users_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: users_bool_exp
+	): users_aggregate!
 	"""
 	fetch data from the table in a streaming manner: "auth.users"
 	"""
@@ -3652,6 +5030,50 @@ type user_departments {
 }
 
 """
+aggregated selection of "user_departments"
+"""
+type user_departments_aggregate {
+	aggregate: user_departments_aggregate_fields
+	nodes: [user_departments!]!
+}
+
+input user_departments_aggregate_bool_exp {
+	bool_and: user_departments_aggregate_bool_exp_bool_and
+	bool_or: user_departments_aggregate_bool_exp_bool_or
+	count: user_departments_aggregate_bool_exp_count
+}
+
+input user_departments_aggregate_bool_exp_bool_and {
+	arguments: user_departments_select_column_user_departments_aggregate_bool_exp_bool_and_arguments_columns!
+	distinct: Boolean
+	filter: user_departments_bool_exp
+	predicate: Boolean_comparison_exp!
+}
+
+input user_departments_aggregate_bool_exp_bool_or {
+	arguments: user_departments_select_column_user_departments_aggregate_bool_exp_bool_or_arguments_columns!
+	distinct: Boolean
+	filter: user_departments_bool_exp
+	predicate: Boolean_comparison_exp!
+}
+
+input user_departments_aggregate_bool_exp_count {
+	arguments: [user_departments_select_column!]
+	distinct: Boolean
+	filter: user_departments_bool_exp
+	predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "user_departments"
+"""
+type user_departments_aggregate_fields {
+	count(columns: [user_departments_select_column!], distinct: Boolean): Int!
+	max: user_departments_max_fields
+	min: user_departments_min_fields
+}
+
+"""
 order by aggregate values of table "user_departments"
 """
 input user_departments_aggregate_order_by {
@@ -3702,6 +5124,16 @@ input user_departments_insert_input {
 }
 
 """
+aggregate max on columns
+"""
+type user_departments_max_fields {
+	department_id: uuid
+	id: uuid
+	joined_at: timestamptz
+	user_id: uuid
+}
+
+"""
 order by max() on columns of table "user_departments"
 """
 input user_departments_max_order_by {
@@ -3709,6 +5141,16 @@ input user_departments_max_order_by {
 	id: order_by
 	joined_at: order_by
 	user_id: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type user_departments_min_fields {
+	department_id: uuid
+	id: uuid
+	joined_at: timestamptz
+	user_id: uuid
 }
 
 """
@@ -3793,6 +5235,26 @@ enum user_departments_select_column {
 	column name
 	"""
 	user_id
+}
+
+"""
+select "user_departments_aggregate_bool_exp_bool_and_arguments_columns" columns of table "user_departments"
+"""
+enum user_departments_select_column_user_departments_aggregate_bool_exp_bool_and_arguments_columns {
+	"""
+	column name
+	"""
+	is_active
+}
+
+"""
+select "user_departments_aggregate_bool_exp_bool_or_arguments_columns" columns of table "user_departments"
+"""
+enum user_departments_select_column_user_departments_aggregate_bool_exp_bool_or_arguments_columns {
+	"""
+	column name
+	"""
+	is_active
 }
 
 """
@@ -3885,6 +5347,31 @@ type users {
 		"""
 		where: user_departments_bool_exp
 	): [user_departments!]!
+	"""
+	An aggregate relationship
+	"""
+	departments_aggregate(
+		"""
+		distinct select on columns
+		"""
+		distinct_on: [user_departments_select_column!]
+		"""
+		limit the number of rows returned
+		"""
+		limit: Int
+		"""
+		skip the first n rows. Use only with order_by
+		"""
+		offset: Int
+		"""
+		sort the rows by one or more columns
+		"""
+		order_by: [user_departments_order_by!]
+		"""
+		filter the rows returned
+		"""
+		where: user_departments_bool_exp
+	): user_departments_aggregate!
 	displayName: String!
 	email: citext
 	emailVerified: Boolean!
@@ -3944,6 +5431,23 @@ type users {
 }
 
 """
+aggregated selection of "auth.users"
+"""
+type users_aggregate {
+	aggregate: users_aggregate_fields
+	nodes: [users!]!
+}
+
+"""
+aggregate fields of "auth.users"
+"""
+type users_aggregate_fields {
+	count(columns: [users_select_column!], distinct: Boolean): Int!
+	max: users_max_fields
+	min: users_min_fields
+}
+
+"""
 Boolean expression to filter rows from the table "auth.users". All fields are combined with a logical 'AND'.
 """
 input users_bool_exp {
@@ -3953,6 +5457,7 @@ input users_bool_exp {
 	avatarUrl: String_comparison_exp
 	createdAt: timestamptz_comparison_exp
 	departments: user_departments_bool_exp
+	departments_aggregate: user_departments_aggregate_bool_exp
 	displayName: String_comparison_exp
 	email: citext_comparison_exp
 	emailVerified: Boolean_comparison_exp
@@ -3961,6 +5466,32 @@ input users_bool_exp {
 	refreshTokens: authRefreshTokens_bool_exp
 	securityKeys: authUserSecurityKeys_bool_exp
 	updatedAt: timestamptz_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type users_max_fields {
+	avatarUrl: String
+	createdAt: timestamptz
+	displayName: String
+	email: citext
+	id: uuid
+	locale: String
+	updatedAt: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type users_min_fields {
+	avatarUrl: String
+	createdAt: timestamptz
+	displayName: String
+	email: citext
+	id: uuid
+	locale: String
+	updatedAt: timestamptz
 }
 
 """

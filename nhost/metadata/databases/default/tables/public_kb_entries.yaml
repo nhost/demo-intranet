@@ -41,6 +41,7 @@ select_permissions:
         kb_entry_departments:
           department_id:
             _in: X-Hasura-departments
+      allow_aggregations: true
     comment: Users can view KB entries from departments they belong to
 update_permissions:
   - role: user

@@ -9,8 +9,8 @@ import { join } from "node:path";
 import { createClient } from "@nhost/nhost-js";
 
 const nhost = createClient({
-	subdomain: "local",
-	region: "local",
+	subdomain: process.env.BUN_PUBLIC_NHOST_SUBDOMAIN,
+	region: process.env.BUN_PUBLIC_NHOST_REGION,
 });
 
 const adminSecret =
@@ -49,7 +49,6 @@ async function uploadFile(
 	const fileId = generateConsistentUUID(fileName);
 
 	try {
-		// biome-ignore lint/correctness/noUndeclaredVariables: Bun global
 		const file = Bun.file(filePath);
 		const fileBuffer = await file.arrayBuffer();
 		const uploadFile = new File([fileBuffer], fileName, {

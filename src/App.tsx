@@ -2,6 +2,7 @@ import "./index.css";
 import { Dashboard } from "@/components/Dashboard";
 import { Departments } from "@/components/Departments";
 import { Files } from "@/components/Files";
+import { FloatingChatBubble } from "@/components/FloatingChatBubble";
 import { KnowledgeBase } from "@/components/KnowledgeBase";
 import { Navigation } from "@/components/Navigation";
 import { ProtectedLayout } from "@/components/ProtectedLayout";
@@ -82,6 +83,7 @@ export function App() {
 									/>
 								</Routes>
 							</div>
+							<FloatingChatBubble />
 						</div>
 					</Router>
 				</AuthProvider>

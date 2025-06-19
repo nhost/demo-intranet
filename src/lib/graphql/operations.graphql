@@ -224,10 +224,7 @@ query GetDepartmentFiles {
 }
 
 query GetUserFiles {
-	files(
-		where: { uploadedByUserId: { _eq: "X-Hasura-User-Id" } }
-		order_by: { createdAt: desc }
-	) {
+	files(order_by: { createdAt: desc }) {
 		id
 		name
 		size
@@ -458,5 +455,200 @@ mutation RemoveKnowledgeBaseFromDepartment(
 		}
 	) {
 		affected_rows
+	}
+}
+
+# AI Assistant operations
+mutation StartAssistantSession($assistantId: String!) {
+	graphite {
+		startSession(assistantID: $assistantId) {
+			sessionID
+			assistantID
+			userID
+			createdAt
+		}
+	}
+}
+
+mutation SendAssistantMessage(
+	$sessionId: String!
+	$message: String!
+	$prevMessageId: String!
+) {
+	graphite {
+		sendMessage(
+			sessionID: $sessionId
+			message: $message
+			prevMessageID: $prevMessageId
+		) {
+			sessionID
+			messages {
+				id
+				createdAt
+				role
+				message
+			}
+		}
+	}
+}
+
+query GetAssistantSessions {
+	graphite {
+		sessions {
+			sessionID
+			assistantID
+			userID
+			createdAt
+		}
+	}
+}
+
+query GetSessionMessages($sessionId: String!) {
+	graphite {
+		sessionMessages(sessionID: $sessionId) {
+			sessionID
+			messages {
+				id
+				createdAt
+				role
+				message
+			}
+		}
+	}
+}
+
+# Dashboard operations
+query GetDashboardSummary {
+	# User's departments with member counts
+	user_departments: departments {
+		id
+		name
+		description
+		budget
+		employees_aggregate(where: { is_active: { _eq: true } }) {
+			aggregate {
+				count
+			}
+		}
+		files_aggregate {
+			aggregate {
+				count
+			}
+		}
+		kb_entry_departments_aggregate {
+			aggregate {
+				count
+			}
+		}
+	}
+
+	# Recent knowledge base entries accessible to user
+	recent_kb_entries: kb_entries(order_by: { created_at: desc }, limit: 5) {
+		id
+		title
+		summary
+		created_at
+		uploader {
+			id
+			displayName
+			email
+		}
+	}
+}
+
+query GetUserFilesStats {
+	# Files uploaded by current user
+	user_files: files(order_by: { createdAt: desc }, limit: 10) {
+		id
+		name
+		size
+		mimeType
+		createdAt
+	}
+
+	# Files uploaded by current user (aggregated)
+	user_files_aggregate: filesAggregate {
+		aggregate {
+			count
+			sum {
+				size
+			}
+		}
+	}
+
+	# Department files accessible to user
+	accessible_department_files: department_files(
+		order_by: { file: { createdAt: desc } }
+		limit: 10
+	) {
+		id
+		file {
+			id
+			name
+			size
+			mimeType
+			createdAt
+			uploadedByUserId
+		}
+		department {
+			id
+			name
+		}
+	}
+
+	# Recent files accessible to user
+	recent_files: files(
+		order_by: { createdAt: desc }
+		limit: 5
+		where: { isUploaded: { _eq: true } }
+	) {
+		id
+		name
+		size
+		mimeType
+		createdAt
+		uploadedByUserId
+	}
+}
+
+query GetUserKnowledgeBaseStats {
+	# Knowledge base entries uploaded by current user
+	user_kb_entries: kb_entries(order_by: { created_at: desc }, limit: 10) {
+		id
+		title
+		summary
+		created_at
+		kb_entry_departments {
+			department {
+				id
+				name
+			}
+		}
+	}
+
+	# Knowledge base entries uploaded by current user (aggregated)
+	user_kb_entries_aggregate: kb_entries_aggregate {
+		aggregate {
+			count
+		}
+	}
+
+	# All knowledge base entries accessible to user
+	accessible_kb_entries: kb_entries(order_by: { created_at: desc }, limit: 10) {
+		id
+		title
+		summary
+		created_at
+		uploader {
+			id
+			displayName
+			email
+		}
+		kb_entry_departments {
+			department {
+				id
+				name
+			}
+		}
 	}
 }

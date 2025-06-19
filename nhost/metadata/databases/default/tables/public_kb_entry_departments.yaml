@@ -34,6 +34,7 @@ select_permissions:
       filter:
         department_id:
           _in: X-Hasura-departments
+      allow_aggregations: true
     comment: Users can view KB entry-department associations for their departments
 delete_permissions:
   - role: user
