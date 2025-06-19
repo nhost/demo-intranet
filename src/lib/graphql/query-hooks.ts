@@ -6,9 +6,12 @@ import {
 	AddKnowledgeBaseToDepartmentDocument,
 	CreateKnowledgeBaseEntryWithDepartmentsDocument,
 	DeleteKnowledgeBaseEntryDocument,
+	GetDashboardSummaryDocument,
 	GetDepartmentDetailsDocument,
 	GetKnowledgeBaseEntriesDocument,
 	GetUserDepartmentsDocument,
+	GetUserFilesStatsDocument,
+	GetUserKnowledgeBaseStatsDocument,
 	RemoveDepartmentMemberDocument,
 	RemoveKnowledgeBaseFromDepartmentDocument,
 	SearchUsersDocument,
@@ -25,10 +28,13 @@ import type {
 	CreateKnowledgeBaseEntryWithDepartmentsMutationVariables,
 	DeleteKnowledgeBaseEntryMutation,
 	DeleteKnowledgeBaseEntryMutationVariables,
+	GetDashboardSummaryQuery,
 	GetDepartmentDetailsQuery,
 	GetDepartmentDetailsQueryVariables,
 	GetKnowledgeBaseEntriesQuery,
 	GetUserDepartmentsQuery,
+	GetUserFilesStatsQuery,
+	GetUserKnowledgeBaseStatsQuery,
 	RemoveDepartmentMemberMutation,
 	RemoveDepartmentMemberMutationVariables,
 	RemoveKnowledgeBaseFromDepartmentMutation,
@@ -240,5 +246,43 @@ export const useRemoveKnowledgeBaseFromDepartment = () => {
 		mutationFn: (
 			variables: RemoveKnowledgeBaseFromDepartmentMutationVariables,
 		) => fetcher(variables),
+	});
+};
+
+// Dashboard hooks
+export const useDashboardSummary = () => {
+	const fetcher = useAuthenticatedFetcher<GetDashboardSummaryQuery, never>(
+		GetDashboardSummaryDocument,
+	);
+
+	return useQuery({
+		queryKey: ["dashboardSummary"],
+		queryFn: () => fetcher(),
+		staleTime: 5 * 60 * 1000, // 5 minutes
+	});
+};
+
+export const useUserFilesStats = () => {
+	const fetcher = useAuthenticatedFetcher<GetUserFilesStatsQuery, never>(
+		GetUserFilesStatsDocument,
+	);
+
+	return useQuery({
+		queryKey: ["userFilesStats"],
+		queryFn: () => fetcher(),
+		staleTime: 5 * 60 * 1000, // 5 minutes
+	});
+};
+
+export const useUserKnowledgeBaseStats = () => {
+	const fetcher = useAuthenticatedFetcher<
+		GetUserKnowledgeBaseStatsQuery,
+		never
+	>(GetUserKnowledgeBaseStatsDocument);
+
+	return useQuery({
+		queryKey: ["userKnowledgeBaseStats"],
+		queryFn: () => fetcher(),
+		staleTime: 5 * 60 * 1000, // 5 minutes
 	});
 };

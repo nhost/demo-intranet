@@ -32,3 +32,16 @@ configuration:
     update: _updateGraphiteAssistants
     update_by_pk: _updateGraphiteAssistant
     update_many: _updateManyGraphiteAssistants
+select_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - data
+        - assistant_id
+        - created_at
+        - updated_at
+        - id
+        - user_id
+      filter: {}
+    comment: ""

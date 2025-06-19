@@ -28,6 +28,7 @@ select_permissions:
       filter:
         department_id:
           _in: X-Hasura-departments
+      allow_aggregations: true
     comment: Users can view files from departments they belong to
 delete_permissions:
   - role: user

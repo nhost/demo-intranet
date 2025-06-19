@@ -35,3 +35,34 @@ configuration:
     update: _updateGraphiteSessions
     update_by_pk: _updateGraphiteSession
     update_many: _updateManyGraphiteSessions
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - assistant_id
+        - id
+        - user_id
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - assistant_id
+        - id
+        - session_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - updated_at
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

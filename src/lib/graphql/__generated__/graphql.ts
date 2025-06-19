@@ -102,6 +102,183 @@ export type String_Comparison_Exp = {
 	_similar?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+/** columns and relationships of "graphite.assistants" */
+export type _GraphiteAssistants = {
+	__typename?: "_graphiteAssistants";
+	assistantID?: Maybe<Scalars["String"]["output"]>;
+	createdAt: Scalars["timestamptz"]["output"];
+	data?: Maybe<Scalars["jsonb"]["output"]>;
+	id: Scalars["uuid"]["output"];
+	updatedAt: Scalars["timestamptz"]["output"];
+	user_id?: Maybe<Scalars["uuid"]["output"]>;
+};
+
+/** columns and relationships of "graphite.assistants" */
+export type _GraphiteAssistantsDataArgs = {
+	path?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** Boolean expression to filter rows from the table "graphite.assistants". All fields are combined with a logical 'AND'. */
+export type _GraphiteAssistants_Bool_Exp = {
+	_and?: InputMaybe<Array<_GraphiteAssistants_Bool_Exp>>;
+	_not?: InputMaybe<_GraphiteAssistants_Bool_Exp>;
+	_or?: InputMaybe<Array<_GraphiteAssistants_Bool_Exp>>;
+	assistantID?: InputMaybe<String_Comparison_Exp>;
+	createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+	data?: InputMaybe<Jsonb_Comparison_Exp>;
+	id?: InputMaybe<Uuid_Comparison_Exp>;
+	updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+	user_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "graphite.assistants". */
+export type _GraphiteAssistants_Order_By = {
+	assistantID?: InputMaybe<Order_By>;
+	createdAt?: InputMaybe<Order_By>;
+	data?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+	updatedAt?: InputMaybe<Order_By>;
+	user_id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "graphite.assistants" */
+export enum _GraphiteAssistants_Select_Column {
+	/** column name */
+	AssistantId = "assistantID",
+	/** column name */
+	CreatedAt = "createdAt",
+	/** column name */
+	Data = "data",
+	/** column name */
+	Id = "id",
+	/** column name */
+	UpdatedAt = "updatedAt",
+	/** column name */
+	UserId = "user_id",
+}
+
+/** Streaming cursor of the table "_graphiteAssistants" */
+export type _GraphiteAssistants_Stream_Cursor_Input = {
+	/** Stream column input with initial value */
+	initial_value: _GraphiteAssistants_Stream_Cursor_Value_Input;
+	/** cursor ordering */
+	ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type _GraphiteAssistants_Stream_Cursor_Value_Input = {
+	assistantID?: InputMaybe<Scalars["String"]["input"]>;
+	createdAt?: InputMaybe<Scalars["timestamptz"]["input"]>;
+	data?: InputMaybe<Scalars["jsonb"]["input"]>;
+	id?: InputMaybe<Scalars["uuid"]["input"]>;
+	updatedAt?: InputMaybe<Scalars["timestamptz"]["input"]>;
+	user_id?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** columns and relationships of "graphite.sessions" */
+export type _GraphiteSessions = {
+	__typename?: "_graphiteSessions";
+	assistantID?: Maybe<Scalars["String"]["output"]>;
+	id: Scalars["uuid"]["output"];
+	sessionID?: Maybe<Scalars["String"]["output"]>;
+};
+
+/** Boolean expression to filter rows from the table "graphite.sessions". All fields are combined with a logical 'AND'. */
+export type _GraphiteSessions_Bool_Exp = {
+	_and?: InputMaybe<Array<_GraphiteSessions_Bool_Exp>>;
+	_not?: InputMaybe<_GraphiteSessions_Bool_Exp>;
+	_or?: InputMaybe<Array<_GraphiteSessions_Bool_Exp>>;
+	assistantID?: InputMaybe<String_Comparison_Exp>;
+	id?: InputMaybe<Uuid_Comparison_Exp>;
+	sessionID?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "graphite.sessions" */
+export enum _GraphiteSessions_Constraint {
+	/** unique or primary key constraint on columns "id" */
+	SessionsPkey = "sessions_pkey",
+	/** unique or primary key constraint on columns "session_id" */
+	SessionsSessionIdKey = "sessions_session_id_key",
+}
+
+/** input type for inserting data into table "graphite.sessions" */
+export type _GraphiteSessions_Insert_Input = {
+	assistantID?: InputMaybe<Scalars["String"]["input"]>;
+	id?: InputMaybe<Scalars["uuid"]["input"]>;
+	userID?: InputMaybe<Scalars["uuid"]["input"]>;
+};
+
+/** response of any mutation on the table "graphite.sessions" */
+export type _GraphiteSessions_Mutation_Response = {
+	__typename?: "_graphiteSessions_mutation_response";
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars["Int"]["output"];
+	/** data from the rows affected by the mutation */
+	returning: Array<_GraphiteSessions>;
+};
+
+/** on_conflict condition type for table "graphite.sessions" */
+export type _GraphiteSessions_On_Conflict = {
+	constraint: _GraphiteSessions_Constraint;
+	update_columns?: Array<_GraphiteSessions_Update_Column>;
+	where?: InputMaybe<_GraphiteSessions_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "graphite.sessions". */
+export type _GraphiteSessions_Order_By = {
+	assistantID?: InputMaybe<Order_By>;
+	id?: InputMaybe<Order_By>;
+	sessionID?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: graphite.sessions */
+export type _GraphiteSessions_Pk_Columns_Input = {
+	id: Scalars["uuid"]["input"];
+};
+
+/** select columns of table "graphite.sessions" */
+export enum _GraphiteSessions_Select_Column {
+	/** column name */
+	AssistantId = "assistantID",
+	/** column name */
+	Id = "id",
+	/** column name */
+	SessionId = "sessionID",
+}
+
+/** input type for updating data in table "graphite.sessions" */
+export type _GraphiteSessions_Set_Input = {
+	updatedAt?: InputMaybe<Scalars["timestamptz"]["input"]>;
+};
+
+/** Streaming cursor of the table "_graphiteSessions" */
+export type _GraphiteSessions_Stream_Cursor_Input = {
+	/** Stream column input with initial value */
+	initial_value: _GraphiteSessions_Stream_Cursor_Value_Input;
+	/** cursor ordering */
+	ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type _GraphiteSessions_Stream_Cursor_Value_Input = {
+	assistantID?: InputMaybe<Scalars["String"]["input"]>;
+	id?: InputMaybe<Scalars["uuid"]["input"]>;
+	sessionID?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** update columns of table "graphite.sessions" */
+export enum _GraphiteSessions_Update_Column {
+	/** column name */
+	UpdatedAt = "updatedAt",
+}
+
+export type _GraphiteSessions_Updates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<_GraphiteSessions_Set_Input>;
+	/** filter the rows which have to be updated */
+	where: _GraphiteSessions_Bool_Exp;
+};
+
 export enum AuthRefreshTokenTypes_Enum {
 	/** Personal access token */
 	Pat = "pat",
@@ -468,6 +645,38 @@ export type Department_Files = {
 	id: Scalars["uuid"]["output"];
 };
 
+/** aggregated selection of "department_files" */
+export type Department_Files_Aggregate = {
+	__typename?: "department_files_aggregate";
+	aggregate?: Maybe<Department_Files_Aggregate_Fields>;
+	nodes: Array<Department_Files>;
+};
+
+export type Department_Files_Aggregate_Bool_Exp = {
+	count?: InputMaybe<Department_Files_Aggregate_Bool_Exp_Count>;
+};
+
+export type Department_Files_Aggregate_Bool_Exp_Count = {
+	arguments?: InputMaybe<Array<Department_Files_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+	filter?: InputMaybe<Department_Files_Bool_Exp>;
+	predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "department_files" */
+export type Department_Files_Aggregate_Fields = {
+	__typename?: "department_files_aggregate_fields";
+	count: Scalars["Int"]["output"];
+	max?: Maybe<Department_Files_Max_Fields>;
+	min?: Maybe<Department_Files_Min_Fields>;
+};
+
+/** aggregate fields of "department_files" */
+export type Department_Files_Aggregate_FieldsCountArgs = {
+	columns?: InputMaybe<Array<Department_Files_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
 /** order by aggregate values of table "department_files" */
 export type Department_Files_Aggregate_Order_By = {
 	count?: InputMaybe<Order_By>;
@@ -500,11 +709,27 @@ export type Department_Files_Insert_Input = {
 	file_id?: InputMaybe<Scalars["uuid"]["input"]>;
 };
 
+/** aggregate max on columns */
+export type Department_Files_Max_Fields = {
+	__typename?: "department_files_max_fields";
+	department_id?: Maybe<Scalars["uuid"]["output"]>;
+	file_id?: Maybe<Scalars["uuid"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+};
+
 /** order by max() on columns of table "department_files" */
 export type Department_Files_Max_Order_By = {
 	department_id?: InputMaybe<Order_By>;
 	file_id?: InputMaybe<Order_By>;
 	id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Department_Files_Min_Fields = {
+	__typename?: "department_files_min_fields";
+	department_id?: Maybe<Scalars["uuid"]["output"]>;
+	file_id?: Maybe<Scalars["uuid"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
 };
 
 /** order by min() on columns of table "department_files" */
@@ -645,17 +870,32 @@ export type Departments = {
 	description?: Maybe<Scalars["String"]["output"]>;
 	/** An array relationship */
 	employees: Array<User_Departments>;
+	/** An aggregate relationship */
+	employees_aggregate: User_Departments_Aggregate;
 	/** An array relationship */
 	files: Array<Department_Files>;
+	/** An aggregate relationship */
+	files_aggregate: Department_Files_Aggregate;
 	id: Scalars["uuid"]["output"];
 	/** An array relationship */
 	kb_entry_departments: Array<Kb_Entry_Departments>;
+	/** An aggregate relationship */
+	kb_entry_departments_aggregate: Kb_Entry_Departments_Aggregate;
 	name: Scalars["String"]["output"];
 	updated_at: Scalars["timestamptz"]["output"];
 };
 
 /** columns and relationships of "departments" */
 export type DepartmentsEmployeesArgs = {
+	distinct_on?: InputMaybe<Array<User_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<User_Departments_Order_By>>;
+	where?: InputMaybe<User_Departments_Bool_Exp>;
+};
+
+/** columns and relationships of "departments" */
+export type DepartmentsEmployees_AggregateArgs = {
 	distinct_on?: InputMaybe<Array<User_Departments_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
@@ -673,12 +913,65 @@ export type DepartmentsFilesArgs = {
 };
 
 /** columns and relationships of "departments" */
+export type DepartmentsFiles_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<Department_Files_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Department_Files_Order_By>>;
+	where?: InputMaybe<Department_Files_Bool_Exp>;
+};
+
+/** columns and relationships of "departments" */
 export type DepartmentsKb_Entry_DepartmentsArgs = {
 	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
 	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
 	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+/** columns and relationships of "departments" */
+export type DepartmentsKb_Entry_Departments_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+/** aggregated selection of "departments" */
+export type Departments_Aggregate = {
+	__typename?: "departments_aggregate";
+	aggregate?: Maybe<Departments_Aggregate_Fields>;
+	nodes: Array<Departments>;
+};
+
+/** aggregate fields of "departments" */
+export type Departments_Aggregate_Fields = {
+	__typename?: "departments_aggregate_fields";
+	avg?: Maybe<Departments_Avg_Fields>;
+	count: Scalars["Int"]["output"];
+	max?: Maybe<Departments_Max_Fields>;
+	min?: Maybe<Departments_Min_Fields>;
+	stddev?: Maybe<Departments_Stddev_Fields>;
+	stddev_pop?: Maybe<Departments_Stddev_Pop_Fields>;
+	stddev_samp?: Maybe<Departments_Stddev_Samp_Fields>;
+	sum?: Maybe<Departments_Sum_Fields>;
+	var_pop?: Maybe<Departments_Var_Pop_Fields>;
+	var_samp?: Maybe<Departments_Var_Samp_Fields>;
+	variance?: Maybe<Departments_Variance_Fields>;
+};
+
+/** aggregate fields of "departments" */
+export type Departments_Aggregate_FieldsCountArgs = {
+	columns?: InputMaybe<Array<Departments_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+/** aggregate avg on columns */
+export type Departments_Avg_Fields = {
+	__typename?: "departments_avg_fields";
+	budget?: Maybe<Scalars["Float"]["output"]>;
 };
 
 /** Boolean expression to filter rows from the table "departments". All fields are combined with a logical 'AND'. */
@@ -690,9 +983,12 @@ export type Departments_Bool_Exp = {
 	created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 	description?: InputMaybe<String_Comparison_Exp>;
 	employees?: InputMaybe<User_Departments_Bool_Exp>;
+	employees_aggregate?: InputMaybe<User_Departments_Aggregate_Bool_Exp>;
 	files?: InputMaybe<Department_Files_Bool_Exp>;
+	files_aggregate?: InputMaybe<Department_Files_Aggregate_Bool_Exp>;
 	id?: InputMaybe<Uuid_Comparison_Exp>;
 	kb_entry_departments?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+	kb_entry_departments_aggregate?: InputMaybe<Kb_Entry_Departments_Aggregate_Bool_Exp>;
 	name?: InputMaybe<String_Comparison_Exp>;
 	updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -700,6 +996,28 @@ export type Departments_Bool_Exp = {
 /** input type for incrementing numeric columns in table "departments" */
 export type Departments_Inc_Input = {
 	budget?: InputMaybe<Scalars["numeric"]["input"]>;
+};
+
+/** aggregate max on columns */
+export type Departments_Max_Fields = {
+	__typename?: "departments_max_fields";
+	budget?: Maybe<Scalars["numeric"]["output"]>;
+	created_at?: Maybe<Scalars["timestamptz"]["output"]>;
+	description?: Maybe<Scalars["String"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	name?: Maybe<Scalars["String"]["output"]>;
+	updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+};
+
+/** aggregate min on columns */
+export type Departments_Min_Fields = {
+	__typename?: "departments_min_fields";
+	budget?: Maybe<Scalars["numeric"]["output"]>;
+	created_at?: Maybe<Scalars["timestamptz"]["output"]>;
+	description?: Maybe<Scalars["String"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	name?: Maybe<Scalars["String"]["output"]>;
+	updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
 };
 
 /** response of any mutation on the table "departments" */
@@ -755,6 +1073,24 @@ export type Departments_Set_Input = {
 	updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
 };
 
+/** aggregate stddev on columns */
+export type Departments_Stddev_Fields = {
+	__typename?: "departments_stddev_fields";
+	budget?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Departments_Stddev_Pop_Fields = {
+	__typename?: "departments_stddev_pop_fields";
+	budget?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Departments_Stddev_Samp_Fields = {
+	__typename?: "departments_stddev_samp_fields";
+	budget?: Maybe<Scalars["Float"]["output"]>;
+};
+
 /** Streaming cursor of the table "departments" */
 export type Departments_Stream_Cursor_Input = {
 	/** Stream column input with initial value */
@@ -773,6 +1109,12 @@ export type Departments_Stream_Cursor_Value_Input = {
 	updated_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
 };
 
+/** aggregate sum on columns */
+export type Departments_Sum_Fields = {
+	__typename?: "departments_sum_fields";
+	budget?: Maybe<Scalars["numeric"]["output"]>;
+};
+
 export type Departments_Updates = {
 	/** increments the numeric columns with given value of the filtered values */
 	_inc?: InputMaybe<Departments_Inc_Input>;
@@ -780,6 +1122,24 @@ export type Departments_Updates = {
 	_set?: InputMaybe<Departments_Set_Input>;
 	/** filter the rows which have to be updated */
 	where: Departments_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Departments_Var_Pop_Fields = {
+	__typename?: "departments_var_pop_fields";
+	budget?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate var_samp on columns */
+export type Departments_Var_Samp_Fields = {
+	__typename?: "departments_var_samp_fields";
+	budget?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate variance on columns */
+export type Departments_Variance_Fields = {
+	__typename?: "departments_variance_fields";
+	budget?: Maybe<Scalars["Float"]["output"]>;
 };
 
 /** columns and relationships of "storage.files" */
@@ -803,6 +1163,41 @@ export type Files = {
 /** columns and relationships of "storage.files" */
 export type FilesMetadataArgs = {
 	path?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** aggregated selection of "storage.files" */
+export type Files_Aggregate = {
+	__typename?: "files_aggregate";
+	aggregate?: Maybe<Files_Aggregate_Fields>;
+	nodes: Array<Files>;
+};
+
+/** aggregate fields of "storage.files" */
+export type Files_Aggregate_Fields = {
+	__typename?: "files_aggregate_fields";
+	avg?: Maybe<Files_Avg_Fields>;
+	count: Scalars["Int"]["output"];
+	max?: Maybe<Files_Max_Fields>;
+	min?: Maybe<Files_Min_Fields>;
+	stddev?: Maybe<Files_Stddev_Fields>;
+	stddev_pop?: Maybe<Files_Stddev_Pop_Fields>;
+	stddev_samp?: Maybe<Files_Stddev_Samp_Fields>;
+	sum?: Maybe<Files_Sum_Fields>;
+	var_pop?: Maybe<Files_Var_Pop_Fields>;
+	var_samp?: Maybe<Files_Var_Samp_Fields>;
+	variance?: Maybe<Files_Variance_Fields>;
+};
+
+/** aggregate fields of "storage.files" */
+export type Files_Aggregate_FieldsCountArgs = {
+	columns?: InputMaybe<Array<Files_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+/** aggregate avg on columns */
+export type Files_Avg_Fields = {
+	__typename?: "files_avg_fields";
+	size?: Maybe<Scalars["Float"]["output"]>;
 };
 
 /** Boolean expression to filter rows from the table "storage.files". All fields are combined with a logical 'AND'. */
@@ -843,6 +1238,34 @@ export type Files_Insert_Input = {
 	name?: InputMaybe<Scalars["String"]["input"]>;
 	size?: InputMaybe<Scalars["Int"]["input"]>;
 	updatedAt?: InputMaybe<Scalars["timestamptz"]["input"]>;
+};
+
+/** aggregate max on columns */
+export type Files_Max_Fields = {
+	__typename?: "files_max_fields";
+	bucketId?: Maybe<Scalars["String"]["output"]>;
+	createdAt?: Maybe<Scalars["timestamptz"]["output"]>;
+	etag?: Maybe<Scalars["String"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	mimeType?: Maybe<Scalars["String"]["output"]>;
+	name?: Maybe<Scalars["String"]["output"]>;
+	size?: Maybe<Scalars["Int"]["output"]>;
+	updatedAt?: Maybe<Scalars["timestamptz"]["output"]>;
+	uploadedByUserId?: Maybe<Scalars["uuid"]["output"]>;
+};
+
+/** aggregate min on columns */
+export type Files_Min_Fields = {
+	__typename?: "files_min_fields";
+	bucketId?: Maybe<Scalars["String"]["output"]>;
+	createdAt?: Maybe<Scalars["timestamptz"]["output"]>;
+	etag?: Maybe<Scalars["String"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	mimeType?: Maybe<Scalars["String"]["output"]>;
+	name?: Maybe<Scalars["String"]["output"]>;
+	size?: Maybe<Scalars["Int"]["output"]>;
+	updatedAt?: Maybe<Scalars["timestamptz"]["output"]>;
+	uploadedByUserId?: Maybe<Scalars["uuid"]["output"]>;
 };
 
 /** response of any mutation on the table "storage.files" */
@@ -910,6 +1333,24 @@ export enum Files_Select_Column {
 	UploadedByUserId = "uploadedByUserId",
 }
 
+/** aggregate stddev on columns */
+export type Files_Stddev_Fields = {
+	__typename?: "files_stddev_fields";
+	size?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Files_Stddev_Pop_Fields = {
+	__typename?: "files_stddev_pop_fields";
+	size?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Files_Stddev_Samp_Fields = {
+	__typename?: "files_stddev_samp_fields";
+	size?: Maybe<Scalars["Float"]["output"]>;
+};
+
 /** Streaming cursor of the table "files" */
 export type Files_Stream_Cursor_Input = {
 	/** Stream column input with initial value */
@@ -933,11 +1374,35 @@ export type Files_Stream_Cursor_Value_Input = {
 	uploadedByUserId?: InputMaybe<Scalars["uuid"]["input"]>;
 };
 
+/** aggregate sum on columns */
+export type Files_Sum_Fields = {
+	__typename?: "files_sum_fields";
+	size?: Maybe<Scalars["Int"]["output"]>;
+};
+
 /** placeholder for update columns of table "storage.files" (current role has no relevant permissions) */
 export enum Files_Update_Column {
 	/** placeholder (do not use) */
 	Placeholder = "_PLACEHOLDER",
 }
+
+/** aggregate var_pop on columns */
+export type Files_Var_Pop_Fields = {
+	__typename?: "files_var_pop_fields";
+	size?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate var_samp on columns */
+export type Files_Var_Samp_Fields = {
+	__typename?: "files_var_samp_fields";
+	size?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** aggregate variance on columns */
+export type Files_Variance_Fields = {
+	__typename?: "files_variance_fields";
+	size?: Maybe<Scalars["Float"]["output"]>;
+};
 
 export type GraphiteAssistant = {
 	__typename?: "graphiteAssistant";
@@ -1427,6 +1892,8 @@ export type Kb_Entries = {
 	id: Scalars["uuid"]["output"];
 	/** An array relationship */
 	kb_entry_departments: Array<Kb_Entry_Departments>;
+	/** An aggregate relationship */
+	kb_entry_departments_aggregate: Kb_Entry_Departments_Aggregate;
 	summary?: Maybe<Scalars["String"]["output"]>;
 	title: Scalars["String"]["output"];
 	updated_at: Scalars["timestamptz"]["output"];
@@ -1444,6 +1911,35 @@ export type Kb_EntriesKb_Entry_DepartmentsArgs = {
 	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
 };
 
+/** columns and relationships of "kb_entries" */
+export type Kb_EntriesKb_Entry_Departments_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+export type Kb_Entries_Aggregate = {
+	__typename?: "kb_entries_aggregate";
+	aggregate?: Maybe<Kb_Entries_Aggregate_Fields>;
+	nodes: Array<Kb_Entries>;
+};
+
+/** aggregate fields of "kb_entries" */
+export type Kb_Entries_Aggregate_Fields = {
+	__typename?: "kb_entries_aggregate_fields";
+	count: Scalars["Int"]["output"];
+	max?: Maybe<Kb_Entries_Max_Fields>;
+	min?: Maybe<Kb_Entries_Min_Fields>;
+};
+
+/** aggregate fields of "kb_entries" */
+export type Kb_Entries_Aggregate_FieldsCountArgs = {
+	columns?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
 /** Boolean expression to filter rows from the table "kb_entries". All fields are combined with a logical 'AND'. */
 export type Kb_Entries_Bool_Exp = {
 	_and?: InputMaybe<Array<Kb_Entries_Bool_Exp>>;
@@ -1453,6 +1949,7 @@ export type Kb_Entries_Bool_Exp = {
 	created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 	id?: InputMaybe<Uuid_Comparison_Exp>;
 	kb_entry_departments?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+	kb_entry_departments_aggregate?: InputMaybe<Kb_Entry_Departments_Aggregate_Bool_Exp>;
 	summary?: InputMaybe<String_Comparison_Exp>;
 	title?: InputMaybe<String_Comparison_Exp>;
 	updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -1472,6 +1969,30 @@ export type Kb_Entries_Insert_Input = {
 	kb_entry_departments?: InputMaybe<Kb_Entry_Departments_Arr_Rel_Insert_Input>;
 	summary?: InputMaybe<Scalars["String"]["input"]>;
 	title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+/** aggregate max on columns */
+export type Kb_Entries_Max_Fields = {
+	__typename?: "kb_entries_max_fields";
+	content?: Maybe<Scalars["String"]["output"]>;
+	created_at?: Maybe<Scalars["timestamptz"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	summary?: Maybe<Scalars["String"]["output"]>;
+	title?: Maybe<Scalars["String"]["output"]>;
+	updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+	uploader_id?: Maybe<Scalars["uuid"]["output"]>;
+};
+
+/** aggregate min on columns */
+export type Kb_Entries_Min_Fields = {
+	__typename?: "kb_entries_min_fields";
+	content?: Maybe<Scalars["String"]["output"]>;
+	created_at?: Maybe<Scalars["timestamptz"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	summary?: Maybe<Scalars["String"]["output"]>;
+	title?: Maybe<Scalars["String"]["output"]>;
+	updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+	uploader_id?: Maybe<Scalars["uuid"]["output"]>;
 };
 
 /** response of any mutation on the table "kb_entries" */
@@ -1588,6 +2109,38 @@ export type Kb_Entry_Departments = {
 	kb_entry_id: Scalars["uuid"]["output"];
 };
 
+/** aggregated selection of "kb_entry_departments" */
+export type Kb_Entry_Departments_Aggregate = {
+	__typename?: "kb_entry_departments_aggregate";
+	aggregate?: Maybe<Kb_Entry_Departments_Aggregate_Fields>;
+	nodes: Array<Kb_Entry_Departments>;
+};
+
+export type Kb_Entry_Departments_Aggregate_Bool_Exp = {
+	count?: InputMaybe<Kb_Entry_Departments_Aggregate_Bool_Exp_Count>;
+};
+
+export type Kb_Entry_Departments_Aggregate_Bool_Exp_Count = {
+	arguments?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+	filter?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+	predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "kb_entry_departments" */
+export type Kb_Entry_Departments_Aggregate_Fields = {
+	__typename?: "kb_entry_departments_aggregate_fields";
+	count: Scalars["Int"]["output"];
+	max?: Maybe<Kb_Entry_Departments_Max_Fields>;
+	min?: Maybe<Kb_Entry_Departments_Min_Fields>;
+};
+
+/** aggregate fields of "kb_entry_departments" */
+export type Kb_Entry_Departments_Aggregate_FieldsCountArgs = {
+	columns?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
 /** order by aggregate values of table "kb_entry_departments" */
 export type Kb_Entry_Departments_Aggregate_Order_By = {
 	count?: InputMaybe<Order_By>;
@@ -1629,11 +2182,27 @@ export type Kb_Entry_Departments_Insert_Input = {
 	kb_entry_id?: InputMaybe<Scalars["uuid"]["input"]>;
 };
 
+/** aggregate max on columns */
+export type Kb_Entry_Departments_Max_Fields = {
+	__typename?: "kb_entry_departments_max_fields";
+	department_id?: Maybe<Scalars["uuid"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	kb_entry_id?: Maybe<Scalars["uuid"]["output"]>;
+};
+
 /** order by max() on columns of table "kb_entry_departments" */
 export type Kb_Entry_Departments_Max_Order_By = {
 	department_id?: InputMaybe<Order_By>;
 	id?: InputMaybe<Order_By>;
 	kb_entry_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Kb_Entry_Departments_Min_Fields = {
+	__typename?: "kb_entry_departments_min_fields";
+	department_id?: Maybe<Scalars["uuid"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	kb_entry_id?: Maybe<Scalars["uuid"]["output"]>;
 };
 
 /** order by min() on columns of table "kb_entry_departments" */
@@ -1702,6 +2271,18 @@ export enum Kb_Entry_Departments_Update_Column {
 /** mutation root */
 export type Mutation_Root = {
 	__typename?: "mutation_root";
+	/** insert a single row into the table: "graphite.sessions" */
+	_insertGraphiteSession?: Maybe<_GraphiteSessions>;
+	/** insert data into the table: "graphite.sessions" */
+	_insertGraphiteSessions?: Maybe<_GraphiteSessions_Mutation_Response>;
+	/** update single row of the table: "graphite.sessions" */
+	_updateGraphiteSession?: Maybe<_GraphiteSessions>;
+	/** update data of the table: "graphite.sessions" */
+	_updateGraphiteSessions?: Maybe<_GraphiteSessions_Mutation_Response>;
+	/** update multiples rows of table: "graphite.sessions" */
+	_updateManyGraphiteSessions?: Maybe<
+		Array<Maybe<_GraphiteSessions_Mutation_Response>>
+	>;
 	/** delete single row from the table: "auth.refresh_tokens" */
 	deleteAuthRefreshToken?: Maybe<AuthRefreshTokens>;
 	/** delete data from the table: "auth.refresh_tokens" */
@@ -1777,6 +2358,35 @@ export type Mutation_Root = {
 	>;
 	/** update multiples rows of table: "auth.users" */
 	update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
+};
+
+/** mutation root */
+export type Mutation_Root_InsertGraphiteSessionArgs = {
+	object: _GraphiteSessions_Insert_Input;
+	on_conflict?: InputMaybe<_GraphiteSessions_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_Root_InsertGraphiteSessionsArgs = {
+	objects: Array<_GraphiteSessions_Insert_Input>;
+	on_conflict?: InputMaybe<_GraphiteSessions_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_Root_UpdateGraphiteSessionArgs = {
+	_set?: InputMaybe<_GraphiteSessions_Set_Input>;
+	pk_columns: _GraphiteSessions_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_Root_UpdateGraphiteSessionsArgs = {
+	_set?: InputMaybe<_GraphiteSessions_Set_Input>;
+	where: _GraphiteSessions_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_Root_UpdateManyGraphiteSessionsArgs = {
+	updates: Array<_GraphiteSessions_Updates>;
 };
 
 /** mutation root */
@@ -2010,6 +2620,14 @@ export enum Order_By {
 
 export type Query_Root = {
 	__typename?: "query_root";
+	/** fetch data from the table: "graphite.assistants" using primary key columns */
+	_graphiteAssistant?: Maybe<_GraphiteAssistants>;
+	/** fetch data from the table: "graphite.assistants" */
+	_graphiteAssistants: Array<_GraphiteAssistants>;
+	/** fetch data from the table: "graphite.sessions" using primary key columns */
+	_graphiteSession?: Maybe<_GraphiteSessions>;
+	/** fetch data from the table: "graphite.sessions" */
+	_graphiteSessions: Array<_GraphiteSessions>;
 	/** fetch data from the table: "auth.refresh_tokens" using primary key columns */
 	authRefreshToken?: Maybe<AuthRefreshTokens>;
 	/** fetch data from the table: "auth.refresh_tokens" */
@@ -2020,6 +2638,8 @@ export type Query_Root = {
 	authUserSecurityKeys: Array<AuthUserSecurityKeys>;
 	/** fetch data from the table: "department_files" */
 	department_files: Array<Department_Files>;
+	/** fetch aggregated fields from the table: "department_files" */
+	department_files_aggregate: Department_Files_Aggregate;
 	/** fetch data from the table: "department_files" using primary key columns */
 	department_files_by_pk?: Maybe<Department_Files>;
 	/** fetch data from the table: "department_roles" */
@@ -2028,33 +2648,73 @@ export type Query_Root = {
 	department_roles_by_pk?: Maybe<Department_Roles>;
 	/** fetch data from the table: "departments" */
 	departments: Array<Departments>;
+	/** fetch aggregated fields from the table: "departments" */
+	departments_aggregate: Departments_Aggregate;
 	/** fetch data from the table: "departments" using primary key columns */
 	departments_by_pk?: Maybe<Departments>;
 	/** fetch data from the table: "storage.files" using primary key columns */
 	file?: Maybe<Files>;
 	/** fetch data from the table: "storage.files" */
 	files: Array<Files>;
+	/** fetch aggregated fields from the table: "storage.files" */
+	filesAggregate: Files_Aggregate;
 	graphite?: Maybe<GraphiteQuery>;
 	/** execute function "graphite_search_kb_entries" which returns "kb_entries" */
 	graphiteSearchKbEntries: Array<Kb_Entries>;
+	/** execute function "graphite_search_kb_entries" and query aggregates on result of table type "kb_entries" */
+	graphiteSearchKbEntriesAggregate: Kb_Entries_Aggregate;
 	/** execute function "graphite_similar_kb_entries" which returns "kb_entries" */
 	graphiteSimilarKbEntries: Array<Kb_Entries>;
+	/** execute function "graphite_similar_kb_entries" and query aggregates on result of table type "kb_entries" */
+	graphiteSimilarKbEntriesAggregate: Kb_Entries_Aggregate;
 	/** fetch data from the table: "kb_entries" */
 	kb_entries: Array<Kb_Entries>;
+	/** fetch aggregated fields from the table: "kb_entries" */
+	kb_entries_aggregate: Kb_Entries_Aggregate;
 	/** fetch data from the table: "kb_entries" using primary key columns */
 	kb_entries_by_pk?: Maybe<Kb_Entries>;
 	/** An array relationship */
 	kb_entry_departments: Array<Kb_Entry_Departments>;
+	/** An aggregate relationship */
+	kb_entry_departments_aggregate: Kb_Entry_Departments_Aggregate;
 	/** fetch data from the table: "kb_entry_departments" using primary key columns */
 	kb_entry_departments_by_pk?: Maybe<Kb_Entry_Departments>;
 	/** fetch data from the table: "auth.users" using primary key columns */
 	user?: Maybe<Users>;
 	/** fetch data from the table: "user_departments" */
 	user_departments: Array<User_Departments>;
+	/** fetch aggregated fields from the table: "user_departments" */
+	user_departments_aggregate: User_Departments_Aggregate;
 	/** fetch data from the table: "user_departments" using primary key columns */
 	user_departments_by_pk?: Maybe<User_Departments>;
 	/** fetch data from the table: "auth.users" */
 	users: Array<Users>;
+	/** fetch aggregated fields from the table: "auth.users" */
+	usersAggregate: Users_Aggregate;
+};
+
+export type Query_Root_GraphiteAssistantArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+export type Query_Root_GraphiteAssistantsArgs = {
+	distinct_on?: InputMaybe<Array<_GraphiteAssistants_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<_GraphiteAssistants_Order_By>>;
+	where?: InputMaybe<_GraphiteAssistants_Bool_Exp>;
+};
+
+export type Query_Root_GraphiteSessionArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+export type Query_Root_GraphiteSessionsArgs = {
+	distinct_on?: InputMaybe<Array<_GraphiteSessions_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<_GraphiteSessions_Order_By>>;
+	where?: InputMaybe<_GraphiteSessions_Bool_Exp>;
 };
 
 export type Query_RootAuthRefreshTokenArgs = {
@@ -2089,6 +2749,14 @@ export type Query_RootDepartment_FilesArgs = {
 	where?: InputMaybe<Department_Files_Bool_Exp>;
 };
 
+export type Query_RootDepartment_Files_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<Department_Files_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Department_Files_Order_By>>;
+	where?: InputMaybe<Department_Files_Bool_Exp>;
+};
+
 export type Query_RootDepartment_Files_By_PkArgs = {
 	id: Scalars["uuid"]["input"];
 };
@@ -2113,6 +2781,14 @@ export type Query_RootDepartmentsArgs = {
 	where?: InputMaybe<Departments_Bool_Exp>;
 };
 
+export type Query_RootDepartments_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Departments_Order_By>>;
+	where?: InputMaybe<Departments_Bool_Exp>;
+};
+
 export type Query_RootDepartments_By_PkArgs = {
 	id: Scalars["uuid"]["input"];
 };
@@ -2129,7 +2805,24 @@ export type Query_RootFilesArgs = {
 	where?: InputMaybe<Files_Bool_Exp>;
 };
 
+export type Query_RootFilesAggregateArgs = {
+	distinct_on?: InputMaybe<Array<Files_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Files_Order_By>>;
+	where?: InputMaybe<Files_Bool_Exp>;
+};
+
 export type Query_RootGraphiteSearchKbEntriesArgs = {
+	args: Graphite_Search_Kb_Entries_Args;
+	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entries_Order_By>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
+export type Query_RootGraphiteSearchKbEntriesAggregateArgs = {
 	args: Graphite_Search_Kb_Entries_Args;
 	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2147,7 +2840,24 @@ export type Query_RootGraphiteSimilarKbEntriesArgs = {
 	where?: InputMaybe<Kb_Entries_Bool_Exp>;
 };
 
+export type Query_RootGraphiteSimilarKbEntriesAggregateArgs = {
+	args: Graphite_Similar_Kb_Entries_Args;
+	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entries_Order_By>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
 export type Query_RootKb_EntriesArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entries_Order_By>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
+export type Query_RootKb_Entries_AggregateArgs = {
 	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2160,6 +2870,14 @@ export type Query_RootKb_Entries_By_PkArgs = {
 };
 
 export type Query_RootKb_Entry_DepartmentsArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+export type Query_RootKb_Entry_Departments_AggregateArgs = {
 	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2183,6 +2901,14 @@ export type Query_RootUser_DepartmentsArgs = {
 	where?: InputMaybe<User_Departments_Bool_Exp>;
 };
 
+export type Query_RootUser_Departments_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<User_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<User_Departments_Order_By>>;
+	where?: InputMaybe<User_Departments_Bool_Exp>;
+};
+
 export type Query_RootUser_Departments_By_PkArgs = {
 	id: Scalars["uuid"]["input"];
 };
@@ -2195,8 +2921,28 @@ export type Query_RootUsersArgs = {
 	where?: InputMaybe<Users_Bool_Exp>;
 };
 
+export type Query_RootUsersAggregateArgs = {
+	distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Users_Order_By>>;
+	where?: InputMaybe<Users_Bool_Exp>;
+};
+
 export type Subscription_Root = {
 	__typename?: "subscription_root";
+	/** fetch data from the table: "graphite.assistants" using primary key columns */
+	_graphiteAssistant?: Maybe<_GraphiteAssistants>;
+	/** fetch data from the table in a streaming manner: "graphite.assistants" */
+	_graphiteAssistantStream: Array<_GraphiteAssistants>;
+	/** fetch data from the table: "graphite.assistants" */
+	_graphiteAssistants: Array<_GraphiteAssistants>;
+	/** fetch data from the table: "graphite.sessions" using primary key columns */
+	_graphiteSession?: Maybe<_GraphiteSessions>;
+	/** fetch data from the table in a streaming manner: "graphite.sessions" */
+	_graphiteSessionStream: Array<_GraphiteSessions>;
+	/** fetch data from the table: "graphite.sessions" */
+	_graphiteSessions: Array<_GraphiteSessions>;
 	/** fetch data from the table: "auth.refresh_tokens" using primary key columns */
 	authRefreshToken?: Maybe<AuthRefreshTokens>;
 	/** fetch data from the table: "auth.refresh_tokens" */
@@ -2211,6 +2957,8 @@ export type Subscription_Root = {
 	authUserSecurityKeys_stream: Array<AuthUserSecurityKeys>;
 	/** fetch data from the table: "department_files" */
 	department_files: Array<Department_Files>;
+	/** fetch aggregated fields from the table: "department_files" */
+	department_files_aggregate: Department_Files_Aggregate;
 	/** fetch data from the table: "department_files" using primary key columns */
 	department_files_by_pk?: Maybe<Department_Files>;
 	/** fetch data from the table in a streaming manner: "department_files" */
@@ -2223,6 +2971,8 @@ export type Subscription_Root = {
 	department_roles_stream: Array<Department_Roles>;
 	/** fetch data from the table: "departments" */
 	departments: Array<Departments>;
+	/** fetch aggregated fields from the table: "departments" */
+	departments_aggregate: Departments_Aggregate;
 	/** fetch data from the table: "departments" using primary key columns */
 	departments_by_pk?: Maybe<Departments>;
 	/** fetch data from the table in a streaming manner: "departments" */
@@ -2231,20 +2981,30 @@ export type Subscription_Root = {
 	file?: Maybe<Files>;
 	/** fetch data from the table: "storage.files" */
 	files: Array<Files>;
+	/** fetch aggregated fields from the table: "storage.files" */
+	filesAggregate: Files_Aggregate;
 	/** fetch data from the table in a streaming manner: "storage.files" */
 	files_stream: Array<Files>;
 	/** execute function "graphite_search_kb_entries" which returns "kb_entries" */
 	graphiteSearchKbEntries: Array<Kb_Entries>;
+	/** execute function "graphite_search_kb_entries" and query aggregates on result of table type "kb_entries" */
+	graphiteSearchKbEntriesAggregate: Kb_Entries_Aggregate;
 	/** execute function "graphite_similar_kb_entries" which returns "kb_entries" */
 	graphiteSimilarKbEntries: Array<Kb_Entries>;
+	/** execute function "graphite_similar_kb_entries" and query aggregates on result of table type "kb_entries" */
+	graphiteSimilarKbEntriesAggregate: Kb_Entries_Aggregate;
 	/** fetch data from the table: "kb_entries" */
 	kb_entries: Array<Kb_Entries>;
+	/** fetch aggregated fields from the table: "kb_entries" */
+	kb_entries_aggregate: Kb_Entries_Aggregate;
 	/** fetch data from the table: "kb_entries" using primary key columns */
 	kb_entries_by_pk?: Maybe<Kb_Entries>;
 	/** fetch data from the table in a streaming manner: "kb_entries" */
 	kb_entries_stream: Array<Kb_Entries>;
 	/** An array relationship */
 	kb_entry_departments: Array<Kb_Entry_Departments>;
+	/** An aggregate relationship */
+	kb_entry_departments_aggregate: Kb_Entry_Departments_Aggregate;
 	/** fetch data from the table: "kb_entry_departments" using primary key columns */
 	kb_entry_departments_by_pk?: Maybe<Kb_Entry_Departments>;
 	/** fetch data from the table in a streaming manner: "kb_entry_departments" */
@@ -2253,14 +3013,54 @@ export type Subscription_Root = {
 	user?: Maybe<Users>;
 	/** fetch data from the table: "user_departments" */
 	user_departments: Array<User_Departments>;
+	/** fetch aggregated fields from the table: "user_departments" */
+	user_departments_aggregate: User_Departments_Aggregate;
 	/** fetch data from the table: "user_departments" using primary key columns */
 	user_departments_by_pk?: Maybe<User_Departments>;
 	/** fetch data from the table in a streaming manner: "user_departments" */
 	user_departments_stream: Array<User_Departments>;
 	/** fetch data from the table: "auth.users" */
 	users: Array<Users>;
+	/** fetch aggregated fields from the table: "auth.users" */
+	usersAggregate: Users_Aggregate;
 	/** fetch data from the table in a streaming manner: "auth.users" */
 	users_stream: Array<Users>;
+};
+
+export type Subscription_Root_GraphiteAssistantArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+export type Subscription_Root_GraphiteAssistantStreamArgs = {
+	batch_size: Scalars["Int"]["input"];
+	cursor: Array<InputMaybe<_GraphiteAssistants_Stream_Cursor_Input>>;
+	where?: InputMaybe<_GraphiteAssistants_Bool_Exp>;
+};
+
+export type Subscription_Root_GraphiteAssistantsArgs = {
+	distinct_on?: InputMaybe<Array<_GraphiteAssistants_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<_GraphiteAssistants_Order_By>>;
+	where?: InputMaybe<_GraphiteAssistants_Bool_Exp>;
+};
+
+export type Subscription_Root_GraphiteSessionArgs = {
+	id: Scalars["uuid"]["input"];
+};
+
+export type Subscription_Root_GraphiteSessionStreamArgs = {
+	batch_size: Scalars["Int"]["input"];
+	cursor: Array<InputMaybe<_GraphiteSessions_Stream_Cursor_Input>>;
+	where?: InputMaybe<_GraphiteSessions_Bool_Exp>;
+};
+
+export type Subscription_Root_GraphiteSessionsArgs = {
+	distinct_on?: InputMaybe<Array<_GraphiteSessions_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<_GraphiteSessions_Order_By>>;
+	where?: InputMaybe<_GraphiteSessions_Bool_Exp>;
 };
 
 export type Subscription_RootAuthRefreshTokenArgs = {
@@ -2307,6 +3107,14 @@ export type Subscription_RootDepartment_FilesArgs = {
 	where?: InputMaybe<Department_Files_Bool_Exp>;
 };
 
+export type Subscription_RootDepartment_Files_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<Department_Files_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Department_Files_Order_By>>;
+	where?: InputMaybe<Department_Files_Bool_Exp>;
+};
+
 export type Subscription_RootDepartment_Files_By_PkArgs = {
 	id: Scalars["uuid"]["input"];
 };
@@ -2343,6 +3151,14 @@ export type Subscription_RootDepartmentsArgs = {
 	where?: InputMaybe<Departments_Bool_Exp>;
 };
 
+export type Subscription_RootDepartments_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Departments_Order_By>>;
+	where?: InputMaybe<Departments_Bool_Exp>;
+};
+
 export type Subscription_RootDepartments_By_PkArgs = {
 	id: Scalars["uuid"]["input"];
 };
@@ -2365,6 +3181,14 @@ export type Subscription_RootFilesArgs = {
 	where?: InputMaybe<Files_Bool_Exp>;
 };
 
+export type Subscription_RootFilesAggregateArgs = {
+	distinct_on?: InputMaybe<Array<Files_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Files_Order_By>>;
+	where?: InputMaybe<Files_Bool_Exp>;
+};
+
 export type Subscription_RootFiles_StreamArgs = {
 	batch_size: Scalars["Int"]["input"];
 	cursor: Array<InputMaybe<Files_Stream_Cursor_Input>>;
@@ -2372,6 +3196,15 @@ export type Subscription_RootFiles_StreamArgs = {
 };
 
 export type Subscription_RootGraphiteSearchKbEntriesArgs = {
+	args: Graphite_Search_Kb_Entries_Args;
+	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entries_Order_By>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
+export type Subscription_RootGraphiteSearchKbEntriesAggregateArgs = {
 	args: Graphite_Search_Kb_Entries_Args;
 	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2389,7 +3222,24 @@ export type Subscription_RootGraphiteSimilarKbEntriesArgs = {
 	where?: InputMaybe<Kb_Entries_Bool_Exp>;
 };
 
+export type Subscription_RootGraphiteSimilarKbEntriesAggregateArgs = {
+	args: Graphite_Similar_Kb_Entries_Args;
+	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entries_Order_By>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
 export type Subscription_RootKb_EntriesArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entries_Order_By>>;
+	where?: InputMaybe<Kb_Entries_Bool_Exp>;
+};
+
+export type Subscription_RootKb_Entries_AggregateArgs = {
 	distinct_on?: InputMaybe<Array<Kb_Entries_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2408,6 +3258,14 @@ export type Subscription_RootKb_Entries_StreamArgs = {
 };
 
 export type Subscription_RootKb_Entry_DepartmentsArgs = {
+	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Kb_Entry_Departments_Order_By>>;
+	where?: InputMaybe<Kb_Entry_Departments_Bool_Exp>;
+};
+
+export type Subscription_RootKb_Entry_Departments_AggregateArgs = {
 	distinct_on?: InputMaybe<Array<Kb_Entry_Departments_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2437,6 +3295,14 @@ export type Subscription_RootUser_DepartmentsArgs = {
 	where?: InputMaybe<User_Departments_Bool_Exp>;
 };
 
+export type Subscription_RootUser_Departments_AggregateArgs = {
+	distinct_on?: InputMaybe<Array<User_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<User_Departments_Order_By>>;
+	where?: InputMaybe<User_Departments_Bool_Exp>;
+};
+
 export type Subscription_RootUser_Departments_By_PkArgs = {
 	id: Scalars["uuid"]["input"];
 };
@@ -2448,6 +3314,14 @@ export type Subscription_RootUser_Departments_StreamArgs = {
 };
 
 export type Subscription_RootUsersArgs = {
+	distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<Users_Order_By>>;
+	where?: InputMaybe<Users_Bool_Exp>;
+};
+
+export type Subscription_RootUsersAggregateArgs = {
 	distinct_on?: InputMaybe<Array<Users_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2489,6 +3363,54 @@ export type User_Departments = {
 	user_id: Scalars["uuid"]["output"];
 };
 
+/** aggregated selection of "user_departments" */
+export type User_Departments_Aggregate = {
+	__typename?: "user_departments_aggregate";
+	aggregate?: Maybe<User_Departments_Aggregate_Fields>;
+	nodes: Array<User_Departments>;
+};
+
+export type User_Departments_Aggregate_Bool_Exp = {
+	bool_and?: InputMaybe<User_Departments_Aggregate_Bool_Exp_Bool_And>;
+	bool_or?: InputMaybe<User_Departments_Aggregate_Bool_Exp_Bool_Or>;
+	count?: InputMaybe<User_Departments_Aggregate_Bool_Exp_Count>;
+};
+
+export type User_Departments_Aggregate_Bool_Exp_Bool_And = {
+	arguments: User_Departments_Select_Column_User_Departments_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+	filter?: InputMaybe<User_Departments_Bool_Exp>;
+	predicate: Boolean_Comparison_Exp;
+};
+
+export type User_Departments_Aggregate_Bool_Exp_Bool_Or = {
+	arguments: User_Departments_Select_Column_User_Departments_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+	filter?: InputMaybe<User_Departments_Bool_Exp>;
+	predicate: Boolean_Comparison_Exp;
+};
+
+export type User_Departments_Aggregate_Bool_Exp_Count = {
+	arguments?: InputMaybe<Array<User_Departments_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+	filter?: InputMaybe<User_Departments_Bool_Exp>;
+	predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "user_departments" */
+export type User_Departments_Aggregate_Fields = {
+	__typename?: "user_departments_aggregate_fields";
+	count: Scalars["Int"]["output"];
+	max?: Maybe<User_Departments_Max_Fields>;
+	min?: Maybe<User_Departments_Min_Fields>;
+};
+
+/** aggregate fields of "user_departments" */
+export type User_Departments_Aggregate_FieldsCountArgs = {
+	columns?: InputMaybe<Array<User_Departments_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
 /** order by aggregate values of table "user_departments" */
 export type User_Departments_Aggregate_Order_By = {
 	count?: InputMaybe<Order_By>;
@@ -2527,12 +3449,30 @@ export type User_Departments_Insert_Input = {
 	user_id?: InputMaybe<Scalars["uuid"]["input"]>;
 };
 
+/** aggregate max on columns */
+export type User_Departments_Max_Fields = {
+	__typename?: "user_departments_max_fields";
+	department_id?: Maybe<Scalars["uuid"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	joined_at?: Maybe<Scalars["timestamptz"]["output"]>;
+	user_id?: Maybe<Scalars["uuid"]["output"]>;
+};
+
 /** order by max() on columns of table "user_departments" */
 export type User_Departments_Max_Order_By = {
 	department_id?: InputMaybe<Order_By>;
 	id?: InputMaybe<Order_By>;
 	joined_at?: InputMaybe<Order_By>;
 	user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type User_Departments_Min_Fields = {
+	__typename?: "user_departments_min_fields";
+	department_id?: Maybe<Scalars["uuid"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	joined_at?: Maybe<Scalars["timestamptz"]["output"]>;
+	user_id?: Maybe<Scalars["uuid"]["output"]>;
 };
 
 /** order by min() on columns of table "user_departments" */
@@ -2592,6 +3532,18 @@ export enum User_Departments_Select_Column {
 	UserId = "user_id",
 }
 
+/** select "user_departments_aggregate_bool_exp_bool_and_arguments_columns" columns of table "user_departments" */
+export enum User_Departments_Select_Column_User_Departments_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+	/** column name */
+	IsActive = "is_active",
+}
+
+/** select "user_departments_aggregate_bool_exp_bool_or_arguments_columns" columns of table "user_departments" */
+export enum User_Departments_Select_Column_User_Departments_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+	/** column name */
+	IsActive = "is_active",
+}
+
 /** input type for updating data in table "user_departments" */
 export type User_Departments_Set_Input = {
 	is_active?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -2638,6 +3590,8 @@ export type Users = {
 	createdAt: Scalars["timestamptz"]["output"];
 	/** An array relationship */
 	departments: Array<User_Departments>;
+	/** An aggregate relationship */
+	departments_aggregate: User_Departments_Aggregate;
 	displayName: Scalars["String"]["output"];
 	email?: Maybe<Scalars["citext"]["output"]>;
 	emailVerified: Scalars["Boolean"]["output"];
@@ -2652,6 +3606,15 @@ export type Users = {
 
 /** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type UsersDepartmentsArgs = {
+	distinct_on?: InputMaybe<Array<User_Departments_Select_Column>>;
+	limit?: InputMaybe<Scalars["Int"]["input"]>;
+	offset?: InputMaybe<Scalars["Int"]["input"]>;
+	order_by?: InputMaybe<Array<User_Departments_Order_By>>;
+	where?: InputMaybe<User_Departments_Bool_Exp>;
+};
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersDepartments_AggregateArgs = {
 	distinct_on?: InputMaybe<Array<User_Departments_Select_Column>>;
 	limit?: InputMaybe<Scalars["Int"]["input"]>;
 	offset?: InputMaybe<Scalars["Int"]["input"]>;
@@ -2677,6 +3640,27 @@ export type UsersSecurityKeysArgs = {
 	where?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 };
 
+/** aggregated selection of "auth.users" */
+export type Users_Aggregate = {
+	__typename?: "users_aggregate";
+	aggregate?: Maybe<Users_Aggregate_Fields>;
+	nodes: Array<Users>;
+};
+
+/** aggregate fields of "auth.users" */
+export type Users_Aggregate_Fields = {
+	__typename?: "users_aggregate_fields";
+	count: Scalars["Int"]["output"];
+	max?: Maybe<Users_Max_Fields>;
+	min?: Maybe<Users_Min_Fields>;
+};
+
+/** aggregate fields of "auth.users" */
+export type Users_Aggregate_FieldsCountArgs = {
+	columns?: InputMaybe<Array<Users_Select_Column>>;
+	distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
 /** Boolean expression to filter rows from the table "auth.users". All fields are combined with a logical 'AND'. */
 export type Users_Bool_Exp = {
 	_and?: InputMaybe<Array<Users_Bool_Exp>>;
@@ -2685,6 +3669,7 @@ export type Users_Bool_Exp = {
 	avatarUrl?: InputMaybe<String_Comparison_Exp>;
 	createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
 	departments?: InputMaybe<User_Departments_Bool_Exp>;
+	departments_aggregate?: InputMaybe<User_Departments_Aggregate_Bool_Exp>;
 	displayName?: InputMaybe<String_Comparison_Exp>;
 	email?: InputMaybe<Citext_Comparison_Exp>;
 	emailVerified?: InputMaybe<Boolean_Comparison_Exp>;
@@ -2693,6 +3678,30 @@ export type Users_Bool_Exp = {
 	refreshTokens?: InputMaybe<AuthRefreshTokens_Bool_Exp>;
 	securityKeys?: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 	updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Users_Max_Fields = {
+	__typename?: "users_max_fields";
+	avatarUrl?: Maybe<Scalars["String"]["output"]>;
+	createdAt?: Maybe<Scalars["timestamptz"]["output"]>;
+	displayName?: Maybe<Scalars["String"]["output"]>;
+	email?: Maybe<Scalars["citext"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	locale?: Maybe<Scalars["String"]["output"]>;
+	updatedAt?: Maybe<Scalars["timestamptz"]["output"]>;
+};
+
+/** aggregate min on columns */
+export type Users_Min_Fields = {
+	__typename?: "users_min_fields";
+	avatarUrl?: Maybe<Scalars["String"]["output"]>;
+	createdAt?: Maybe<Scalars["timestamptz"]["output"]>;
+	displayName?: Maybe<Scalars["String"]["output"]>;
+	email?: Maybe<Scalars["citext"]["output"]>;
+	id?: Maybe<Scalars["uuid"]["output"]>;
+	locale?: Maybe<Scalars["String"]["output"]>;
+	updatedAt?: Maybe<Scalars["timestamptz"]["output"]>;
 };
 
 /** response of any mutation on the table "auth.users" */
@@ -3329,6 +4338,223 @@ export type RemoveKnowledgeBaseFromDepartmentMutation = {
 	} | null;
 };
 
+export type StartAssistantSessionMutationVariables = Exact<{
+	assistantId: Scalars["String"]["input"];
+}>;
+
+export type StartAssistantSessionMutation = {
+	__typename?: "mutation_root";
+	graphite?: {
+		__typename?: "graphiteMutation";
+		startSession: {
+			__typename?: "graphiteSession";
+			sessionID: string;
+			assistantID: string;
+			userID: string;
+			createdAt: any;
+		};
+	} | null;
+};
+
+export type SendAssistantMessageMutationVariables = Exact<{
+	sessionId: Scalars["String"]["input"];
+	message: Scalars["String"]["input"];
+	prevMessageId: Scalars["String"]["input"];
+}>;
+
+export type SendAssistantMessageMutation = {
+	__typename?: "mutation_root";
+	graphite?: {
+		__typename?: "graphiteMutation";
+		sendMessage: {
+			__typename?: "graphiteMessageResponse";
+			sessionID: string;
+			messages: Array<{
+				__typename?: "graphiteMessage";
+				id: string;
+				createdAt: any;
+				role: string;
+				message: string;
+			}>;
+		};
+	} | null;
+};
+
+export type GetAssistantSessionsQueryVariables = Exact<{
+	[key: string]: never;
+}>;
+
+export type GetAssistantSessionsQuery = {
+	__typename?: "query_root";
+	graphite?: {
+		__typename?: "graphiteQuery";
+		sessions: Array<{
+			__typename?: "graphiteSession";
+			sessionID: string;
+			assistantID: string;
+			userID: string;
+			createdAt: any;
+		}>;
+	} | null;
+};
+
+export type GetSessionMessagesQueryVariables = Exact<{
+	sessionId: Scalars["String"]["input"];
+}>;
+
+export type GetSessionMessagesQuery = {
+	__typename?: "query_root";
+	graphite?: {
+		__typename?: "graphiteQuery";
+		sessionMessages?: {
+			__typename?: "graphiteMessageResponse";
+			sessionID: string;
+			messages: Array<{
+				__typename?: "graphiteMessage";
+				id: string;
+				createdAt: any;
+				role: string;
+				message: string;
+			}>;
+		} | null;
+	} | null;
+};
+
+export type GetDashboardSummaryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetDashboardSummaryQuery = {
+	__typename?: "query_root";
+	user_departments: Array<{
+		__typename?: "departments";
+		id: string;
+		name: string;
+		description?: string | null;
+		budget?: any | null;
+		employees_aggregate: {
+			__typename?: "user_departments_aggregate";
+			aggregate?: {
+				__typename?: "user_departments_aggregate_fields";
+				count: number;
+			} | null;
+		};
+		files_aggregate: {
+			__typename?: "department_files_aggregate";
+			aggregate?: {
+				__typename?: "department_files_aggregate_fields";
+				count: number;
+			} | null;
+		};
+		kb_entry_departments_aggregate: {
+			__typename?: "kb_entry_departments_aggregate";
+			aggregate?: {
+				__typename?: "kb_entry_departments_aggregate_fields";
+				count: number;
+			} | null;
+		};
+	}>;
+	recent_kb_entries: Array<{
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+		summary?: string | null;
+		created_at: string;
+		uploader: {
+			__typename?: "users";
+			id: string;
+			displayName: string;
+			email?: string | null;
+		};
+	}>;
+};
+
+export type GetUserFilesStatsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserFilesStatsQuery = {
+	__typename?: "query_root";
+	user_files: Array<{
+		__typename?: "files";
+		id: string;
+		name?: string | null;
+		size?: number | null;
+		mimeType?: string | null;
+		createdAt: string;
+	}>;
+	user_files_aggregate: {
+		__typename?: "files_aggregate";
+		aggregate?: {
+			__typename?: "files_aggregate_fields";
+			count: number;
+			sum?: { __typename?: "files_sum_fields"; size?: number | null } | null;
+		} | null;
+	};
+	accessible_department_files: Array<{
+		__typename?: "department_files";
+		id: string;
+		file: {
+			__typename?: "files";
+			id: string;
+			name?: string | null;
+			size?: number | null;
+			mimeType?: string | null;
+			createdAt: string;
+			uploadedByUserId?: string | null;
+		};
+		department: { __typename?: "departments"; id: string; name: string };
+	}>;
+	recent_files: Array<{
+		__typename?: "files";
+		id: string;
+		name?: string | null;
+		size?: number | null;
+		mimeType?: string | null;
+		createdAt: string;
+		uploadedByUserId?: string | null;
+	}>;
+};
+
+export type GetUserKnowledgeBaseStatsQueryVariables = Exact<{
+	[key: string]: never;
+}>;
+
+export type GetUserKnowledgeBaseStatsQuery = {
+	__typename?: "query_root";
+	user_kb_entries: Array<{
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+		summary?: string | null;
+		created_at: string;
+		kb_entry_departments: Array<{
+			__typename?: "kb_entry_departments";
+			department: { __typename?: "departments"; id: string; name: string };
+		}>;
+	}>;
+	user_kb_entries_aggregate: {
+		__typename?: "kb_entries_aggregate";
+		aggregate?: {
+			__typename?: "kb_entries_aggregate_fields";
+			count: number;
+		} | null;
+	};
+	accessible_kb_entries: Array<{
+		__typename?: "kb_entries";
+		id: string;
+		title: string;
+		summary?: string | null;
+		created_at: string;
+		uploader: {
+			__typename?: "users";
+			id: string;
+			displayName: string;
+			email?: string | null;
+		};
+		kb_entry_departments: Array<{
+			__typename?: "kb_entry_departments";
+			department: { __typename?: "departments"; id: string; name: string };
+		}>;
+	}>;
+};
+
 export const UpdateUserDisplayNameDocument = `
     mutation UpdateUserDisplayName($userId: uuid!, $displayName: String!) {
   updateUser(pk_columns: {id: $userId}, _set: {displayName: $displayName}) {
@@ -3946,10 +5172,7 @@ useGetDepartmentFilesQuery.getKey = (
 
 export const GetUserFilesDocument = `
     query GetUserFiles {
-  files(
-    where: {uploadedByUserId: {_eq: "X-Hasura-User-Id"}}
-    order_by: {createdAt: desc}
-  ) {
+  files(order_by: {createdAt: desc}) {
     id
     name
     size
@@ -4503,3 +5726,417 @@ export const useRemoveKnowledgeBaseFromDepartmentMutation = <
 		...options,
 	});
 };
+
+export const StartAssistantSessionDocument = `
+    mutation StartAssistantSession($assistantId: String!) {
+  graphite {
+    startSession(assistantID: $assistantId) {
+      sessionID
+      assistantID
+      userID
+      createdAt
+    }
+  }
+}
+    `;
+
+export const useStartAssistantSessionMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		StartAssistantSessionMutation,
+		TError,
+		StartAssistantSessionMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		StartAssistantSessionMutation,
+		TError,
+		StartAssistantSessionMutationVariables,
+		TContext
+	>({
+		mutationKey: ["StartAssistantSession"],
+		mutationFn: useAuthenticatedFetcher<
+			StartAssistantSessionMutation,
+			StartAssistantSessionMutationVariables
+		>(StartAssistantSessionDocument),
+		...options,
+	});
+};
+
+export const SendAssistantMessageDocument = `
+    mutation SendAssistantMessage($sessionId: String!, $message: String!, $prevMessageId: String!) {
+  graphite {
+    sendMessage(
+      sessionID: $sessionId
+      message: $message
+      prevMessageID: $prevMessageId
+    ) {
+      sessionID
+      messages {
+        id
+        createdAt
+        role
+        message
+      }
+    }
+  }
+}
+    `;
+
+export const useSendAssistantMessageMutation = <
+	TError = unknown,
+	TContext = unknown,
+>(
+	options?: UseMutationOptions<
+		SendAssistantMessageMutation,
+		TError,
+		SendAssistantMessageMutationVariables,
+		TContext
+	>,
+) => {
+	return useMutation<
+		SendAssistantMessageMutation,
+		TError,
+		SendAssistantMessageMutationVariables,
+		TContext
+	>({
+		mutationKey: ["SendAssistantMessage"],
+		mutationFn: useAuthenticatedFetcher<
+			SendAssistantMessageMutation,
+			SendAssistantMessageMutationVariables
+		>(SendAssistantMessageDocument),
+		...options,
+	});
+};
+
+export const GetAssistantSessionsDocument = `
+    query GetAssistantSessions {
+  graphite {
+    sessions {
+      sessionID
+      assistantID
+      userID
+      createdAt
+    }
+  }
+}
+    `;
+
+export const useGetAssistantSessionsQuery = <
+	TData = GetAssistantSessionsQuery,
+	TError = unknown,
+>(
+	variables?: GetAssistantSessionsQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetAssistantSessionsQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetAssistantSessionsQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetAssistantSessionsQuery, TError, TData>({
+		queryKey:
+			variables === undefined
+				? ["GetAssistantSessions"]
+				: ["GetAssistantSessions", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetAssistantSessionsQuery,
+			GetAssistantSessionsQueryVariables
+		>(GetAssistantSessionsDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetAssistantSessionsQuery.getKey = (
+	variables?: GetAssistantSessionsQueryVariables,
+) =>
+	variables === undefined
+		? ["GetAssistantSessions"]
+		: ["GetAssistantSessions", variables];
+
+export const GetSessionMessagesDocument = `
+    query GetSessionMessages($sessionId: String!) {
+  graphite {
+    sessionMessages(sessionID: $sessionId) {
+      sessionID
+      messages {
+        id
+        createdAt
+        role
+        message
+      }
+    }
+  }
+}
+    `;
+
+export const useGetSessionMessagesQuery = <
+	TData = GetSessionMessagesQuery,
+	TError = unknown,
+>(
+	variables: GetSessionMessagesQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetSessionMessagesQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetSessionMessagesQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetSessionMessagesQuery, TError, TData>({
+		queryKey: ["GetSessionMessages", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetSessionMessagesQuery,
+			GetSessionMessagesQueryVariables
+		>(GetSessionMessagesDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetSessionMessagesQuery.getKey = (
+	variables: GetSessionMessagesQueryVariables,
+) => ["GetSessionMessages", variables];
+
+export const GetDashboardSummaryDocument = `
+    query GetDashboardSummary {
+  user_departments: departments {
+    id
+    name
+    description
+    budget
+    employees_aggregate(where: {is_active: {_eq: true}}) {
+      aggregate {
+        count
+      }
+    }
+    files_aggregate {
+      aggregate {
+        count
+      }
+    }
+    kb_entry_departments_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  recent_kb_entries: kb_entries(order_by: {created_at: desc}, limit: 5) {
+    id
+    title
+    summary
+    created_at
+    uploader {
+      id
+      displayName
+      email
+    }
+  }
+}
+    `;
+
+export const useGetDashboardSummaryQuery = <
+	TData = GetDashboardSummaryQuery,
+	TError = unknown,
+>(
+	variables?: GetDashboardSummaryQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetDashboardSummaryQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetDashboardSummaryQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetDashboardSummaryQuery, TError, TData>({
+		queryKey:
+			variables === undefined
+				? ["GetDashboardSummary"]
+				: ["GetDashboardSummary", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetDashboardSummaryQuery,
+			GetDashboardSummaryQueryVariables
+		>(GetDashboardSummaryDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetDashboardSummaryQuery.getKey = (
+	variables?: GetDashboardSummaryQueryVariables,
+) =>
+	variables === undefined
+		? ["GetDashboardSummary"]
+		: ["GetDashboardSummary", variables];
+
+export const GetUserFilesStatsDocument = `
+    query GetUserFilesStats {
+  user_files: files(order_by: {createdAt: desc}, limit: 10) {
+    id
+    name
+    size
+    mimeType
+    createdAt
+  }
+  user_files_aggregate: filesAggregate {
+    aggregate {
+      count
+      sum {
+        size
+      }
+    }
+  }
+  accessible_department_files: department_files(
+    order_by: {file: {createdAt: desc}}
+    limit: 10
+  ) {
+    id
+    file {
+      id
+      name
+      size
+      mimeType
+      createdAt
+      uploadedByUserId
+    }
+    department {
+      id
+      name
+    }
+  }
+  recent_files: files(
+    order_by: {createdAt: desc}
+    limit: 5
+    where: {isUploaded: {_eq: true}}
+  ) {
+    id
+    name
+    size
+    mimeType
+    createdAt
+    uploadedByUserId
+  }
+}
+    `;
+
+export const useGetUserFilesStatsQuery = <
+	TData = GetUserFilesStatsQuery,
+	TError = unknown,
+>(
+	variables?: GetUserFilesStatsQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetUserFilesStatsQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetUserFilesStatsQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetUserFilesStatsQuery, TError, TData>({
+		queryKey:
+			variables === undefined
+				? ["GetUserFilesStats"]
+				: ["GetUserFilesStats", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetUserFilesStatsQuery,
+			GetUserFilesStatsQueryVariables
+		>(GetUserFilesStatsDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetUserFilesStatsQuery.getKey = (
+	variables?: GetUserFilesStatsQueryVariables,
+) =>
+	variables === undefined
+		? ["GetUserFilesStats"]
+		: ["GetUserFilesStats", variables];
+
+export const GetUserKnowledgeBaseStatsDocument = `
+    query GetUserKnowledgeBaseStats {
+  user_kb_entries: kb_entries(order_by: {created_at: desc}, limit: 10) {
+    id
+    title
+    summary
+    created_at
+    kb_entry_departments {
+      department {
+        id
+        name
+      }
+    }
+  }
+  user_kb_entries_aggregate: kb_entries_aggregate {
+    aggregate {
+      count
+    }
+  }
+  accessible_kb_entries: kb_entries(order_by: {created_at: desc}, limit: 10) {
+    id
+    title
+    summary
+    created_at
+    uploader {
+      id
+      displayName
+      email
+    }
+    kb_entry_departments {
+      department {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
+
+export const useGetUserKnowledgeBaseStatsQuery = <
+	TData = GetUserKnowledgeBaseStatsQuery,
+	TError = unknown,
+>(
+	variables?: GetUserKnowledgeBaseStatsQueryVariables,
+	options?: Omit<
+		UseQueryOptions<GetUserKnowledgeBaseStatsQuery, TError, TData>,
+		"queryKey"
+	> & {
+		queryKey?: UseQueryOptions<
+			GetUserKnowledgeBaseStatsQuery,
+			TError,
+			TData
+		>["queryKey"];
+	},
+) => {
+	return useQuery<GetUserKnowledgeBaseStatsQuery, TError, TData>({
+		queryKey:
+			variables === undefined
+				? ["GetUserKnowledgeBaseStats"]
+				: ["GetUserKnowledgeBaseStats", variables],
+		queryFn: useAuthenticatedFetcher<
+			GetUserKnowledgeBaseStatsQuery,
+			GetUserKnowledgeBaseStatsQueryVariables
+		>(GetUserKnowledgeBaseStatsDocument).bind(null, variables),
+		...options,
+	});
+};
+
+useGetUserKnowledgeBaseStatsQuery.getKey = (
+	variables?: GetUserKnowledgeBaseStatsQueryVariables,
+) =>
+	variables === undefined
+		? ["GetUserKnowledgeBaseStats"]
+		: ["GetUserKnowledgeBaseStats", variables];

@@ -33,6 +33,7 @@ select_permissions:
       filter:
         department_id:
           _in: X-Hasura-departments
+      allow_aggregations: true
     comment: ""
 update_permissions:
   - role: user

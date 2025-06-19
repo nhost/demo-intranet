@@ -125,6 +125,7 @@ select_permissions:
                   _in: X-Hasura-departments
           - bucket_id:
               _eq: profile_pics
+      allow_aggregations: true
     comment: ""
 delete_permissions:
   - role: user

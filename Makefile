@@ -39,6 +39,11 @@ dev-env-up: ## Start development environment with Nhost
 	nhost up --apply-seeds
 	bun ./fake-invoices/setup-invoice-files.ts
 
+.PHONY: dev-env-up-ai
+dev-env-up-ai: dev-env-up ## Start development environment with Nhost including Assistants
+	bun run ./scripts/configure-assistants.ts
+
+
 
 .PHONY: dev-env-down
 dev-env-down: ## Stop development environment with Nhost

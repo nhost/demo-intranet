@@ -140,6 +140,7 @@ select_permissions:
         - locale
         - updated_at
       filter: {}
+      allow_aggregations: true
     comment: Allow users to view their own profile data
 update_permissions:
   - role: user
