@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/lib/auth-context";
 import type {
 	GetKnowledgeBaseEntriesQuery,
 	GetUserDepartmentsQuery,
@@ -59,6 +60,62 @@ import { useState } from "react";
 type KnowledgeBaseEntry = GetKnowledgeBaseEntriesQuery["kb_entries"][0];
 type Department = GetUserDepartmentsQuery["departments"][0];
 
+interface DepartmentClaims {
+	memberDepartments: string[];
+	managerDepartments: string[];
+}
+
+function parseDepartmentClaims(
+	claims: Record<string, string>,
+): DepartmentClaims {
+	const memberIds = claims["x-hasura-departments"];
+	const managerIds = claims["x-hasura-department-manager"];
+
+	// Parse PostgreSQL array format: {item1,item2,item3}
+	// The format is like: "{\"id1\",\"id2\",\"id3\"}"
+	const parsePostgresArray = (arrayString: string): string[] => {
+		if (!arrayString) {
+			return [];
+		}
+
+		// Remove outer curly braces and split by comma
+		const cleaned = arrayString.replace(/^{|}$/g, "");
+		if (!cleaned) {
+			return [];
+		}
+
+		return cleaned
+			.split(",")
+			.map((item) => item.replace(/"/g, "").trim())
+			.filter(Boolean);
+	};
+
+	const memberDepartments = parsePostgresArray(memberIds || "");
+	const managerDepartments = parsePostgresArray(managerIds || "");
+
+	return { memberDepartments, managerDepartments };
+}
+
+function canEditKnowledgeEntry(
+	entry: KnowledgeBaseEntry,
+	currentUserId: string | undefined,
+	managerDepartments: string[],
+): boolean {
+	if (!currentUserId) {
+		return false;
+	}
+
+	// User can edit if they created the entry
+	if (entry.uploader.id === currentUserId) {
+		return true;
+	}
+
+	// User can edit if they are a manager of any department the entry belongs to
+	return entry.kb_entry_departments.some((dept) =>
+		managerDepartments.includes(dept.department.id),
+	);
+}
+
 interface KnowledgeBaseEntryProps {
 	entry: KnowledgeBaseEntry;
 	isEditing: boolean;
@@ -79,6 +136,7 @@ interface KnowledgeBaseEntryProps {
 	expandedEntries: Set<string>;
 	onToggleExpansion: (entryId: string) => void;
 	isUpdating: boolean;
+	canEdit: boolean;
 }
 
 function KnowledgeBaseEntry({
@@ -93,6 +151,7 @@ function KnowledgeBaseEntry({
 	expandedEntries,
 	onToggleExpansion,
 	isUpdating,
+	canEdit,
 }: KnowledgeBaseEntryProps) {
 	if (isEditing) {
 		return (
@@ -209,23 +268,25 @@ function KnowledgeBaseEntry({
 							</CardDescription>
 						)}
 					</div>
-					<div className="flex items-center space-x-2 ml-4">
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={() => onEditEntry(entry)}
-						>
-							<EditIcon className="h-4 w-4" />
-						</Button>
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={() => onDeleteEntry(entry.id)}
-							className="text-destructive hover:text-destructive"
-						>
-							<TrashIcon className="h-4 w-4" />
-						</Button>
-					</div>
+					{canEdit && (
+						<div className="flex items-center space-x-2 ml-4">
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={() => onEditEntry(entry)}
+							>
+								<EditIcon className="h-4 w-4" />
+							</Button>
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={() => onDeleteEntry(entry.id)}
+								className="text-destructive hover:text-destructive"
+							>
+								<TrashIcon className="h-4 w-4" />
+							</Button>
+						</div>
+					)}
 				</div>
 
 				<div className="flex flex-wrap gap-2">
@@ -310,6 +371,7 @@ interface CreateEntryFormData {
 }
 
 export function KnowledgeBase() {
+	const { session } = useAuth();
 	const queryClient = useQueryClient();
 
 	const [searchTerm, setSearchTerm] = useState("");
@@ -346,6 +408,14 @@ export function KnowledgeBase() {
 	const { data: departmentsData } = useUserDepartments();
 
 	const departments = departmentsData?.departments || [];
+
+	// Parse department claims for permission checks
+	let claims = {};
+	if (session?.accessToken) {
+		const decodedToken = JSON.parse(atob(session.accessToken.split(".")[1]));
+		claims = decodedToken["https://hasura.io/jwt/claims"] || {};
+	}
+	const departmentClaims = parseDepartmentClaims(claims);
 
 	// Create entry mutation
 	const createEntryMutation = useCreateKnowledgeBaseEntry();
@@ -685,6 +755,11 @@ export function KnowledgeBase() {
 							expandedEntries={expandedEntries}
 							onToggleExpansion={toggleEntryExpansion}
 							isUpdating={updateEntryMutation.isPending}
+							canEdit={canEditKnowledgeEntry(
+								entry,
+								session?.user?.id,
+								departmentClaims.managerDepartments,
+							)}
 						/>
 					))}
 				</div>

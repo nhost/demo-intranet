@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/lib/auth-context";
 import {
 	useDepartmentDetails,
 	useUpdateDepartment,
@@ -43,6 +44,42 @@ interface UpdateDepartmentData {
 	name: string;
 	description: string | null;
 	budget: number | null;
+}
+
+interface DepartmentClaims {
+	memberDepartments: string[];
+	managerDepartments: string[];
+}
+
+function parseDepartmentClaims(
+	claims: Record<string, string>,
+): DepartmentClaims {
+	const memberIds = claims["x-hasura-departments"];
+	const managerIds = claims["x-hasura-department-manager"];
+
+	// Parse PostgreSQL array format: {item1,item2,item3}
+	// The format is like: "{\"id1\",\"id2\",\"id3\"}"
+	const parsePostgresArray = (arrayString: string): string[] => {
+		if (!arrayString) {
+			return [];
+		}
+
+		// Remove outer curly braces and split by comma
+		const cleaned = arrayString.replace(/^{|}$/g, "");
+		if (!cleaned) {
+			return [];
+		}
+
+		return cleaned
+			.split(",")
+			.map((item) => item.replace(/"/g, "").trim())
+			.filter(Boolean);
+	};
+
+	const memberDepartments = parsePostgresArray(memberIds || "");
+	const managerDepartments = parsePostgresArray(managerIds || "");
+
+	return { memberDepartments, managerDepartments };
 }
 
 function validateForm(data: FormData): FormErrors {
@@ -79,10 +116,23 @@ export function DepartmentEditDialog({
 	open,
 	onClose,
 }: DepartmentEditDialogProps) {
+	const { session } = useAuth();
 	const queryClient = useQueryClient();
 	const { data: department, isLoading: isLoadingDepartment } =
 		useDepartmentDetails(departmentId);
 	const updateDepartment = useUpdateDepartment();
+
+	// Parse department claims for permission checks
+	let claims = {};
+	if (session?.accessToken) {
+		const decodedToken = JSON.parse(atob(session.accessToken.split(".")[1]));
+		claims = decodedToken["https://hasura.io/jwt/claims"] || {};
+	}
+	const departmentClaims = parseDepartmentClaims(claims);
+
+	// Check if user can manage this department
+	const canManageDepartment =
+		departmentClaims.managerDepartments.includes(departmentId);
 
 	const [formData, setFormData] = useState<FormData>({
 		name: "",
@@ -205,6 +255,26 @@ export function DepartmentEditDialog({
 						<DialogTitle>Error</DialogTitle>
 						<DialogDescription>
 							Department not found or you don't have permission to edit it.
+						</DialogDescription>
+					</DialogHeader>
+					<DialogFooter>
+						<Button onClick={onClose}>Close</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+		);
+	}
+
+	// Check if user has permission to edit this department
+	if (!canManageDepartment) {
+		return (
+			<Dialog open={open} onOpenChange={onClose}>
+				<DialogContent className="max-w-md">
+					<DialogHeader>
+						<DialogTitle>Access Denied</DialogTitle>
+						<DialogDescription>
+							You don't have permission to edit this department. Only department
+							managers can modify department details.
 						</DialogDescription>
 					</DialogHeader>
 					<DialogFooter>

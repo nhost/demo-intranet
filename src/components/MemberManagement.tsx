@@ -19,6 +19,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/lib/auth-context";
 import { Department_Roles_Enum } from "@/lib/graphql/__generated__/graphql";
 import {
 	useAddDepartmentMember,
@@ -64,6 +65,42 @@ interface UserSearchResult {
 	avatarUrl: string;
 }
 
+interface DepartmentClaims {
+	memberDepartments: string[];
+	managerDepartments: string[];
+}
+
+function parseDepartmentClaims(
+	claims: Record<string, string>,
+): DepartmentClaims {
+	const memberIds = claims["x-hasura-departments"];
+	const managerIds = claims["x-hasura-department-manager"];
+
+	// Parse PostgreSQL array format: {item1,item2,item3}
+	// The format is like: "{\"id1\",\"id2\",\"id3\"}"
+	const parsePostgresArray = (arrayString: string): string[] => {
+		if (!arrayString) {
+			return [];
+		}
+
+		// Remove outer curly braces and split by comma
+		const cleaned = arrayString.replace(/^{|}$/g, "");
+		if (!cleaned) {
+			return [];
+		}
+
+		return cleaned
+			.split(",")
+			.map((item) => item.replace(/"/g, "").trim())
+			.filter(Boolean);
+	};
+
+	const memberDepartments = parsePostgresArray(memberIds || "");
+	const managerDepartments = parsePostgresArray(managerIds || "");
+
+	return { memberDepartments, managerDepartments };
+}
+
 const DEPARTMENT_ROLES = [
 	{ value: Department_Roles_Enum.Member, label: "Member" },
 	{ value: Department_Roles_Enum.Manager, label: "Manager" },
@@ -76,7 +113,20 @@ export function MemberManagement({
 	open,
 	onClose,
 }: MemberManagementProps) {
+	const { session } = useAuth();
 	const queryClient = useQueryClient();
+
+	// Parse department claims for permission checks
+	let claims = {};
+	if (session?.accessToken) {
+		const decodedToken = JSON.parse(atob(session.accessToken.split(".")[1]));
+		claims = decodedToken["https://hasura.io/jwt/claims"] || {};
+	}
+	const departmentClaims = parseDepartmentClaims(claims);
+
+	// Check if user can manage this department
+	const canManageDepartment =
+		departmentClaims.managerDepartments.includes(departmentId);
 	const [activeTab, setActiveTab] = useState<"add" | "manage">("add");
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedUser, setSelectedUser] = useState<UserSearchResult | null>(
@@ -194,6 +244,26 @@ export function MemberManagement({
 		setEditingMember(null);
 		setNewRole("");
 	};
+
+	// Check if user has permission to manage this department
+	if (!canManageDepartment) {
+		return (
+			<Dialog open={open} onOpenChange={onClose}>
+				<DialogContent className="max-w-md">
+					<DialogHeader>
+						<DialogTitle>Access Denied</DialogTitle>
+						<DialogDescription>
+							You don't have permission to manage members for this department.
+							Only department managers can add or remove members.
+						</DialogDescription>
+					</DialogHeader>
+					<DialogFooter>
+						<Button onClick={onClose}>Close</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+		);
+	}
 
 	return (
 		<Dialog open={open} onOpenChange={onClose}>
